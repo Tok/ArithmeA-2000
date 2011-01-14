@@ -1,0 +1,5 @@
+#Thu Jan 13 19:57:59 CET 2011
+eclipse.preferences.version=1
+jarsExcludedFromWebInfLib=easymock-2.5.2.jar
+warSrcDir=war
+warSrcDirIsOutput=true
