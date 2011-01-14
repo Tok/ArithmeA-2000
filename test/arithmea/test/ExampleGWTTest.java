@@ -14,7 +14,7 @@ import com.google.gwt.junit.client.GWTTestCase;
 
 public class ExampleGWTTest extends GWTTestCase {
 	private static final String ABC = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-	
+
 	private TermsPresenter termsPresenter;
 	private ArithmeaServiceAsync rpcService;
 	private HandlerManager eventBus;
@@ -45,21 +45,27 @@ public class ExampleGWTTest extends GWTTestCase {
 
 	public void testChaldean() {
 		assertTrue(new Term(ABC).getChaldean().equals(new Integer(103)));
+		assertTrue(new Term("ARITHMEA").getChaldean().equals(new Integer(23)));
 	}
-	
+
 	public void testPythagorean() {
 		assertTrue(new Term(ABC).getPythagorean().equals(new Integer(126)));
+		assertTrue(new Term("ARITHMEA").getPythagorean()
+				.equals(new Integer(39)));
 	}
-	
+
 	public void testIa() {
 		assertTrue(new Term(ABC).getIa().equals(new Integer(351)));
+		assertTrue(new Term("ARITHMEA").getIa().equals(new Integer(75)));
 	}
 
 	public void testNaeq() {
 		assertTrue(new Term(ABC).getNaeq().equals(new Integer(361)));
+		assertTrue(new Term("ARITHMEA").getNaeq().equals(new Integer(111)));
 	}
 
 	public void testTq() {
 		assertTrue(new Term(ABC).getTq().equals(new Integer(351)));
+		assertTrue(new Term("ARITHMEA").getTq().equals(new Integer(96)));
 	}
 }
