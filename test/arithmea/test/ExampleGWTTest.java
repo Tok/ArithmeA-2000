@@ -13,31 +13,53 @@ import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.junit.client.GWTTestCase;
 
 public class ExampleGWTTest extends GWTTestCase {
-  private TermsPresenter termsPresenter;
-  private ArithmeaServiceAsync rpcService;
-  private HandlerManager eventBus;
-  private TermsPresenter.Display display;
-  
-  public String getModuleName() {
-    return "arithmea.Arithmea";
-  }
-  
-  public void gwtSetUp() {
-    rpcService = GWT.create(ArithmeaService.class);
-    eventBus = new HandlerManager(null);
-    display = new TermsView();
-    termsPresenter = new TermsPresenter(rpcService, eventBus, display);
-  }
-  
-  public void testTermSort(){
-    ArrayList<Term> terms = new ArrayList<Term>();
-    terms.add(new Term("c_term"));
-    terms.add(new Term("b_term"));
-    terms.add(new Term("a_term"));
-    termsPresenter.setTermDetails(terms);
-    termsPresenter.sortTermDetails();
-    assertTrue(termsPresenter.getTermDetail(0).getLatinString().equals("a_term"));
-    assertTrue(termsPresenter.getTermDetail(1).getLatinString().equals("b_term"));
-    assertTrue(termsPresenter.getTermDetail(2).getLatinString().equals("c_term"));
-  }
+	private static final String ABC = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+	
+	private TermsPresenter termsPresenter;
+	private ArithmeaServiceAsync rpcService;
+	private HandlerManager eventBus;
+	private TermsPresenter.Display display;
+
+	public String getModuleName() {
+		return "arithmea.Arithmea";
+	}
+
+	public void gwtSetUp() {
+		rpcService = GWT.create(ArithmeaService.class);
+		eventBus = new HandlerManager(null);
+		display = new TermsView();
+		termsPresenter = new TermsPresenter(rpcService, eventBus, display);
+	}
+
+	public void testTermSort() {
+		ArrayList<Term> terms = new ArrayList<Term>();
+		terms.add(new Term("c_term"));
+		terms.add(new Term("b_term"));
+		terms.add(new Term("a_term"));
+		termsPresenter.setTermDetails(terms);
+		termsPresenter.sortTermDetails();
+		assertTrue(termsPresenter.getTermDetail(0).getId().equals("A_TERM"));
+		assertTrue(termsPresenter.getTermDetail(1).getId().equals("B_TERM"));
+		assertTrue(termsPresenter.getTermDetail(2).getId().equals("C_TERM"));
+	}
+
+	public void testChaldean() {
+		assertTrue(new Term(ABC).getChaldean().equals(new Integer(103)));
+	}
+	
+	public void testPythagorean() {
+		assertTrue(new Term(ABC).getPythagorean().equals(new Integer(126)));
+	}
+	
+	public void testIa() {
+		assertTrue(new Term(ABC).getIa().equals(new Integer(351)));
+	}
+
+	public void testNaeq() {
+		assertTrue(new Term(ABC).getNaeq().equals(new Integer(361)));
+	}
+
+	public void testTq() {
+		assertTrue(new Term(ABC).getTq().equals(new Integer(351)));
+	}
 }
