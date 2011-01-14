@@ -32,7 +32,7 @@ public class Term implements Serializable {
 	public Term() {
 	}
 
-	public Term(String latinString) {
+	public Term(final String latinString) {
 		setLatinString(latinString);
 	}
 
@@ -44,7 +44,7 @@ public class Term implements Serializable {
 		return id;
 	}
 
-	public void setLatinString(String latinString) {
+	public void setLatinString(final String latinString) {
 		this.id = latinString.toUpperCase().trim();
 		this.chaldean = GematriaUtil.getChaldean(id);
 		this.pythagorean = GematriaUtil.getPythagorean(id);
@@ -57,7 +57,7 @@ public class Term implements Serializable {
 		return chaldean;
 	}
 
-	public void setChaldean(Integer chaldean) {
+	public void setChaldean(final Integer chaldean) {
 		this.chaldean = chaldean;
 	}
 
@@ -65,7 +65,7 @@ public class Term implements Serializable {
 		return pythagorean;
 	}
 
-	public void setPythagorean(Integer pythagorean) {
+	public void setPythagorean(final Integer pythagorean) {
 		this.pythagorean = pythagorean;
 	}
 
@@ -73,7 +73,7 @@ public class Term implements Serializable {
 		return ia;
 	}
 
-	public void setIa(Integer ia) {
+	public void setIa(final Integer ia) {
 		this.ia = ia;
 	}
 
@@ -81,7 +81,7 @@ public class Term implements Serializable {
 		return naeq;
 	}
 
-	public void setNaeq(Integer naeq) {
+	public void setNaeq(final Integer naeq) {
 		this.naeq = naeq;
 	}
 	
@@ -89,7 +89,7 @@ public class Term implements Serializable {
 		return tq;
 	}
 
-	public void setTq(Integer tq) {
+	public void setTq(final Integer tq) {
 		this.tq = tq;
 	}
 }

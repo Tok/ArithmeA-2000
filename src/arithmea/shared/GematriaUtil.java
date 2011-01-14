@@ -2,17 +2,17 @@ package arithmea.shared;
 
 public class GematriaUtil {
 
-	public static Integer getChaldean(String id) {
-		char[] chars = id.toCharArray();
+	public static Integer getChaldean(final String id) {
+		final char[] chars = id.toCharArray();
 		int result = 0;
 		for(int i = 0; i < chars.length; i++) {
-			char c = chars[i];
+			final char c = chars[i];
 			result += getChaldeanValue(c);
 		}
 		return result;
 	}
 
-	private static int getChaldeanValue(char c) {
+	private static int getChaldeanValue(final char c) {
 		if (c == 'A' || c == 'I' || c == 'J' || c == 'Q' || c == 'Y') {
 			return 1;
 		}
@@ -40,17 +40,17 @@ public class GematriaUtil {
 		return 0;
 	}
 
-	public static Integer getPythagorean(String id) {
-		char[] chars = id.toCharArray();
+	public static Integer getPythagorean(final String id) {
+		final char[] chars = id.toCharArray();
 		int result = 0;
 		for(int i = 0; i < chars.length; i++) {
-			char c = chars[i];
+			final char c = chars[i];
 			result += getPythagorean(c);
 		}
 		return result;
 	}
 
-	private static int getPythagorean(char c) {
+	private static int getPythagorean(final char c) {
 		if (c == 'A' || c == 'J' || c == 'S') {
 			return 1;
 		}
@@ -81,11 +81,11 @@ public class GematriaUtil {
 		return 0;
 	}
 
-	public static Integer getIa(String id) {
-		char[] chars = id.toCharArray();
+	public static Integer getIa(final String id) {
+		final char[] chars = id.toCharArray();
 		int result = 0;
 		for(int i = 0; i < chars.length; i++) {
-			char c = chars[i];
+			final char c = chars[i];
 			result += getIa(c);
 		}
 		return result;
@@ -121,17 +121,17 @@ public class GematriaUtil {
 		return 0;
 	}
 		
-	public static Integer getNaeq(String id) {
-		char[] chars = id.toCharArray();
+	public static Integer getNaeq(final String id) {
+		final char[] chars = id.toCharArray();
 		int result = 0;
 		for(int i = 0; i < chars.length; i++) {
-			char c = chars[i];
+			final char c = chars[i];
 			result += getNaeq(c);
 		}
 		return result;
 	}
 
-	private static int getNaeq(char c) {
+	private static int getNaeq(final char c) {
 		if (c == 'A') { return 1; }
 		if (c == 'B') { return 20; }
 		if (c == 'C') { return 13; }
@@ -161,17 +161,17 @@ public class GematriaUtil {
 		return 0;
 	}
 
-	public static Integer getTq(String id) {
-		char[] chars = id.toCharArray();
+	public static Integer getTq(final String id) {
+		final char[] chars = id.toCharArray();
 		int result = 0;
 		for(int i = 0; i < chars.length; i++) {
-			char c = chars[i];
+			final char c = chars[i];
 			result += getTq(c);
 		}
 		return result;
 	}
 	
-	private static int getTq(char c) {
+	private static int getTq(final char c) {
 		if (c == 'A') { return 5; }
 		if (c == 'B') { return 20; }
 		if (c == 'C') { return 2; }

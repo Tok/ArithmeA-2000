@@ -27,7 +27,7 @@ public class Arithmea implements EntryPoint {
 		appViewer.go(RootPanel.get("content"));
 	}
 
-	native void redirect(String url)
+	native void redirect(final String url)
 	/*-{
 		$wnd.location.replace(url);
 	}-*/;

@@ -23,12 +23,12 @@ public class ArithmeaServiceImpl extends RemoteServiceServlet implements
 	public ArithmeaServiceImpl() {
 	}
 
-	public Term addTerm(Term term) {
+	public Term addTerm(final Term term) {
 		return updateTerm(term);
 	}
 
-	public Term updateTerm(Term term) {
-		PersistenceManager pm = PMF.getPersistenceManager();
+	public Term updateTerm(final Term term) {
+		final PersistenceManager pm = PMF.getPersistenceManager();
 		try {
 			pm.makePersistent(term);
 		} finally {
@@ -37,8 +37,8 @@ public class ArithmeaServiceImpl extends RemoteServiceServlet implements
 		return term;
 	}
 
-	public Boolean deleteTerm(String id) {
-		PersistenceManager pm = PMF.getPersistenceManager();
+	public Boolean deleteTerm(final String id) {
+		final PersistenceManager pm = PMF.getPersistenceManager();
 		try {
 			pm.deletePersistent(pm.getObjectById(Term.class, id ));
 		} finally {
@@ -47,7 +47,7 @@ public class ArithmeaServiceImpl extends RemoteServiceServlet implements
 		return true;
 	}
 
-	public ArrayList<Term> deleteTerms(ArrayList<String> ids) {
+	public ArrayList<Term> deleteTerms(final ArrayList<String> ids) {
 		for (int i = 0; i < ids.size(); ++i) {
 			deleteTerm(ids.get(i));
 		}
@@ -55,7 +55,7 @@ public class ArithmeaServiceImpl extends RemoteServiceServlet implements
 	}
 
 	private List<Term> getAllTerms() {
-		PersistenceManager pm = PMF.getPersistenceManager();
+		final PersistenceManager pm = PMF.getPersistenceManager();
 		List<Term> result = new ArrayList<Term>();
 		try {
 			Query q = pm.newQuery(Term.class);
@@ -70,8 +70,8 @@ public class ArithmeaServiceImpl extends RemoteServiceServlet implements
 	
 	public ArrayList<Term> getTerms() {
 		//TODO remove this
-		ArrayList<Term> terms = new ArrayList<Term>();
-		Iterator<Term> it = getAllTerms().iterator();
+		final ArrayList<Term> terms = new ArrayList<Term>();
+		final Iterator<Term> it = getAllTerms().iterator();
 		while (it.hasNext()) {
 			Term term = it.next();
 			terms.add(term);
@@ -80,7 +80,7 @@ public class ArithmeaServiceImpl extends RemoteServiceServlet implements
 	}
 
 	public Term getTerm(String id) {
-		PersistenceManager pm = PMF.getPersistenceManager();
+		final PersistenceManager pm = PMF.getPersistenceManager();
 		Term result = null;
 		try {
 			Query query = pm.newQuery(Term.class);
@@ -92,8 +92,6 @@ public class ArithmeaServiceImpl extends RemoteServiceServlet implements
 			pm.close();
 		}
 		return result;
-		
-//		return terms.get(id);
 	}
 
 }

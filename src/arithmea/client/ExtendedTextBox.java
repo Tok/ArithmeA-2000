@@ -12,7 +12,7 @@ public class ExtendedTextBox extends TextBox {
 	}
 
 	@Override
-	public void onBrowserEvent(Event event) {
+	public void onBrowserEvent(final Event event) {
 		super.onBrowserEvent(event);
 		if (DOM.eventGetType(event) == Event.ONPASTE) {
 			ValueChangeEvent.fire(ExtendedTextBox.this, getText());

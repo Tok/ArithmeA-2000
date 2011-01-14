@@ -34,8 +34,8 @@ public class TermsPresenter implements Presenter {
 	private final HandlerManager eventBus;
 	private final Display display;
 
-	public TermsPresenter(ArithmeaServiceAsync rpcService,
-			HandlerManager eventBus, Display view) {
+	public TermsPresenter(final ArithmeaServiceAsync rpcService,
+			final HandlerManager eventBus, final Display view) {
 		this.rpcService = rpcService;
 		this.eventBus = eventBus;
 		this.display = view;
@@ -43,20 +43,20 @@ public class TermsPresenter implements Presenter {
 
 	public void bind() {
 		display.getAddButton().addClickHandler(new ClickHandler() {
-			public void onClick(ClickEvent event) {
+			public void onClick(final ClickEvent event) {
 				eventBus.fireEvent(new AddTermEvent());
 			}
 		});
 		display.getDeleteButton().addClickHandler(new ClickHandler() {
-			public void onClick(ClickEvent event) {
+			public void onClick(final ClickEvent event) {
 				deleteSelectedTerms();
 			}
 		});
 		display.getList().addClickHandler(new ClickHandler() {
-			public void onClick(ClickEvent event) {
+			public void onClick(final ClickEvent event) {
 				int selectedRow = display.getClickedRow(event);
 				if (selectedRow >= 0) {
-					String id = terms.get(selectedRow).getLatinString();
+					final String id = terms.get(selectedRow).getLatinString();
 					eventBus.fireEvent(new EditTermEvent(id));
 				}
 			}
@@ -85,11 +85,11 @@ public class TermsPresenter implements Presenter {
 		}
 	}
 
-	public void setTermDetails(List<Term> termDetails) {
+	public void setTermDetails(final List<Term> termDetails) {
 		this.terms = termDetails;
 	}
 
-	public Term getTermDetail(int index) {
+	public Term getTermDetail(final int index) {
 		return terms.get(index);
 	}
 
@@ -100,7 +100,6 @@ public class TermsPresenter implements Presenter {
 				sortTermDetails();
 				display.setData(terms);
 			}
-
 			public void onFailure(Throwable caught) {
 				Window.alert("Fail fetching term details");
 			}
@@ -108,8 +107,8 @@ public class TermsPresenter implements Presenter {
 	}
 
 	private void deleteSelectedTerms() {
-		List<Integer> selectedRows = display.getSelectedRows();
-		ArrayList<String> ids = new ArrayList<String>();
+		final List<Integer> selectedRows = display.getSelectedRows();
+		final ArrayList<String> ids = new ArrayList<String>();
 		for (int i = 0; i < selectedRows.size(); ++i) {
 			ids.add(terms.get(selectedRows.get(i)).getId());
 		}

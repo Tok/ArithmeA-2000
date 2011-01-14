@@ -11,7 +11,7 @@ public class TermDeletedEvent extends GwtEvent<TermDeletedEventHandler>{
   }
 
   @Override
-  protected void dispatch(TermDeletedEventHandler handler) {
+  protected void dispatch(final TermDeletedEventHandler handler) {
     handler.onTermDeleted(this);
   }
 }

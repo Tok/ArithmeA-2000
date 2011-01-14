@@ -6,7 +6,7 @@ public class EditTermEvent extends GwtEvent<EditTermEventHandler>{
   public static Type<EditTermEventHandler> TYPE = new Type<EditTermEventHandler>();
   private final String id;
   
-  public EditTermEvent(String id) {
+  public EditTermEvent(final String id) {
     this.id = id;
   }
   

@@ -33,7 +33,7 @@ public class EditTermPresenter implements Presenter{
   private final HandlerManager eventBus;
   private final Display display;
   
-  public EditTermPresenter(ArithmeaServiceAsync rpcService, HandlerManager eventBus, Display display) {
+  public EditTermPresenter(final ArithmeaServiceAsync rpcService, final HandlerManager eventBus, final Display display) {
     this.rpcService = rpcService;
     this.eventBus = eventBus;
     this.term = new Term();
@@ -41,14 +41,14 @@ public class EditTermPresenter implements Presenter{
     bind();
   }
   
-  public EditTermPresenter(ArithmeaServiceAsync rpcService, HandlerManager eventBus, Display display, String id) {
+  public EditTermPresenter(final ArithmeaServiceAsync rpcService, final HandlerManager eventBus, final Display display, final String id) {
     this.rpcService = rpcService;
     this.eventBus = eventBus;
     this.display = display;
     bind();
     
     rpcService.getTerm(id, new AsyncCallback<Term>() {
-      public void onSuccess(Term result) {
+      public void onSuccess(final Term result) {
         term = result;
         EditTermPresenter.this.display.getLatinString().setValue(term.getLatinString());
         EditTermPresenter.this.display.getChaldean().setValue(term.getChaldean().toString());
@@ -57,8 +57,7 @@ public class EditTermPresenter implements Presenter{
         EditTermPresenter.this.display.getNaeq().setValue(term.getNaeq().toString());        
         
       }
-      
-      public void onFailure(Throwable caught) {
+      public void onFailure(final Throwable caught) {
         Window.alert("Fail retrieving term");
       }
     });
@@ -67,13 +66,13 @@ public class EditTermPresenter implements Presenter{
   
   public void bind() {
     this.display.getSaveButton().addClickHandler(new ClickHandler() {   
-      public void onClick(ClickEvent event) {
+      public void onClick(final ClickEvent event) {
         doSave();
       }
     });
 
     this.display.getCancelButton().addClickHandler(new ClickHandler() {   
-      public void onClick(ClickEvent event) {
+      public void onClick(final ClickEvent event) {
         eventBus.fireEvent(new EditTermCancelledEvent());
       }
     });
@@ -92,10 +91,10 @@ public class EditTermPresenter implements Presenter{
     term.setNaeq(Integer.decode(display.getNaeq().getValue()));
     term.setTq(Integer.decode(display.getTq().getValue()));
     rpcService.updateTerm(term, new AsyncCallback<Term>() {
-        public void onSuccess(Term result) {
+        public void onSuccess(final Term result) {
           eventBus.fireEvent(new TermUpdatedEvent(result));
         }
-        public void onFailure(Throwable caught) {
+        public void onFailure(final Throwable caught) {
           Window.alert("Fail updating Term");
         }
     });

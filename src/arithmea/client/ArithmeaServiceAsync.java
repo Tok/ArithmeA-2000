@@ -7,14 +7,14 @@ import arithmea.shared.Term;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 public interface ArithmeaServiceAsync {
-	void addTerm(Term term, AsyncCallback<Term> callback);
-	void getTerm(String id, AsyncCallback<Term> callback);
-	void deleteTerms(ArrayList<String> ids,
-			AsyncCallback<ArrayList<Term>> callback);
-	void getTerms(AsyncCallback<ArrayList<Term>> callback);
+	void addTerm(final Term term, final AsyncCallback<Term> callback);
+	void getTerm(final String id, final AsyncCallback<Term> callback);
+	void deleteTerms(final ArrayList<String> ids,
+			final AsyncCallback<ArrayList<Term>> callback);
+	void getTerms(final AsyncCallback<ArrayList<Term>> callback);
 	
-	void updateTerm(Term term, AsyncCallback<Term> callback);
-	void deleteTerm(String id, AsyncCallback<Boolean> callback);
+	void updateTerm(final Term term, final AsyncCallback<Term> callback);
+	void deleteTerm(final String id, final AsyncCallback<Boolean> callback);
 
 }
 

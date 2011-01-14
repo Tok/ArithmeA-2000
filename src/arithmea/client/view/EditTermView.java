@@ -32,20 +32,20 @@ public class EditTermView extends Composite implements
 	private final Label iaLabel;
 	private final TextBox ia;
 	private final Label naeqLabel;
-	private final TextBox naeq;	
+	private final TextBox naeq;
 	private final Label tqLabel;
 	private final TextBox tq;
-	
+
 	private final FlexTable detailsTable;
 	private final Button saveButton;
 	private final Button cancelButton;
 
 	public EditTermView() {
-		DecoratorPanel contentDetailsDecorator = new DecoratorPanel();
+		final DecoratorPanel contentDetailsDecorator = new DecoratorPanel();
 		contentDetailsDecorator.setWidth("18em");
 		initWidget(contentDetailsDecorator);
 
-		VerticalPanel contentDetailsPanel = new VerticalPanel();
+		final VerticalPanel contentDetailsPanel = new VerticalPanel();
 		contentDetailsPanel.setWidth("100%");
 
 		detailsTable = new FlexTable();
@@ -55,67 +55,67 @@ public class EditTermView extends Composite implements
 		detailsTable.getColumnFormatter().addStyleName(1, "add-terms-input");
 		latinString = new ExtendedTextBox();
 		latinString.addValueChangeHandler(new ValueChangeHandler<String>() {
-	        @Override
-	        public void onValueChange(ValueChangeEvent<String> event) {
-	        	doChange();
-	        }
-	    });
+			@Override
+			public void onValueChange(ValueChangeEvent<String> event) {
+				doChange();
+			}
+		});
 		latinString.addKeyUpHandler(new KeyUpHandler() {
-	        @Override
-	        public void onKeyUp(KeyUpEvent event) {
-	        	doChange();
-	        }
-	    });
-		
+			@Override
+			public void onKeyUp(KeyUpEvent event) {
+				doChange();
+			}
+		});
+
 		chaldean = new TextBox();
 		chaldeanLabel = new Label();
 		chaldean.addValueChangeHandler(new ValueChangeHandler<String>() {
-	        @Override
-	        public void onValueChange(ValueChangeEvent<String> event) {
-	        	chaldeanLabel.setText(chaldean.getText());
-	        }
-	    });
+			@Override
+			public void onValueChange(ValueChangeEvent<String> event) {
+				chaldeanLabel.setText(chaldean.getText());
+			}
+		});
 
 		pythagorean = new TextBox();
 		pythagoreanLabel = new Label();
 		pythagorean.addValueChangeHandler(new ValueChangeHandler<String>() {
-	        @Override
-	        public void onValueChange(ValueChangeEvent<String> event) {
-	        	pythagoreanLabel.setText(pythagorean.getText());
-	        }
-	    });
-		
+			@Override
+			public void onValueChange(ValueChangeEvent<String> event) {
+				pythagoreanLabel.setText(pythagorean.getText());
+			}
+		});
+
 		ia = new TextBox();
 		iaLabel = new Label();
 		ia.addValueChangeHandler(new ValueChangeHandler<String>() {
-	        @Override
-	        public void onValueChange(ValueChangeEvent<String> event) {
-	        	iaLabel.setText(ia.getText());
-	        }
-	    });
-		
+			@Override
+			public void onValueChange(ValueChangeEvent<String> event) {
+				iaLabel.setText(ia.getText());
+			}
+		});
+
 		naeq = new TextBox();
 		naeqLabel = new Label();
 		naeq.addValueChangeHandler(new ValueChangeHandler<String>() {
-	        @Override
-	        public void onValueChange(ValueChangeEvent<String> event) {
-	        	naeqLabel.setText(naeq.getText());
-	        }
-	    });
-		
+			@Override
+			public void onValueChange(ValueChangeEvent<String> event) {
+				naeqLabel.setText(naeq.getText());
+			}
+		});
+
 		tq = new TextBox();
 		tqLabel = new Label();
 		tq.addValueChangeHandler(new ValueChangeHandler<String>() {
-	        @Override
-	        public void onValueChange(ValueChangeEvent<String> event) {
-	        	tqLabel.setText(tq.getText());
-	        }
-	    });
-		
+			@Override
+			public void onValueChange(ValueChangeEvent<String> event) {
+				tqLabel.setText(tq.getText());
+			}
+		});
+
 		initDetailsTable();
 		contentDetailsPanel.add(detailsTable);
 
-		HorizontalPanel menuPanel = new HorizontalPanel();
+		final HorizontalPanel menuPanel = new HorizontalPanel();
 		saveButton = new Button("Save");
 		cancelButton = new Button("Cancel");
 		menuPanel.add(saveButton);
@@ -129,16 +129,16 @@ public class EditTermView extends Composite implements
 	}
 
 	private void doChange() {
-		//force upper case
-		String newTerm = latinString.getText().toUpperCase();
+		// force upper case
+		final String newTerm = latinString.getText().toUpperCase();
 		latinString.setText(newTerm);
-		
-		//create new term and update view
-		Term term = new Term(newTerm);
+
+		// create new term and update view
+		final Term term = new Term(newTerm);
 		chaldean.setText(term.getChaldean().toString());
 		chaldeanLabel.setText(term.getChaldean().toString());
-		pythagorean.setText(term.getPythagorean().toString());		
-		pythagoreanLabel.setText(term.getPythagorean().toString());		
+		pythagorean.setText(term.getPythagorean().toString());
+		pythagoreanLabel.setText(term.getPythagorean().toString());
 		ia.setText(term.getIa().toString());
 		iaLabel.setText(term.getIa().toString());
 		naeq.setText(term.getNaeq().toString());
@@ -146,33 +146,34 @@ public class EditTermView extends Composite implements
 		tq.setText(term.getTq().toString());
 		tqLabel.setText(term.getTq().toString());
 	}
-	
+
 	private void initDetailsTable() {
 		detailsTable.setWidget(0, 0, new Label("Term"));
 		detailsTable.setWidget(0, 1, latinString);
-		
+
 		addRow(detailsTable, 1, "Chaldean", chaldeanLabel);
 		addRow(detailsTable, 2, "Pythagorean", pythagoreanLabel);
 		addRow(detailsTable, 3, "A=1, B=2 .. Z=26", iaLabel);
 		addRow(detailsTable, 4, "NAEQ", naeqLabel);
 		addRow(detailsTable, 5, "TQ", tqLabel);
-			
+
 		latinString.setFocus(true);
 		latinString.selectAll();
 	}
 
-	private void addRow(FlexTable table, int row, String description, Label label) {
+	private void addRow(final FlexTable table, final int row,
+			final String description, final Label label) {
 		table.setWidget(row, 0, new Label(description));
 		table.setWidget(row, 1, label);
 		table.getCellFormatter().setAlignment(row, 1,
 				HasHorizontalAlignment.ALIGN_RIGHT,
 				HasVerticalAlignment.ALIGN_MIDDLE);
 	}
-	
+
 	public HasValue<String> getLatinString() {
 		return latinString;
 	}
-	
+
 	@Override
 	public HasValue<String> getChaldean() {
 		return chaldean;
@@ -182,22 +183,22 @@ public class EditTermView extends Composite implements
 	public HasValue<String> getPythagorean() {
 		return pythagorean;
 	}
-	
+
 	@Override
 	public HasValue<String> getIa() {
 		return ia;
 	}
-	
+
 	@Override
 	public HasValue<String> getNaeq() {
 		return naeq;
 	}
-	
+
 	@Override
 	public HasValue<String> getTq() {
 		return tq;
 	}
-	
+
 	public HasClickHandlers getSaveButton() {
 		return saveButton;
 	}

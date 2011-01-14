@@ -21,94 +21,90 @@ import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.ui.HasWidgets;
 
 public class AppController implements Presenter, ValueChangeHandler<String> {
-  private final HandlerManager eventBus;
-  private final ArithmeaServiceAsync rpcService; 
-  private HasWidgets container;
-  
-  public AppController(ArithmeaServiceAsync rpcService, HandlerManager eventBus) {
-    this.eventBus = eventBus;
-    this.rpcService = rpcService;
-    bind();
-  }
-  
-  private void bind() {
-    History.addValueChangeHandler(this);
+	private final HandlerManager eventBus;
+	private final ArithmeaServiceAsync rpcService;
+	private HasWidgets container;
 
-    eventBus.addHandler(AddTermEvent.TYPE,
-        new AddTermEventHandler() {
-          public void onAddTerm(AddTermEvent event) {
-            doAddNewTerm();
-          }
-        });  
+	public AppController(final ArithmeaServiceAsync rpcService,
+			final HandlerManager eventBus) {
+		this.eventBus = eventBus;
+		this.rpcService = rpcService;
+		bind();
+	}
 
-    eventBus.addHandler(EditTermEvent.TYPE,
-        new EditTermEventHandler() {
-          public void onEditTerm(EditTermEvent event) {
-            doEditTerm(event.getId());
-          }
-        });  
+	private void bind() {
+		History.addValueChangeHandler(this);
 
-    eventBus.addHandler(EditTermCancelledEvent.TYPE,
-        new EditTermCancelledEventHandler() {
-          public void onEditTermCancelled(EditTermCancelledEvent event) {
-            doEditTermCancelled();
-          }
-        });  
+		eventBus.addHandler(AddTermEvent.TYPE, new AddTermEventHandler() {
+			public void onAddTerm(AddTermEvent event) {
+				doAddNewTerm();
+			}
+		});
 
-    eventBus.addHandler(TermUpdatedEvent.TYPE,
-        new TermUpdatedEventHandler() {
-          public void onTermUpdated(TermUpdatedEvent event) {
-            doTermUpdated();
-          }
-        });  
-  }
-  
-  private void doAddNewTerm() {
-    History.newItem("add");
-  }
-  
-  private void doEditTerm(String id) {
-    History.newItem("edit", false);
-    Presenter presenter = new EditTermPresenter(rpcService, eventBus, new EditTermView(), id);
-    presenter.go(container);
-  }
-  
-  private void doEditTermCancelled() {
-    History.newItem("list");
-  }
-  
-  private void doTermUpdated() {
-    History.newItem("list");
-  }
-  
-  public void go(final HasWidgets container) {
-    this.container = container;
-    
-    if ("".equals(History.getToken())) {
-      History.newItem("list");
-    }
-    else {
-      History.fireCurrentHistoryState();
-    }
-  }
+		eventBus.addHandler(EditTermEvent.TYPE, new EditTermEventHandler() {
+			public void onEditTerm(EditTermEvent event) {
+				doEditTerm(event.getId());
+			}
+		});
 
-  public void onValueChange(ValueChangeEvent<String> event) {
-    String token = event.getValue();
-    
-    if (token != null) {
-      Presenter presenter = null;
+		eventBus.addHandler(EditTermCancelledEvent.TYPE,
+				new EditTermCancelledEventHandler() {
+					public void onEditTermCancelled(EditTermCancelledEvent event) {
+						doEditTermCancelled();
+					}
+				});
 
-      if (token.equals("list")) {
-        presenter = new TermsPresenter(rpcService, eventBus, new TermsView());
-      }
-      else if (token.equals("add")) {
-        presenter = new EditTermPresenter(rpcService, eventBus, new EditTermView());
-      }
-      else if (token.equals("edit")) {
-        presenter = new EditTermPresenter(rpcService, eventBus, new EditTermView());
-      }
-      
-        presenter.go(container);
-    }
-  } 
+		eventBus.addHandler(TermUpdatedEvent.TYPE,
+				new TermUpdatedEventHandler() {
+					public void onTermUpdated(TermUpdatedEvent event) {
+						doTermUpdated();
+					}
+				});
+	}
+
+	private void doAddNewTerm() {
+		History.newItem("add");
+	}
+
+	private void doEditTerm(final String id) {
+		History.newItem("edit", false);
+		Presenter presenter = new EditTermPresenter(rpcService, eventBus,
+				new EditTermView(), id);
+		presenter.go(container);
+	}
+
+	private void doEditTermCancelled() {
+		History.newItem("list");
+	}
+
+	private void doTermUpdated() {
+		History.newItem("list");
+	}
+
+	public void go(final HasWidgets container) {
+		this.container = container;
+		if ("".equals(History.getToken())) {
+			History.newItem("list");
+		} else {
+			History.fireCurrentHistoryState();
+		}
+	}
+
+	public void onValueChange(final ValueChangeEvent<String> event) {
+		final String token = event.getValue();
+		if (token != null) {
+			Presenter presenter = null;
+			if (token.equals("list")) {
+				presenter = new TermsPresenter(rpcService, eventBus,
+						new TermsView());
+			} else if (token.equals("add")) {
+				presenter = new EditTermPresenter(rpcService, eventBus,
+						new EditTermView());
+			} else if (token.equals("edit")) {
+				presenter = new EditTermPresenter(rpcService, eventBus,
+						new EditTermView());
+			}
+			presenter.go(container);
+		}
+	}
 }

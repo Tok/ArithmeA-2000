@@ -23,11 +23,11 @@ import com.google.gwt.user.client.ui.Widget;
 public class TermsView extends Composite implements TermsPresenter.Display {
 	private final Button addButton;
 	private final Button deleteButton;
-	private FlexTable termsTable;
+	private final FlexTable termsTable;
 	private final FlexTable contentTable;
 
 	public TermsView() {
-		DecoratorPanel contentTableDecorator = new DecoratorPanel();
+		final DecoratorPanel contentTableDecorator = new DecoratorPanel();
 		initWidget(contentTableDecorator);
 		contentTableDecorator.setWidth("100%");
 		contentTableDecorator.setWidth("18em");
@@ -41,7 +41,7 @@ public class TermsView extends Composite implements TermsPresenter.Display {
 				HasVerticalAlignment.ALIGN_TOP);
 
 		// create the menu
-		HorizontalPanel hPanel = new HorizontalPanel();
+		final HorizontalPanel hPanel = new HorizontalPanel();
 		hPanel.setBorderWidth(0);
 		hPanel.setSpacing(0);
 		hPanel.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_LEFT);
@@ -76,7 +76,7 @@ public class TermsView extends Composite implements TermsPresenter.Display {
 		return termsTable;
 	}
 
-	public void setData(List<Term> terms) {
+	public void setData(final List<Term> terms) {
 		termsTable.removeAllRows();
 		termsTable.setWidget(0, 1, new Label("Term"));
 		termsTable.setWidget(0, 2, new Label("Chal"));
@@ -85,7 +85,7 @@ public class TermsView extends Composite implements TermsPresenter.Display {
 		termsTable.setWidget(0, 5, new Label("NAEQ"));
 		termsTable.setWidget(0, 6, new Label("TQ"));
 		for (int i = 0; i < terms.size(); ++i) {
-			Term term = terms.get(i);
+			final Term term = terms.get(i);
 			termsTable.setWidget(i+1, 0, new CheckBox());
 			termsTable.setText(i+1, 1, term.getLatinString());
 			termsTable.setText(i+1, 2, term.getChaldean().toString());
@@ -96,9 +96,9 @@ public class TermsView extends Composite implements TermsPresenter.Display {
 		}
 	}
 
-	public int getClickedRow(ClickEvent event) {
+	public int getClickedRow(final ClickEvent event) {
 		int selectedRow = -1;
-		HTMLTable.Cell cell = termsTable.getCellForEvent(event);
+		final HTMLTable.Cell cell = termsTable.getCellForEvent(event);
 		if (cell != null) {
 			// suppress clicks when check box is selected
 			if (cell.getCellIndex() > 0) {
@@ -109,9 +109,9 @@ public class TermsView extends Composite implements TermsPresenter.Display {
 	}
 
 	public List<Integer> getSelectedRows() {
-		List<Integer> selectedRows = new ArrayList<Integer>();
+		final List<Integer> selectedRows = new ArrayList<Integer>();
 		for (int i = 0; i < termsTable.getRowCount(); i++) {
-			CheckBox checkBox = (CheckBox) termsTable.getWidget(i, 0);
+			final CheckBox checkBox = (CheckBox) termsTable.getWidget(i, 0);
 			if (checkBox != null && checkBox.getValue()) {
 				selectedRows.add(i-1);
 			}

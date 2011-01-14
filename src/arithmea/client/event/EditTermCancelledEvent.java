@@ -11,7 +11,7 @@ public class EditTermCancelledEvent extends GwtEvent<EditTermCancelledEventHandl
   }
 
   @Override
-  protected void dispatch(EditTermCancelledEventHandler handler) {
+  protected void dispatch(final EditTermCancelledEventHandler handler) {
     handler.onEditTermCancelled(this);
   }
 }

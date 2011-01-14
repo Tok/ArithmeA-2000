@@ -11,7 +11,7 @@ public class AddTermEvent extends GwtEvent<AddTermEventHandler> {
   }
 
   @Override
-  protected void dispatch(AddTermEventHandler handler) {
+  protected void dispatch(final AddTermEventHandler handler) {
     handler.onAddTerm(this);
   }
 }
