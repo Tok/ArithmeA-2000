@@ -22,17 +22,11 @@ public class TermsPresenter implements Presenter {
 
 	public interface Display {
 		HasClickHandlers getAddButton();
-
 		HasClickHandlers getDeleteButton();
-
 		HasClickHandlers getList();
-
 		void setData(List<Term> data);
-
 		int getClickedRow(ClickEvent event);
-
 		List<Integer> getSelectedRows();
-
 		Widget asWidget();
 	}
 
@@ -125,7 +119,6 @@ public class TermsPresenter implements Presenter {
 				sortTermDetails();
 				display.setData(terms);
 			}
-
 			public void onFailure(Throwable caught) {
 				Window.alert("Fail deleting selected terms");
 			}

@@ -84,12 +84,12 @@ public class TermsView extends Composite implements TermsPresenter.Display {
 		termsTable.setWidget(0, 5, new Label("NAEQ"));
 		for (int i = 0; i < terms.size(); ++i) {
 			Term term = terms.get(i);
-			termsTable.setWidget(i + 1, 0, new CheckBox());
-			termsTable.setText(i + 1, 1, term.getLatinString());
-			termsTable.setText(i + 1, 2, term.getChaldean().toString());
-			termsTable.setText(i + 1, 3, term.getPythagorean().toString());
-			termsTable.setText(i + 1, 4, term.getIa().toString());
-			termsTable.setText(i + 1, 5, term.getNaeq().toString());
+			termsTable.setWidget(i+1, 0, new CheckBox());
+			termsTable.setText(i+1, 1, term.getLatinString());
+			termsTable.setText(i+1, 2, term.getChaldean().toString());
+			termsTable.setText(i+1, 3, term.getPythagorean().toString());
+			termsTable.setText(i+1, 4, term.getIa().toString());
+			termsTable.setText(i+1, 5, term.getNaeq().toString());
 		}
 	}
 
@@ -99,7 +99,7 @@ public class TermsView extends Composite implements TermsPresenter.Display {
 		if (cell != null) {
 			// suppress clicks when check box is selected
 			if (cell.getCellIndex() > 0) {
-				selectedRow = cell.getRowIndex();
+				selectedRow = cell.getRowIndex() - 1;
 			}
 		}
 		return selectedRow;
@@ -107,10 +107,10 @@ public class TermsView extends Composite implements TermsPresenter.Display {
 
 	public List<Integer> getSelectedRows() {
 		List<Integer> selectedRows = new ArrayList<Integer>();
-		for (int i = 0; i < termsTable.getRowCount(); ++i) {
+		for (int i = 0; i < termsTable.getRowCount(); i++) {
 			CheckBox checkBox = (CheckBox) termsTable.getWidget(i, 0);
 			if (checkBox != null && checkBox.getValue()) {
-				selectedRows.add(i);
+				selectedRows.add(i-1);
 			}
 		}
 		return selectedRows;

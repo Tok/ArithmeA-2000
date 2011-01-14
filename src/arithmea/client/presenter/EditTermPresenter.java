@@ -54,6 +54,7 @@ public class EditTermPresenter implements Presenter{
         EditTermPresenter.this.display.getPythagorean().setValue(term.getPythagorean().toString());
         EditTermPresenter.this.display.getIa().setValue(term.getIa().toString());
         EditTermPresenter.this.display.getNaeq().setValue(term.getNaeq().toString());        
+        
       }
       
       public void onFailure(Throwable caught) {

@@ -13,7 +13,9 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.DecoratorPanel;
 import com.google.gwt.user.client.ui.FlexTable;
+import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HasValue;
+import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.TextBox;
@@ -23,9 +25,13 @@ import com.google.gwt.user.client.ui.Widget;
 public class EditTermView extends Composite implements
 		EditTermPresenter.Display {
 	private final ExtendedTextBox latinString;
+	private final Label chaldeanLabel;
 	private final TextBox chaldean;
+	private final Label pythagoreanLabel;
 	private final TextBox pythagorean;
+	private final Label iaLabel;
 	private final TextBox ia;
+	private final Label naeqLabel;
 	private final TextBox naeq;
 	
 	private final FlexTable detailsTable;
@@ -58,15 +64,42 @@ public class EditTermView extends Composite implements
 	        	doChange();
 	        }
 	    });
-
+		
 		chaldean = new TextBox();
-		chaldean.setReadOnly(true);
+		chaldeanLabel = new Label();
+		chaldean.addValueChangeHandler(new ValueChangeHandler<String>() {
+	        @Override
+	        public void onValueChange(ValueChangeEvent<String> event) {
+	        	chaldeanLabel.setText(chaldean.getText());
+	        }
+	    });
+
 		pythagorean = new TextBox();
-		pythagorean.setReadOnly(true);
+		pythagoreanLabel = new Label();
+		pythagorean.addValueChangeHandler(new ValueChangeHandler<String>() {
+	        @Override
+	        public void onValueChange(ValueChangeEvent<String> event) {
+	        	pythagoreanLabel.setText(pythagorean.getText());
+	        }
+	    });
+		
 		ia = new TextBox();
-		ia.setReadOnly(true);
+		iaLabel = new Label();
+		ia.addValueChangeHandler(new ValueChangeHandler<String>() {
+	        @Override
+	        public void onValueChange(ValueChangeEvent<String> event) {
+	        	iaLabel.setText(ia.getText());
+	        }
+	    });
+		
 		naeq = new TextBox();
-		naeq.setReadOnly(true);
+		naeqLabel = new Label();
+		naeq.addValueChangeHandler(new ValueChangeHandler<String>() {
+	        @Override
+	        public void onValueChange(ValueChangeEvent<String> event) {
+	        	naeqLabel.setText(naeq.getText());
+	        }
+	    });
 		
 		initDetailsTable();
 		contentDetailsPanel.add(detailsTable);
@@ -78,6 +111,10 @@ public class EditTermView extends Composite implements
 		menuPanel.add(cancelButton);
 		contentDetailsPanel.add(menuPanel);
 		contentDetailsDecorator.add(contentDetailsPanel);
+
+		doChange();
+		latinString.selectAll();
+		latinString.setFocus(true);
 	}
 
 	private void doChange() {
@@ -88,23 +125,41 @@ public class EditTermView extends Composite implements
 		//create new term and update view
 		Term term = new Term(newTerm);
 		chaldean.setText(term.getChaldean().toString());
+		chaldeanLabel.setText(term.getChaldean().toString());
 		pythagorean.setText(term.getPythagorean().toString());		
+		pythagoreanLabel.setText(term.getPythagorean().toString());		
 		ia.setText(term.getIa().toString());
+		iaLabel.setText(term.getIa().toString());
 		naeq.setText(term.getNaeq().toString());
+		naeqLabel.setText(term.getNaeq().toString());
 	}
 	
 	private void initDetailsTable() {
 		detailsTable.setWidget(0, 0, new Label("Term"));
 		detailsTable.setWidget(0, 1, latinString);
 		detailsTable.setWidget(1, 0, new Label("Chaldean"));
-		detailsTable.setWidget(1, 1, chaldean);
+		detailsTable.setWidget(1, 1, chaldeanLabel);
+		detailsTable.getCellFormatter().setAlignment(1, 1,
+				HasHorizontalAlignment.ALIGN_RIGHT,
+				HasVerticalAlignment.ALIGN_MIDDLE);		
 		detailsTable.setWidget(2, 0, new Label("Pythagorean"));
-		detailsTable.setWidget(2, 1, pythagorean);
+		detailsTable.setWidget(2, 1, pythagoreanLabel);
+		detailsTable.getCellFormatter().setAlignment(2, 1,
+				HasHorizontalAlignment.ALIGN_RIGHT,
+				HasVerticalAlignment.ALIGN_MIDDLE);		
 		detailsTable.setWidget(3, 0, new Label("A=1, B=2 .. Z=26"));
-		detailsTable.setWidget(3, 1, ia);
+		detailsTable.setWidget(3, 1, iaLabel);
+		detailsTable.getCellFormatter().setAlignment(3, 1,
+				HasHorizontalAlignment.ALIGN_RIGHT,
+				HasVerticalAlignment.ALIGN_MIDDLE);		
 		detailsTable.setWidget(4, 0, new Label("NAEQ"));
-		detailsTable.setWidget(4, 1, naeq);
+		detailsTable.setWidget(4, 1, naeqLabel);
+		detailsTable.getCellFormatter().setAlignment(4, 1,
+				HasHorizontalAlignment.ALIGN_RIGHT,
+				HasVerticalAlignment.ALIGN_MIDDLE);		
+
 		latinString.setFocus(true);
+		latinString.selectAll();
 	}
 
 	public HasValue<String> getLatinString() {
