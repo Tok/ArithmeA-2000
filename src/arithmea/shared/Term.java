@@ -23,11 +23,8 @@ public class Term implements Serializable {
 	public Term() {
 	}
 
-	public Term(String latinString, Integer chaldean,
-			Integer pythagorean) {
-		this.id = latinString;
-		this.chaldean = chaldean;
-		this.pythagorean = pythagorean;
+	public Term(String latinString) {
+		setLatinString(latinString);
 	}
 	
 	public TermDetails getLightWeightTerm() {
@@ -39,7 +36,9 @@ public class Term implements Serializable {
 	}
 
 	public void setLatinString(String latinString) {
-		this.id = latinString;
+		this.id = latinString.toUpperCase().trim();
+		this.chaldean = GematriaUtil.getChaldean(id);
+		this.pythagorean = GematriaUtil.getPythagorean(id);
 	}
 
 	public Integer getChaldean() {
