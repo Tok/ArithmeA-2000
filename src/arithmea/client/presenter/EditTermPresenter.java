@@ -22,6 +22,8 @@ public class EditTermPresenter implements Presenter{
     HasValue<String> getLatinString();
     HasValue<String> getChaldean();
     HasValue<String> getPythagorean();
+    HasValue<String> getIa();
+    HasValue<String> getNaeq();
     Widget asWidget();
   }
   
@@ -50,10 +52,12 @@ public class EditTermPresenter implements Presenter{
         EditTermPresenter.this.display.getLatinString().setValue(term.getLatinString());
         EditTermPresenter.this.display.getChaldean().setValue(term.getChaldean().toString());
         EditTermPresenter.this.display.getPythagorean().setValue(term.getPythagorean().toString());
+        EditTermPresenter.this.display.getIa().setValue(term.getIa().toString());
+        EditTermPresenter.this.display.getNaeq().setValue(term.getNaeq().toString());        
       }
       
       public void onFailure(Throwable caught) {
-        Window.alert("Error retrieving term");
+        Window.alert("Fail retrieving term");
       }
     });
     
@@ -82,13 +86,15 @@ public class EditTermPresenter implements Presenter{
     term.setLatinString(display.getLatinString().getValue());
     term.setChaldean(Integer.decode(display.getChaldean().getValue()));
     term.setPythagorean(Integer.decode(display.getPythagorean().getValue()));
+    term.setIa(Integer.decode(display.getIa().getValue()));
+    term.setNaeq(Integer.decode(display.getNaeq().getValue()));
     
     rpcService.updateTerm(term, new AsyncCallback<Term>() {
         public void onSuccess(Term result) {
           eventBus.fireEvent(new TermUpdatedEvent(result));
         }
         public void onFailure(Throwable caught) {
-          Window.alert("Error updating Term");
+          Window.alert("Fail updating Term");
         }
     });
   }

@@ -25,6 +25,9 @@ public class EditTermView extends Composite implements
 	private final ExtendedTextBox latinString;
 	private final TextBox chaldean;
 	private final TextBox pythagorean;
+	private final TextBox ia;
+	private final TextBox naeq;
+	
 	private final FlexTable detailsTable;
 	private final Button saveButton;
 	private final Button cancelButton;
@@ -60,7 +63,11 @@ public class EditTermView extends Composite implements
 		chaldean.setReadOnly(true);
 		pythagorean = new TextBox();
 		pythagorean.setReadOnly(true);
-
+		ia = new TextBox();
+		ia.setReadOnly(true);
+		naeq = new TextBox();
+		naeq.setReadOnly(true);
+		
 		initDetailsTable();
 		contentDetailsPanel.add(detailsTable);
 
@@ -74,9 +81,16 @@ public class EditTermView extends Composite implements
 	}
 
 	private void doChange() {
-		Term term = new Term(latinString.getText());
+		//force upper case
+		String newTerm = latinString.getText().toUpperCase();
+		latinString.setText(newTerm);
+		
+		//create new term and update view
+		Term term = new Term(newTerm);
 		chaldean.setText(term.getChaldean().toString());
-		pythagorean.setText(term.getPythagorean().toString());
+		pythagorean.setText(term.getPythagorean().toString());		
+		ia.setText(term.getIa().toString());
+		naeq.setText(term.getNaeq().toString());
 	}
 	
 	private void initDetailsTable() {
@@ -86,6 +100,10 @@ public class EditTermView extends Composite implements
 		detailsTable.setWidget(1, 1, chaldean);
 		detailsTable.setWidget(2, 0, new Label("Pythagorean"));
 		detailsTable.setWidget(2, 1, pythagorean);
+		detailsTable.setWidget(3, 0, new Label("A=1, B=2 .. Z=26"));
+		detailsTable.setWidget(3, 1, ia);
+		detailsTable.setWidget(4, 0, new Label("NAEQ"));
+		detailsTable.setWidget(4, 1, naeq);
 		latinString.setFocus(true);
 	}
 
@@ -101,6 +119,16 @@ public class EditTermView extends Composite implements
 	@Override
 	public HasValue<String> getPythagorean() {
 		return pythagorean;
+	}
+	
+	@Override
+	public HasValue<String> getIa() {
+		return ia;
+	}
+	
+	@Override
+	public HasValue<String> getNaeq() {
+		return naeq;
 	}
 	
 	public HasClickHandlers getSaveButton() {

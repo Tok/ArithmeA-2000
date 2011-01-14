@@ -6,7 +6,7 @@ import arithmea.client.ArithmeaService;
 import arithmea.client.ArithmeaServiceAsync;
 import arithmea.client.presenter.TermsPresenter;
 import arithmea.client.view.TermsView;
-import arithmea.shared.TermDetails;
+import arithmea.shared.Term;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.shared.HandlerManager;
@@ -30,14 +30,14 @@ public class ExampleGWTTest extends GWTTestCase {
   }
   
   public void testTermSort(){
-    ArrayList<TermDetails> termDetails = new ArrayList<TermDetails>();
-    termDetails.add(new TermDetails("0", "c_term"));
-    termDetails.add(new TermDetails("1", "b_term"));
-    termDetails.add(new TermDetails("2", "a_term"));
-    termsPresenter.setTermDetails(termDetails);
+    ArrayList<Term> terms = new ArrayList<Term>();
+    terms.add(new Term("c_term"));
+    terms.add(new Term("b_term"));
+    terms.add(new Term("a_term"));
+    termsPresenter.setTermDetails(terms);
     termsPresenter.sortTermDetails();
-    assertTrue(termsPresenter.getTermDetail(0).getDisplayName().equals("a_term"));
-    assertTrue(termsPresenter.getTermDetail(1).getDisplayName().equals("b_term"));
-    assertTrue(termsPresenter.getTermDetail(2).getDisplayName().equals("c_term"));
+    assertTrue(termsPresenter.getTermDetail(0).getLatinString().equals("a_term"));
+    assertTrue(termsPresenter.getTermDetail(1).getLatinString().equals("b_term"));
+    assertTrue(termsPresenter.getTermDetail(2).getLatinString().equals("c_term"));
   }
 }
