@@ -26,13 +26,12 @@ public class Term implements Serializable {
 	@Persistent
 	public Integer naeq;
 
+	@Persistent
+	public Integer tq;
+	
 	public Term() {
 	}
 
-//	public Term(String latinString) {
-//		setLatinString(latinString);
-//	}
-	
 	public Term(String latinString) {
 		setLatinString(latinString);
 	}
@@ -51,6 +50,7 @@ public class Term implements Serializable {
 		this.pythagorean = GematriaUtil.getPythagorean(id);
 		this.ia = GematriaUtil.getIa(id);
 		this.naeq = GematriaUtil.getNaeq(id);
+		this.tq = GematriaUtil.getTq(id);		
 	}
 
 	public Integer getChaldean() {
@@ -84,5 +84,12 @@ public class Term implements Serializable {
 	public void setNaeq(Integer naeq) {
 		this.naeq = naeq;
 	}
+	
+	public Integer getTq() {
+		return tq;
+	}
 
+	public void setTq(Integer tq) {
+		this.tq = tq;
+	}
 }

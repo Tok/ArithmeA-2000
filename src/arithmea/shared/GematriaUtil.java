@@ -161,4 +161,44 @@ public class GematriaUtil {
 		return 0;
 	}
 
+	public static Integer getTq(String id) {
+		char[] chars = id.toCharArray();
+		int result = 0;
+		for(int i = 0; i < chars.length; i++) {
+			char c = chars[i];
+			result += getTq(c);
+		}
+		return result;
+	}
+	
+	private static int getTq(char c) {
+		if (c == 'A') { return 5; }
+		if (c == 'B') { return 20; }
+		if (c == 'C') { return 2; }
+		if (c == 'D') { return 23; }
+		if (c == 'E') { return 13; }
+		if (c == 'F') { return 12; }
+		if (c == 'G') { return 11; }
+		if (c == 'H') { return 3; }
+		if (c == 'I') { return 26; }
+		if (c == 'J') { return 7; }
+		if (c == 'K') { return 17; }
+		if (c == 'L') { return 1; }
+		if (c == 'M') { return 21; }
+		if (c == 'N') { return 24; }
+		if (c == 'O') { return 10; }
+		if (c == 'P') { return 4; }
+		if (c == 'Q') { return 16; }
+		if (c == 'R') { return 14; }
+		if (c == 'S') { return 15; }
+		if (c == 'T') { return 9; }
+		if (c == 'U') { return 25; }
+		if (c == 'V') { return 22; }
+		if (c == 'W') { return 8; }
+		if (c == 'X') { return 6; }
+		if (c == 'Y') { return 18; }
+		if (c == 'Z') { return 19; }
+		return 0;
+	}
+
 }

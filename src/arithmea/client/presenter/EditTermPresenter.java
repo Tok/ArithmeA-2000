@@ -24,6 +24,7 @@ public class EditTermPresenter implements Presenter{
     HasValue<String> getPythagorean();
     HasValue<String> getIa();
     HasValue<String> getNaeq();
+	HasValue<String> getTq();
     Widget asWidget();
   }
   
@@ -89,7 +90,7 @@ public class EditTermPresenter implements Presenter{
     term.setPythagorean(Integer.decode(display.getPythagorean().getValue()));
     term.setIa(Integer.decode(display.getIa().getValue()));
     term.setNaeq(Integer.decode(display.getNaeq().getValue()));
-    
+    term.setTq(Integer.decode(display.getTq().getValue()));
     rpcService.updateTerm(term, new AsyncCallback<Term>() {
         public void onSuccess(Term result) {
           eventBus.fireEvent(new TermUpdatedEvent(result));

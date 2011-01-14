@@ -32,7 +32,9 @@ public class EditTermView extends Composite implements
 	private final Label iaLabel;
 	private final TextBox ia;
 	private final Label naeqLabel;
-	private final TextBox naeq;
+	private final TextBox naeq;	
+	private final Label tqLabel;
+	private final TextBox tq;
 	
 	private final FlexTable detailsTable;
 	private final Button saveButton;
@@ -101,6 +103,15 @@ public class EditTermView extends Composite implements
 	        }
 	    });
 		
+		tq = new TextBox();
+		tqLabel = new Label();
+		tq.addValueChangeHandler(new ValueChangeHandler<String>() {
+	        @Override
+	        public void onValueChange(ValueChangeEvent<String> event) {
+	        	tqLabel.setText(tq.getText());
+	        }
+	    });
+		
 		initDetailsTable();
 		contentDetailsPanel.add(detailsTable);
 
@@ -132,36 +143,32 @@ public class EditTermView extends Composite implements
 		iaLabel.setText(term.getIa().toString());
 		naeq.setText(term.getNaeq().toString());
 		naeqLabel.setText(term.getNaeq().toString());
+		tq.setText(term.getTq().toString());
+		tqLabel.setText(term.getTq().toString());
 	}
 	
 	private void initDetailsTable() {
 		detailsTable.setWidget(0, 0, new Label("Term"));
 		detailsTable.setWidget(0, 1, latinString);
-		detailsTable.setWidget(1, 0, new Label("Chaldean"));
-		detailsTable.setWidget(1, 1, chaldeanLabel);
-		detailsTable.getCellFormatter().setAlignment(1, 1,
-				HasHorizontalAlignment.ALIGN_RIGHT,
-				HasVerticalAlignment.ALIGN_MIDDLE);		
-		detailsTable.setWidget(2, 0, new Label("Pythagorean"));
-		detailsTable.setWidget(2, 1, pythagoreanLabel);
-		detailsTable.getCellFormatter().setAlignment(2, 1,
-				HasHorizontalAlignment.ALIGN_RIGHT,
-				HasVerticalAlignment.ALIGN_MIDDLE);		
-		detailsTable.setWidget(3, 0, new Label("A=1, B=2 .. Z=26"));
-		detailsTable.setWidget(3, 1, iaLabel);
-		detailsTable.getCellFormatter().setAlignment(3, 1,
-				HasHorizontalAlignment.ALIGN_RIGHT,
-				HasVerticalAlignment.ALIGN_MIDDLE);		
-		detailsTable.setWidget(4, 0, new Label("NAEQ"));
-		detailsTable.setWidget(4, 1, naeqLabel);
-		detailsTable.getCellFormatter().setAlignment(4, 1,
-				HasHorizontalAlignment.ALIGN_RIGHT,
-				HasVerticalAlignment.ALIGN_MIDDLE);		
-
+		
+		addRow(detailsTable, 1, "Chaldean", chaldeanLabel);
+		addRow(detailsTable, 2, "Pythagorean", pythagoreanLabel);
+		addRow(detailsTable, 3, "A=1, B=2 .. Z=26", iaLabel);
+		addRow(detailsTable, 4, "NAEQ", naeqLabel);
+		addRow(detailsTable, 5, "TQ", tqLabel);
+			
 		latinString.setFocus(true);
 		latinString.selectAll();
 	}
 
+	private void addRow(FlexTable table, int row, String description, Label label) {
+		table.setWidget(row, 0, new Label(description));
+		table.setWidget(row, 1, label);
+		table.getCellFormatter().setAlignment(row, 1,
+				HasHorizontalAlignment.ALIGN_RIGHT,
+				HasVerticalAlignment.ALIGN_MIDDLE);
+	}
+	
 	public HasValue<String> getLatinString() {
 		return latinString;
 	}
@@ -186,6 +193,11 @@ public class EditTermView extends Composite implements
 		return naeq;
 	}
 	
+	@Override
+	public HasValue<String> getTq() {
+		return tq;
+	}
+	
 	public HasClickHandlers getSaveButton() {
 		return saveButton;
 	}
@@ -197,6 +209,5 @@ public class EditTermView extends Composite implements
 	public Widget asWidget() {
 		return this;
 	}
-
 
 }

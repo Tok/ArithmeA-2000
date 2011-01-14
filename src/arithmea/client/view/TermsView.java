@@ -12,9 +12,10 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.DecoratorPanel;
-import com.google.gwt.user.client.ui.DockPanel;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HTMLTable;
+import com.google.gwt.user.client.ui.HasHorizontalAlignment;
+import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
@@ -37,13 +38,13 @@ public class TermsView extends Composite implements TermsPresenter.Display {
 				"terms-ListContainer");
 		contentTable.getCellFormatter().setWidth(0, 0, "100%");
 		contentTable.getFlexCellFormatter().setVerticalAlignment(0, 0,
-				DockPanel.ALIGN_TOP);
+				HasVerticalAlignment.ALIGN_TOP);
 
 		// create the menu
 		HorizontalPanel hPanel = new HorizontalPanel();
 		hPanel.setBorderWidth(0);
 		hPanel.setSpacing(0);
-		hPanel.setHorizontalAlignment(HorizontalPanel.ALIGN_LEFT);
+		hPanel.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_LEFT);
 		addButton = new Button("Add");
 		hPanel.add(addButton);
 		deleteButton = new Button("Delete");
@@ -82,6 +83,7 @@ public class TermsView extends Composite implements TermsPresenter.Display {
 		termsTable.setWidget(0, 3, new Label("Pyth"));
 		termsTable.setWidget(0, 4, new Label("A=1"));
 		termsTable.setWidget(0, 5, new Label("NAEQ"));
+		termsTable.setWidget(0, 6, new Label("TQ"));
 		for (int i = 0; i < terms.size(); ++i) {
 			Term term = terms.get(i);
 			termsTable.setWidget(i+1, 0, new CheckBox());
@@ -90,6 +92,7 @@ public class TermsView extends Composite implements TermsPresenter.Display {
 			termsTable.setText(i+1, 3, term.getPythagorean().toString());
 			termsTable.setText(i+1, 4, term.getIa().toString());
 			termsTable.setText(i+1, 5, term.getNaeq().toString());
+			termsTable.setText(i+1, 6, term.getTq().toString());
 		}
 	}
 
