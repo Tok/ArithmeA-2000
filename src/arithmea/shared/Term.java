@@ -50,10 +50,20 @@ public class Term implements Serializable {
 
 	public Term(final String latinString) {
 		String tmp = latinString.toUpperCase().trim();
-		tmp = tmp.replace("ß", "SS");
-		tmp = tmp.replace("Ä", "AE"); 
-		tmp = tmp.replace("Ö", "OE"); 
-		tmp = tmp.replace("Ü", "UE");
+
+		int position = 0;
+		for (char c : tmp.toCharArray()) {
+			if (c == '\u0223') {
+				tmp = tmp.substring(0, position) + "SS" + tmp.substring(position + 1);
+			} else if (c == '\u0196') { //FIXME
+				tmp = tmp.substring(0, position) + "AE" + tmp.substring(position + 1);
+			} else if (c == '\u0220') { //FIXME
+				tmp = tmp.substring(0, position) + "UE" + tmp.substring(position + 1);
+			} else if (c == '\u0214') { //FIXME
+				tmp = tmp.substring(0, position) + "OE" + tmp.substring(position + 1);
+			}
+			position++;
+		}
 		this.latinString = tmp;
 		
 		GematriaUtil gu = new GematriaUtil();
