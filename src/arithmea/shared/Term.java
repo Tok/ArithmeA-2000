@@ -12,7 +12,7 @@ public class Term implements Serializable {
 
 	@PrimaryKey
 	@Persistent
-	private String id;
+	private String latinString;
 
 	@Persistent
 	public Integer chaldean;
@@ -35,61 +35,39 @@ public class Term implements Serializable {
 	public Term(final String latinString) {
 		setLatinString(latinString);
 	}
-
-	public String getId() {
-		return id;
-	}
 	
 	public String getLatinString() {
-		return id;
+		return latinString;
 	}
 
 	public void setLatinString(final String latinString) {
-		this.id = latinString.toUpperCase().trim();
-		this.chaldean = GematriaUtil.getChaldean(id);
-		this.pythagorean = GematriaUtil.getPythagorean(id);
-		this.ia = GematriaUtil.getIa(id);
-		this.naeq = GematriaUtil.getNaeq(id);
-		this.tq = GematriaUtil.getTq(id);		
+		this.latinString = latinString.toUpperCase().trim();
+		this.chaldean = GematriaUtil.getChaldean(latinString);
+		this.pythagorean = GematriaUtil.getPythagorean(latinString);
+		this.ia = GematriaUtil.getIa(latinString);
+		this.naeq = GematriaUtil.getNaeq(latinString);
+		this.tq = GematriaUtil.getTq(latinString);		
 	}
 
-	public Integer getChaldean() {
-		return chaldean;
-	}
-
-	public void setChaldean(final Integer chaldean) {
-		this.chaldean = chaldean;
-	}
-
-	public Integer getPythagorean() {
-		return pythagorean;
-	}
-
-	public void setPythagorean(final Integer pythagorean) {
-		this.pythagorean = pythagorean;
-	}
-
-	public Integer getIa() {
-		return ia;
-	}
-
-	public void setIa(final Integer ia) {
-		this.ia = ia;
-	}
-
-	public Integer getNaeq() {
-		return naeq;
-	}
-
-	public void setNaeq(final Integer naeq) {
-		this.naeq = naeq;
+	public Integer get(GematriaMethod method) {
+		if (GematriaMethod.Chaldean.equals(method)) {
+			return chaldean;
+		} else if (GematriaMethod.Pythagorean.equals(method)) {
+			return pythagorean;
+		} else if (GematriaMethod.Ia.equals(method)) {
+			return ia;
+		} else if (GematriaMethod.Naeq.equals(method)) {
+			return naeq;
+		} else if (GematriaMethod.Tq.equals(method)) {
+			return tq;
+		}
+		
+		assert false;
+		return 0;
 	}
 	
-	public Integer getTq() {
-		return tq;
+	public String toString() {
+		return latinString;
 	}
 
-	public void setTq(final Integer tq) {
-		this.tq = tq;
-	}
 }

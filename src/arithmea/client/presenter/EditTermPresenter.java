@@ -3,6 +3,7 @@ package arithmea.client.presenter;
 import arithmea.client.ArithmeaServiceAsync;
 import arithmea.client.event.EditTermCancelledEvent;
 import arithmea.client.event.TermUpdatedEvent;
+import arithmea.shared.GematriaMethod;
 import arithmea.shared.Term;
 
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -20,11 +21,7 @@ public class EditTermPresenter implements Presenter{
     HasClickHandlers getSaveButton();
     HasClickHandlers getCancelButton();
     HasValue<String> getLatinString();
-    HasValue<String> getChaldean();
-    HasValue<String> getPythagorean();
-    HasValue<String> getIa();
-    HasValue<String> getNaeq();
-	HasValue<String> getTq();
+    HasValue<String> get(GematriaMethod gm);
     Widget asWidget();
   }
   
@@ -51,11 +48,9 @@ public class EditTermPresenter implements Presenter{
       public void onSuccess(final Term result) {
         term = result;
         EditTermPresenter.this.display.getLatinString().setValue(term.getLatinString());
-        EditTermPresenter.this.display.getChaldean().setValue(term.getChaldean().toString());
-        EditTermPresenter.this.display.getPythagorean().setValue(term.getPythagorean().toString());
-        EditTermPresenter.this.display.getIa().setValue(term.getIa().toString());
-        EditTermPresenter.this.display.getNaeq().setValue(term.getNaeq().toString());        
-        
+        for (GematriaMethod gm : GematriaMethod.values()) {
+            EditTermPresenter.this.display.get(gm).setValue(term.get(gm).toString());
+        }
       }
       public void onFailure(final Throwable caught) {
         Window.alert("Fail retrieving term");
@@ -85,11 +80,6 @@ public class EditTermPresenter implements Presenter{
 
   private void doSave() {
     term.setLatinString(display.getLatinString().getValue());
-    term.setChaldean(Integer.decode(display.getChaldean().getValue()));
-    term.setPythagorean(Integer.decode(display.getPythagorean().getValue()));
-    term.setIa(Integer.decode(display.getIa().getValue()));
-    term.setNaeq(Integer.decode(display.getNaeq().getValue()));
-    term.setTq(Integer.decode(display.getTq().getValue()));
     rpcService.updateTerm(term, new AsyncCallback<Term>() {
         public void onSuccess(final Term result) {
           eventBus.fireEvent(new TermUpdatedEvent(result));

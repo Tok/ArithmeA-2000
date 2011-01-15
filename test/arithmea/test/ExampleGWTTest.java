@@ -6,6 +6,7 @@ import arithmea.client.ArithmeaService;
 import arithmea.client.ArithmeaServiceAsync;
 import arithmea.client.presenter.TermsPresenter;
 import arithmea.client.view.TermsView;
+import arithmea.shared.GematriaMethod;
 import arithmea.shared.Term;
 
 import com.google.gwt.core.client.GWT;
@@ -31,41 +32,119 @@ public class ExampleGWTTest extends GWTTestCase {
 		termsPresenter = new TermsPresenter(rpcService, eventBus, display);
 	}
 
-	public void testTermSort() {
+	public void testTermSortByLatinString() {
 		ArrayList<Term> terms = new ArrayList<Term>();
 		terms.add(new Term("c_term"));
 		terms.add(new Term("b_term"));
 		terms.add(new Term("a_term"));
 		termsPresenter.setTermDetails(terms);
-		termsPresenter.sortTermDetails();
-		assertTrue(termsPresenter.getTermDetail(0).getId().equals("A_TERM"));
-		assertTrue(termsPresenter.getTermDetail(1).getId().equals("B_TERM"));
-		assertTrue(termsPresenter.getTermDetail(2).getId().equals("C_TERM"));
+		termsPresenter.sortTermsByLatinString();
+		assertTrue(termsPresenter.getTermDetail(0).getLatinString().equals("A_TERM"));
+		assertTrue(termsPresenter.getTermDetail(1).getLatinString().equals("B_TERM"));
+		assertTrue(termsPresenter.getTermDetail(2).getLatinString().equals("C_TERM"));
 	}
 
+	public void testTermSortByChaldean() {
+		ArrayList<Term> terms = new ArrayList<Term>();
+		terms.add(new Term("B"));
+		terms.add(new Term("T"));
+		terms.add(new Term("E"));
+		terms.add(new Term("G"));
+		terms.add(new Term("I"));
+		termsPresenter.setTermDetails(terms);
+		termsPresenter.sortTermsBy(GematriaMethod.Chaldean);
+		assertTrue(termsPresenter.getTermDetail(0).getLatinString().equals("I"));
+		assertTrue(termsPresenter.getTermDetail(1).getLatinString().equals("B"));
+		assertTrue(termsPresenter.getTermDetail(2).getLatinString().equals("G"));
+		assertTrue(termsPresenter.getTermDetail(3).getLatinString().equals("T"));	
+		assertTrue(termsPresenter.getTermDetail(4).getLatinString().equals("E"));
+	}
+	
+	public void testTermSortByPythagorean() {
+		ArrayList<Term> terms = new ArrayList<Term>();
+		terms.add(new Term("C"));
+		terms.add(new Term("W"));
+		terms.add(new Term("M"));
+		terms.add(new Term("K"));
+		terms.add(new Term("S"));
+		termsPresenter.setTermDetails(terms);
+		termsPresenter.sortTermsBy(GematriaMethod.Pythagorean);
+		assertTrue(termsPresenter.getTermDetail(0).getLatinString().equals("S"));
+		assertTrue(termsPresenter.getTermDetail(1).getLatinString().equals("K"));
+		assertTrue(termsPresenter.getTermDetail(2).getLatinString().equals("C"));
+		assertTrue(termsPresenter.getTermDetail(3).getLatinString().equals("M"));	
+		assertTrue(termsPresenter.getTermDetail(4).getLatinString().equals("W"));
+	}
+	
+	public void testTermSortByIa() {
+		ArrayList<Term> terms = new ArrayList<Term>();
+		terms.add(new Term("A"));
+		terms.add(new Term("Z"));
+		terms.add(new Term("B"));
+		terms.add(new Term("C"));
+		termsPresenter.setTermDetails(terms);
+		termsPresenter.sortTermsBy(GematriaMethod.Ia);
+		assertTrue(termsPresenter.getTermDetail(0).getLatinString().equals("A"));
+		assertTrue(termsPresenter.getTermDetail(1).getLatinString().equals("B"));
+		assertTrue(termsPresenter.getTermDetail(2).getLatinString().equals("C"));
+		assertTrue(termsPresenter.getTermDetail(3).getLatinString().equals("Z"));		
+	}
+
+	public void testTermSortByNaeq() {
+		ArrayList<Term> terms = new ArrayList<Term>();
+		terms.add(new Term("A"));
+		terms.add(new Term("B"));
+		terms.add(new Term("C"));
+		terms.add(new Term("D"));
+		terms.add(new Term("E"));
+		termsPresenter.setTermDetails(terms);
+		termsPresenter.sortTermsBy(GematriaMethod.Naeq);
+		assertTrue(termsPresenter.getTermDetail(0).getLatinString().equals("A"));
+		assertTrue(termsPresenter.getTermDetail(1).getLatinString().equals("D"));
+		assertTrue(termsPresenter.getTermDetail(2).getLatinString().equals("C"));
+		assertTrue(termsPresenter.getTermDetail(3).getLatinString().equals("B"));		
+		assertTrue(termsPresenter.getTermDetail(4).getLatinString().equals("E"));		
+	}
+
+	public void testTermSortByTq() {
+		ArrayList<Term> terms = new ArrayList<Term>();
+		terms.add(new Term("A"));
+		terms.add(new Term("B"));
+		terms.add(new Term("C"));
+		terms.add(new Term("D"));
+		terms.add(new Term("E"));
+		termsPresenter.setTermDetails(terms);
+		termsPresenter.sortTermsBy(GematriaMethod.Tq);
+		assertTrue(termsPresenter.getTermDetail(0).getLatinString().equals("C"));
+		assertTrue(termsPresenter.getTermDetail(1).getLatinString().equals("A"));
+		assertTrue(termsPresenter.getTermDetail(2).getLatinString().equals("E"));
+		assertTrue(termsPresenter.getTermDetail(3).getLatinString().equals("B"));		
+		assertTrue(termsPresenter.getTermDetail(4).getLatinString().equals("D"));	
+	}
+	
 	public void testChaldean() {
-		assertTrue(new Term(ABC).getChaldean().equals(new Integer(103)));
-		assertTrue(new Term("ARITHMEA").getChaldean().equals(new Integer(23)));
+		assertTrue(new Term(ABC).get(GematriaMethod.Chaldean).equals(new Integer(103)));
+		assertTrue(new Term("ARITHMEA").get(GematriaMethod.Chaldean).equals(new Integer(23)));
 	}
 
 	public void testPythagorean() {
-		assertTrue(new Term(ABC).getPythagorean().equals(new Integer(126)));
-		assertTrue(new Term("ARITHMEA").getPythagorean()
+		assertTrue(new Term(ABC).get(GematriaMethod.Pythagorean).equals(new Integer(126)));
+		assertTrue(new Term("ARITHMEA").get(GematriaMethod.Pythagorean)
 				.equals(new Integer(39)));
 	}
 
 	public void testIa() {
-		assertTrue(new Term(ABC).getIa().equals(new Integer(351)));
-		assertTrue(new Term("ARITHMEA").getIa().equals(new Integer(75)));
+		assertTrue(new Term(ABC).get(GematriaMethod.Ia).equals(new Integer(351)));
+		assertTrue(new Term("ARITHMEA").get(GematriaMethod.Ia).equals(new Integer(75)));
 	}
 
 	public void testNaeq() {
-		assertTrue(new Term(ABC).getNaeq().equals(new Integer(361)));
-		assertTrue(new Term("ARITHMEA").getNaeq().equals(new Integer(111)));
+		assertTrue(new Term(ABC).get(GematriaMethod.Naeq).equals(new Integer(361)));
+		assertTrue(new Term("ARITHMEA").get(GematriaMethod.Naeq).equals(new Integer(111)));
 	}
 
 	public void testTq() {
-		assertTrue(new Term(ABC).getTq().equals(new Integer(351)));
-		assertTrue(new Term("ARITHMEA").getTq().equals(new Integer(96)));
+		assertTrue(new Term(ABC).get(GematriaMethod.Tq).equals(new Integer(351)));
+		assertTrue(new Term("ARITHMEA").get(GematriaMethod.Tq).equals(new Integer(96)));
 	}
 }

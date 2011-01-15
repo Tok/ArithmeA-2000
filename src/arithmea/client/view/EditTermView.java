@@ -1,7 +1,11 @@
 package arithmea.client.view;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import arithmea.client.ExtendedTextBox;
 import arithmea.client.presenter.EditTermPresenter;
+import arithmea.shared.GematriaMethod;
 import arithmea.shared.Term;
 
 import com.google.gwt.event.dom.client.HasClickHandlers;
@@ -25,17 +29,8 @@ import com.google.gwt.user.client.ui.Widget;
 public class EditTermView extends Composite implements
 		EditTermPresenter.Display {
 	private final ExtendedTextBox latinString;
-	private final Label chaldeanLabel;
-	private final TextBox chaldean;
-	private final Label pythagoreanLabel;
-	private final TextBox pythagorean;
-	private final Label iaLabel;
-	private final TextBox ia;
-	private final Label naeqLabel;
-	private final TextBox naeq;
-	private final Label tqLabel;
-	private final TextBox tq;
-
+	private final Map<GematriaMethod, Label> labels = new HashMap<GematriaMethod, Label>();
+	private final Map<GematriaMethod, TextBox> textBoxes = new HashMap<GematriaMethod, TextBox>();
 	private final FlexTable detailsTable;
 	private final Button saveButton;
 	private final Button cancelButton;
@@ -67,50 +62,18 @@ public class EditTermView extends Composite implements
 			}
 		});
 
-		chaldean = new TextBox();
-		chaldeanLabel = new Label();
-		chaldean.addValueChangeHandler(new ValueChangeHandler<String>() {
-			@Override
-			public void onValueChange(ValueChangeEvent<String> event) {
-				chaldeanLabel.setText(chaldean.getText());
-			}
-		});
-
-		pythagorean = new TextBox();
-		pythagoreanLabel = new Label();
-		pythagorean.addValueChangeHandler(new ValueChangeHandler<String>() {
-			@Override
-			public void onValueChange(ValueChangeEvent<String> event) {
-				pythagoreanLabel.setText(pythagorean.getText());
-			}
-		});
-
-		ia = new TextBox();
-		iaLabel = new Label();
-		ia.addValueChangeHandler(new ValueChangeHandler<String>() {
-			@Override
-			public void onValueChange(ValueChangeEvent<String> event) {
-				iaLabel.setText(ia.getText());
-			}
-		});
-
-		naeq = new TextBox();
-		naeqLabel = new Label();
-		naeq.addValueChangeHandler(new ValueChangeHandler<String>() {
-			@Override
-			public void onValueChange(ValueChangeEvent<String> event) {
-				naeqLabel.setText(naeq.getText());
-			}
-		});
-
-		tq = new TextBox();
-		tqLabel = new Label();
-		tq.addValueChangeHandler(new ValueChangeHandler<String>() {
-			@Override
-			public void onValueChange(ValueChangeEvent<String> event) {
-				tqLabel.setText(tq.getText());
-			}
-		});
+		for (GematriaMethod gm : GematriaMethod.values()) {
+			final TextBox textBox = new TextBox();
+			final Label label = new Label();
+			textBox.addValueChangeHandler(new ValueChangeHandler<String>() {
+				@Override
+				public void onValueChange(ValueChangeEvent<String> event) {
+					label.setText(textBox.getText());
+				}
+			});
+			textBoxes.put(gm, textBox);
+			labels.put(gm, label);
+		}
 
 		initDetailsTable();
 		contentDetailsPanel.add(detailsTable);
@@ -135,30 +98,23 @@ public class EditTermView extends Composite implements
 
 		// create new term and update view
 		final Term term = new Term(newTerm);
-		chaldean.setText(term.getChaldean().toString());
-		chaldeanLabel.setText(term.getChaldean().toString());
-		pythagorean.setText(term.getPythagorean().toString());
-		pythagoreanLabel.setText(term.getPythagorean().toString());
-		ia.setText(term.getIa().toString());
-		iaLabel.setText(term.getIa().toString());
-		naeq.setText(term.getNaeq().toString());
-		naeqLabel.setText(term.getNaeq().toString());
-		tq.setText(term.getTq().toString());
-		tqLabel.setText(term.getTq().toString());
+		for (GematriaMethod gm : GematriaMethod.values()) {
+			String value = term.get(gm).toString();
+			textBoxes.get(gm).setText(value);
+			labels.get(gm).setText(value);
+		}
 	}
 
 	private void initDetailsTable() {
 		detailsTable.setWidget(0, 0, new Label("Term"));
 		detailsTable.setWidget(0, 1, latinString);
-
-		addRow(detailsTable, 1, "Chaldean", chaldeanLabel);
-		addRow(detailsTable, 2, "Pythagorean", pythagoreanLabel);
-		addRow(detailsTable, 3, "A=1, B=2 .. Z=26", iaLabel);
-		addRow(detailsTable, 4, "NAEQ", naeqLabel);
-		addRow(detailsTable, 5, "TQ", tqLabel);
-
-		latinString.setFocus(true);
-		latinString.selectAll();
+		int row = 1;
+		for (GematriaMethod gm : GematriaMethod.values()) {
+			addRow(detailsTable, row, gm.name(), labels.get(gm));
+			row++;
+		}
+//		latinString.setFocus(true);
+//		latinString.selectAll();
 	}
 
 	private void addRow(final FlexTable table, final int row,
@@ -174,31 +130,6 @@ public class EditTermView extends Composite implements
 		return latinString;
 	}
 
-	@Override
-	public HasValue<String> getChaldean() {
-		return chaldean;
-	}
-
-	@Override
-	public HasValue<String> getPythagorean() {
-		return pythagorean;
-	}
-
-	@Override
-	public HasValue<String> getIa() {
-		return ia;
-	}
-
-	@Override
-	public HasValue<String> getNaeq() {
-		return naeq;
-	}
-
-	@Override
-	public HasValue<String> getTq() {
-		return tq;
-	}
-
 	public HasClickHandlers getSaveButton() {
 		return saveButton;
 	}
@@ -209,6 +140,11 @@ public class EditTermView extends Composite implements
 
 	public Widget asWidget() {
 		return this;
+	}
+
+	@Override
+	public HasValue<String> get(GematriaMethod gm) {
+		return textBoxes.get(gm);
 	}
 
 }

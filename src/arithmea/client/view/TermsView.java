@@ -4,16 +4,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import arithmea.client.presenter.TermsPresenter;
+import arithmea.shared.GematriaMethod;
 import arithmea.shared.Term;
 
-import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.HasClickHandlers;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.DecoratorPanel;
 import com.google.gwt.user.client.ui.FlexTable;
-import com.google.gwt.user.client.ui.HTMLTable;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -84,29 +83,29 @@ public class TermsView extends Composite implements TermsPresenter.Display {
 		termsTable.setWidget(0, 4, new Label("A=1"));
 		termsTable.setWidget(0, 5, new Label("NAEQ"));
 		termsTable.setWidget(0, 6, new Label("TQ"));
-		for (int i = 0; i < terms.size(); ++i) {
-			final Term term = terms.get(i);
-			termsTable.setWidget(i+1, 0, new CheckBox());
-			termsTable.setText(i+1, 1, term.getLatinString());
-			termsTable.setText(i+1, 2, term.getChaldean().toString());
-			termsTable.setText(i+1, 3, term.getPythagorean().toString());
-			termsTable.setText(i+1, 4, term.getIa().toString());
-			termsTable.setText(i+1, 5, term.getNaeq().toString());
-			termsTable.setText(i+1, 6, term.getTq().toString());
+		for (int row = 0; row < terms.size(); ++row) {
+			final Term term = terms.get(row);
+			termsTable.setWidget(row+1, 0, new CheckBox());
+			termsTable.setText(row+1, 1, term.getLatinString());
+			int column = 2;
+			for (GematriaMethod gm : GematriaMethod.values()) {
+				termsTable.setText(row+1, column, term.get(gm).toString());
+				column++;
+			}
 		}
 	}
 
-	public int getClickedRow(final ClickEvent event) {
-		int selectedRow = -1;
-		final HTMLTable.Cell cell = termsTable.getCellForEvent(event);
-		if (cell != null) {
-			// suppress clicks when check box is selected
-			if (cell.getCellIndex() > 0) {
-				selectedRow = cell.getRowIndex() - 1;
-			}
-		}
-		return selectedRow;
-	}
+//	public int getClickedRow(final ClickEvent event) {
+//		int selectedRow = -1;
+//		final HTMLTable.Cell cell = termsTable.getCellForEvent(event);
+//		if (cell != null) {
+//			// suppress clicks when check box is selected
+//			if (cell.getCellIndex() > 0) {
+//				selectedRow = cell.getRowIndex() - 1;
+//			}
+//		}
+//		return selectedRow;
+//	}
 
 	public List<Integer> getSelectedRows() {
 		final List<Integer> selectedRows = new ArrayList<Integer>();
