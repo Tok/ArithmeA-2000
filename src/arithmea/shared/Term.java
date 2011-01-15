@@ -1,6 +1,7 @@
 package arithmea.shared;
 
 import java.io.Serializable;
+import java.util.HashMap;
 
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
@@ -13,7 +14,7 @@ public class Term implements Serializable {
 	@PrimaryKey
 	@Persistent
 	private String latinString;
-
+	
 	@Persistent
 	public Integer chaldean;
 
@@ -29,37 +30,60 @@ public class Term implements Serializable {
 	@Persistent
 	public Integer tq;
 	
+	@Persistent
+	private String hebrewString;
+
+	@Persistent
+	public Integer full;
+
+	@Persistent
+	public Integer ordinal;
+
+	@Persistent
+	public Integer katan;
+	
 	public Term() {
 	}
 
 	public Term(final String latinString) {
-		setLatinString(latinString);
+		this.latinString = latinString.toUpperCase().trim();
+		this.hebrewString = GematriaUtil.getHebrew(latinString.toUpperCase().trim());
+		final HashMap<GematriaMethod, Integer> values = GematriaUtil.getAllValues(latinString.toUpperCase().trim());
+		this.chaldean = values.get(LatinMethod.Chaldean);
+		this.pythagorean = values.get(LatinMethod.Pythagorean);
+		this.ia = values.get(LatinMethod.IA);
+		this.naeq = values.get(LatinMethod.NAEQ);
+		this.tq = values.get(LatinMethod.TQ);
+		this.full = values.get(HebrewMethod.Full);
+		this.ordinal = values.get(HebrewMethod.Ordinal);
+		this.katan = values.get(HebrewMethod.Katan);
 	}
 	
 	public String getLatinString() {
 		return latinString;
 	}
-
-	public void setLatinString(final String latinString) {
-		this.latinString = latinString.toUpperCase().trim();
-		this.chaldean = GematriaUtil.getChaldean(latinString);
-		this.pythagorean = GematriaUtil.getPythagorean(latinString);
-		this.ia = GematriaUtil.getIa(latinString);
-		this.naeq = GematriaUtil.getNaeq(latinString);
-		this.tq = GematriaUtil.getTq(latinString);		
+	
+	public String getHebrewString() {
+		return hebrewString;
 	}
 
 	public Integer get(GematriaMethod method) {
-		if (GematriaMethod.Chaldean.equals(method)) {
+		if (LatinMethod.Chaldean.equals(method)) {
 			return chaldean;
-		} else if (GematriaMethod.Pythagorean.equals(method)) {
+		} else if (LatinMethod.Pythagorean.equals(method)) {
 			return pythagorean;
-		} else if (GematriaMethod.IA.equals(method)) {
+		} else if (LatinMethod.IA.equals(method)) {
 			return ia;
-		} else if (GematriaMethod.NAEQ.equals(method)) {
+		} else if (LatinMethod.NAEQ.equals(method)) {
 			return naeq;
-		} else if (GematriaMethod.TQ.equals(method)) {
+		} else if (LatinMethod.TQ.equals(method)) {
 			return tq;
+		} else if (HebrewMethod.Full.equals(method)) {
+			return full;
+		} else if (HebrewMethod.Ordinal.equals(method)) {
+			return ordinal;
+		} else if (HebrewMethod.Katan.equals(method)) {
+			return katan;
 		}
 		
 		assert false;

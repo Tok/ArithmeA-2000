@@ -7,8 +7,11 @@ import java.util.List;
 import arithmea.client.ArithmeaServiceAsync;
 import arithmea.client.event.AddTermEvent;
 import arithmea.client.sort.TermSortByGematriaMethod;
+import arithmea.client.sort.TermSortByHebrewString;
 import arithmea.client.sort.TermSortByLatinString;
 import arithmea.shared.GematriaMethod;
+import arithmea.shared.HebrewMethod;
+import arithmea.shared.LatinMethod;
 import arithmea.shared.Term;
 
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -27,7 +30,8 @@ public class TermsPresenter implements Presenter {
 		HasClickHandlers getAddButton();
 		HasClickHandlers getDeleteButton();
 		HasClickHandlers getList();
-		HasClickHandlers getTermHeader();
+		HasClickHandlers getLatinHeader();		
+		HasClickHandlers getHebrewHeader();
 		HasClickHandlers getGematriaHeader(GematriaMethod gm);
 		void setData(List<Term> data);
 //		int getClickedRow(ClickEvent event);
@@ -57,13 +61,24 @@ public class TermsPresenter implements Presenter {
 				deleteSelectedTerms();
 			}
 		});
-		
-		display.getTermHeader().addClickHandler(new ClickHandler() {
+		display.getLatinHeader().addClickHandler(new ClickHandler() {
 			public void onClick(final ClickEvent event) {
 				sortTermsByLatinString();
 			}
 		});	
-		for (final GematriaMethod gm : GematriaMethod.values()) {
+		display.getHebrewHeader().addClickHandler(new ClickHandler() {
+			public void onClick(final ClickEvent event) {
+				sortTermsByHebrewString();
+			}
+		});	
+		for (final LatinMethod gm : LatinMethod.values()) {
+			display.getGematriaHeader(gm).addClickHandler(new ClickHandler() {
+				public void onClick(final ClickEvent event) {
+					sortTermsBy(gm);
+				}
+			});			
+		}
+		for (final HebrewMethod gm : HebrewMethod.values()) {
 			display.getGematriaHeader(gm).addClickHandler(new ClickHandler() {
 				public void onClick(final ClickEvent event) {
 					sortTermsBy(gm);
@@ -130,6 +145,10 @@ public class TermsPresenter implements Presenter {
 
 	public void sortTermsByLatinString() {
         Collections.sort(terms, new TermSortByLatinString());
+        display.setData(terms);
+	}
+	public void sortTermsByHebrewString() {
+        Collections.sort(terms, new TermSortByHebrewString());
         display.setData(terms);
 	}
 	public void sortTermsBy(GematriaMethod gm) {

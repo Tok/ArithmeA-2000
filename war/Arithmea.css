@@ -33,6 +33,18 @@ th,td {
 	padding-right: 6px;
 }
 
+.text-table {
+	height: 46px;
+}
+
+.hebrew-label {
+	font-size:300%
+}
+
+.latin-label {
+	font-size:300%
+}
+
 .gwt-DecoratorPanel .middleCenter {
 	height: 100%;
 	width: 100%;

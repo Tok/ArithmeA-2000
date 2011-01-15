@@ -4,6 +4,8 @@ import arithmea.client.ArithmeaServiceAsync;
 import arithmea.client.event.EditTermCancelledEvent;
 import arithmea.client.event.TermUpdatedEvent;
 import arithmea.shared.GematriaMethod;
+import arithmea.shared.HebrewMethod;
+import arithmea.shared.LatinMethod;
 import arithmea.shared.Term;
 
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -14,13 +16,17 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HasValue;
 import com.google.gwt.user.client.ui.HasWidgets;
+import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
 
 public class EditTermPresenter implements Presenter{  
   public interface Display {
     HasClickHandlers getSaveButton();
     HasClickHandlers getCancelButton();
+    HasValue<String> getInputText();
+    TextBox getInputTextBox(); //TODO remove
     HasValue<String> getLatinString();
+    HasValue<String> getHebrewString();
     HasValue<String> get(GematriaMethod gm);
     Widget asWidget();
   }
@@ -48,7 +54,11 @@ public class EditTermPresenter implements Presenter{
       public void onSuccess(final Term result) {
         term = result;
         EditTermPresenter.this.display.getLatinString().setValue(term.getLatinString());
-        for (GematriaMethod gm : GematriaMethod.values()) {
+        EditTermPresenter.this.display.getHebrewString().setValue(term.getHebrewString());
+        for (LatinMethod gm : LatinMethod.values()) {
+            EditTermPresenter.this.display.get(gm).setValue(term.get(gm).toString());
+        }
+        for (HebrewMethod gm : HebrewMethod.values()) {
             EditTermPresenter.this.display.get(gm).setValue(term.get(gm).toString());
         }
       }
@@ -76,10 +86,11 @@ public class EditTermPresenter implements Presenter{
   public void go(final HasWidgets container) {
     container.clear();
     container.add(display.asWidget());
+    display.getInputTextBox().setFocus(true);
   }
 
   private void doSave() {
-    term.setLatinString(display.getLatinString().getValue());
+	final Term term = new Term(display.getLatinString().getValue());
     rpcService.updateTerm(term, new AsyncCallback<Term>() {
         public void onSuccess(final Term result) {
           eventBus.fireEvent(new TermUpdatedEvent(result));

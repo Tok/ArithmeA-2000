@@ -7,6 +7,8 @@ import java.util.Map;
 
 import arithmea.client.presenter.TermsPresenter;
 import arithmea.shared.GematriaMethod;
+import arithmea.shared.HebrewMethod;
+import arithmea.shared.LatinMethod;
 import arithmea.shared.Term;
 
 import com.google.gwt.event.dom.client.HasClickHandlers;
@@ -24,7 +26,8 @@ import com.google.gwt.user.client.ui.Widget;
 public class TermsView extends Composite implements TermsPresenter.Display {
 	private final Button addButton;
 	private final Button deleteButton;	
-	private final Anchor termHeader = new Anchor("Term");
+	private final Anchor latinHeader = new Anchor("Latin");
+	private final Anchor hebrewHeader = new Anchor("Hebrew");
 	private final Map<GematriaMethod, Anchor> headers = new HashMap<GematriaMethod, Anchor>();
 	private final FlexTable termsTable;
 	private final FlexTable contentTable;
@@ -40,15 +43,19 @@ public class TermsView extends Composite implements TermsPresenter.Display {
 
 		// create the menu
 		final HorizontalPanel hPanel = new HorizontalPanel();
-		addButton = new Button("Add");
+		addButton = new Button("Add New Word");
 		hPanel.add(addButton);
-		deleteButton = new Button("Delete");
+		deleteButton = new Button("Delete Word");
 		hPanel.add(deleteButton);
 		contentTable.getCellFormatter().addStyleName(0, 0, "menu-table");
 		contentTable.setWidget(0, 0, hPanel);
 
 		// prepare table headers
-		for (final GematriaMethod gm : GematriaMethod.values()) {
+		for (final LatinMethod gm : LatinMethod.values()) {
+			Anchor anchor = new Anchor(gm.name());
+			headers.put(gm, anchor);
+		}
+		for (final HebrewMethod gm : HebrewMethod.values()) {
 			Anchor anchor = new Anchor(gm.name());
 			headers.put(gm, anchor);
 		}
@@ -69,7 +76,7 @@ public class TermsView extends Composite implements TermsPresenter.Display {
 		return deleteButton;
 	}
 	
-	public HasClickHandlers getHeader(GematriaMethod gm) {
+	public HasClickHandlers getHeader(LatinMethod gm) {
 		return headers.get(gm);
 	}
 	
@@ -81,15 +88,23 @@ public class TermsView extends Composite implements TermsPresenter.Display {
 		termsTable.removeAllRows();
 
 		//set headers
-		termsTable.setWidget(0, 1, termHeader);
+		termsTable.setWidget(0, 1, latinHeader);
 		termsTable.getCellFormatter().addStyleName(0, 1, "border-cell");
 		int col = 2;
-		for (final GematriaMethod gm : GematriaMethod.values()) {
+		for (final LatinMethod gm : LatinMethod.values()) {
 			termsTable.setWidget(0, col, headers.get(gm));
 			termsTable.getCellFormatter().addStyleName(0, col, "border-cell");
 			col++;
 		}
-
+		termsTable.setWidget(0, col, hebrewHeader);
+		termsTable.getCellFormatter().addStyleName(0, col, "border-cell");
+		col++;
+		for (final HebrewMethod gm : HebrewMethod.values()) {
+			termsTable.setWidget(0, col, headers.get(gm));
+			termsTable.getCellFormatter().addStyleName(0, col, "border-cell");
+			col++;
+		}
+		
 		//set data
 		for (int row = 0; row < terms.size(); ++row) {
 			final Term term = terms.get(row);
@@ -98,7 +113,21 @@ public class TermsView extends Composite implements TermsPresenter.Display {
 			termsTable.setText(row+1, 1, term.getLatinString());
 			termsTable.getCellFormatter().addStyleName(row+1, 1, "border-cell");
 			int column = 2;
-			for (GematriaMethod gm : GematriaMethod.values()) {
+			for (LatinMethod gm : LatinMethod.values()) {
+				termsTable.setText(row+1, column, term.get(gm).toString());
+				termsTable.getCellFormatter().addStyleName(row+1, column, "border-cell");
+				termsTable.getCellFormatter().setAlignment(row+1, column,
+						HasHorizontalAlignment.ALIGN_RIGHT,
+						HasVerticalAlignment.ALIGN_MIDDLE);
+				column++;
+			}
+			termsTable.setText(row+1, column, term.getHebrewString());
+			termsTable.getCellFormatter().addStyleName(row+1, column, "border-cell");
+			termsTable.getCellFormatter().setAlignment(row+1, column,
+					HasHorizontalAlignment.ALIGN_RIGHT,
+					HasVerticalAlignment.ALIGN_MIDDLE);
+			column++;
+			for (HebrewMethod gm : HebrewMethod.values()) {
 				termsTable.setText(row+1, column, term.get(gm).toString());
 				termsTable.getCellFormatter().addStyleName(row+1, column, "border-cell");
 				termsTable.getCellFormatter().setAlignment(row+1, column,
@@ -137,8 +166,13 @@ public class TermsView extends Composite implements TermsPresenter.Display {
 	}
 
 	@Override
-	public HasClickHandlers getTermHeader() {
-		return termHeader;
+	public HasClickHandlers getLatinHeader() {
+		return latinHeader;
+	}
+
+	@Override
+	public HasClickHandlers getHebrewHeader() {
+		return hebrewHeader;
 	}
 
 	@Override

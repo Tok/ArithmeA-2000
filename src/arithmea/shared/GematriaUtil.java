@@ -1,204 +1,192 @@
 package arithmea.shared;
 
+import java.util.HashMap;
+
 public class GematriaUtil {
 
-	public static Integer getChaldean(final String id) {
-		final char[] chars = id.toCharArray();
-		int result = 0;
-		for(int i = 0; i < chars.length; i++) {
-			final char c = chars[i];
-			result += getChaldeanValue(c);
+	public static HashMap<GematriaMethod, Integer> getAllValues(final String id) {
+		HashMap<GematriaMethod, Integer> result = new HashMap<GematriaMethod, Integer>(LatinMethod.values().length + HebrewMethod.values().length);
+
+		final char[] latinChars = id.toUpperCase().toCharArray();
+		int chaldeanResult = 0;
+		int pythagoreanResult = 0;
+		int iaResult = 0;
+		int naeqResult = 0;
+		int tqResult = 0;
+		for(int i = 0; i < latinChars.length; i++) {
+			try {
+				LatinLetter letter = LatinLetter.valueOf(String.valueOf(latinChars[i]));
+				chaldeanResult += letter.chaldeanValue;					
+				pythagoreanResult += letter.pythagoreanValue;
+				iaResult += letter.iaValue;
+				naeqResult += letter.naeqValue;
+				tqResult += letter.tqValue;
+			} catch(IllegalArgumentException iae) {
+				//ignore everything that isn't a latin letter
+			}
 		}
+		result.put(LatinMethod.Chaldean, chaldeanResult);
+		result.put(LatinMethod.Pythagorean, pythagoreanResult);
+		result.put(LatinMethod.IA, iaResult);
+		result.put(LatinMethod.NAEQ, naeqResult);
+		result.put(LatinMethod.TQ, tqResult);
+
+		String hebrew = getHebrew(id);
+		final char[] hebrewChars = hebrew.toCharArray();
+		int fullResult = 0;
+		int ordinalResult = 0;
+		int katanResult = 0;
+		for(int i = 0; i < hebrewChars.length; i++) {
+			for (HebrewLetter letter : HebrewLetter.values()) {
+				if (letter.hebrew == hebrewChars[i]) {
+					fullResult += letter.fullValue;
+					ordinalResult += letter.ordinalValue;
+					katanResult += letter.katanValue;
+					break;
+				}
+			}
+		}
+		result.put(HebrewMethod.Full, fullResult);
+		result.put(HebrewMethod.Ordinal, ordinalResult);
+		result.put(HebrewMethod.Katan, katanResult);
 		return result;
 	}
 
-	private static int getChaldeanValue(final char c) {
-		if (c == 'A' || c == 'I' || c == 'J' || c == 'Q' || c == 'Y') {
-			return 1;
-		}
-		if (c == 'B' || c == 'K' || c == 'R') {
-			return 2;
-		}
-		if (c == 'C' || c == 'G' || c == 'L' || c == 'S') {
-			return 3;
-		}
-		if (c == 'D' || c == 'M' || c == 'T') {
-			return 4;
-		}
-		if (c == 'E' || c == 'H' || c == 'N' || c == 'X') {
-			return 5;
-		}
-		if (c == 'U' || c == 'V' || c == 'W') {
-			return 6;
-		}
-		if (c == 'O' || c == 'Z') {
-			return 7;
-		}
-		if (c == 'F' || c == 'P') {
-			return 8;
-		}
-		return 0;
-	}
-
-	public static Integer getPythagorean(final String id) {
+	public static String getHebrew(final String id) {
 		final char[] chars = id.toCharArray();
-		int result = 0;
+		StringBuilder result = new StringBuilder();
+		boolean skipNext = false;
+		boolean skipAfterNext = false;
 		for(int i = 0; i < chars.length; i++) {
-			final char c = chars[i];
-			result += getPythagorean(c);
+			if (skipNext) {
+				if (skipAfterNext) {
+					skipAfterNext = false;
+					break;
+				}
+				skipNext = false;
+				break;
+			}
+			final char current = chars[i];
+			char next = '\u0000';
+			if (i < chars.length - 1) {
+				next = chars[i+1];
+			}
+			char afterNext = '\u0000';
+			if (i < chars.length - 2) {
+				afterNext = chars[i+2];
+			}
+
+			char resultCharacter = getHebrewCharacter(current, next, afterNext, skipNext, skipAfterNext);
+			
+			if (resultCharacter != '\u0000') {
+				result.append(resultCharacter);				
+			}
 		}
-		return result;
+		return result.toString();
 	}
 
-	private static int getPythagorean(final char c) {
-		if (c == 'A' || c == 'J' || c == 'S') {
-			return 1;
+	private static char getHebrewCharacter(final char current, final char next, final char afterNext, boolean skipNext, boolean skipAfterNext) {
+		if (current == 'A') { return HebrewLetter.Aleph.hebrew; } 
+		else if (current == 'B') {return HebrewLetter.Beth.hebrew; }
+		else if (current == 'C') {
+			if (next == 'H') {
+				skipNext = true;
+			}
+			return HebrewLetter.Cheth.hebrew; 
 		}
-		if (c == 'B' || c == 'K' || c == 'T') {
-			return 2;
+		else if (current == 'D') { return HebrewLetter.Daleth.hebrew; }
+		else if (current == 'E') { return '\u0000'; }
+		else if (current == 'F') { return HebrewLetter.Peh.hebrew; }
+		else if (current == 'G') { return HebrewLetter.Gimel.hebrew; }
+		else if (current == 'H') { return HebrewLetter.Heh.hebrew; }
+		else if (current == 'I') { return HebrewLetter.Yud.hebrew; }
+		else if (current == 'J') { return HebrewLetter.Gimel.hebrew; }
+		else if (current == 'K') {
+			if (next == 'H') {
+				skipNext = true;
+				if (afterNext == ' ' || afterNext == '\u0000') {
+					return HebrewLetter.Kaph_Final.hebrew; 					
+				} else {
+					return HebrewLetter.Kaph.hebrew; 
+				}
+			} else if (next == ' ' || (next == '\u0000' && afterNext == '\u0000')) {
+				return HebrewLetter.Kaph_Final.hebrew; 
+			} else {
+				return HebrewLetter.Kaph.hebrew; 
+			}
 		}
-		if (c == 'C' || c == 'L' || c == 'U') {
-			return 3;
+		else if (current == 'L') { return HebrewLetter.Lamed.hebrew; }
+		else if (current == 'M') { 
+			if (next == ' ' || (next == '\u0000' && afterNext == '\u0000')) {
+				return HebrewLetter.Mem_Final.hebrew; 
+			} else {
+				return HebrewLetter.Mem.hebrew; 
+			}
 		}
-		if (c == 'D' || c == 'M' || c == 'V') {
-			return 4;
+		else if (current == 'N') { 
+			if (next == ' ' || (next == '\u0000' && afterNext == '\u0000')) {
+				return HebrewLetter.Nun_Final.hebrew; 
+			} else {
+				return HebrewLetter.Nun.hebrew; 
+			}
 		}
-		if (c == 'E' || c == 'N' || c == 'W') {
-			return 5;
+		else if (current == 'O') { return HebrewLetter.Ayin.hebrew; }
+		else if (current == 'P') { 
+			if (next == 'H') {
+				skipNext = true;
+				if (afterNext == ' ' || afterNext == '\u0000') {
+					return HebrewLetter.Peh_Final.hebrew; 					
+				} else {
+					return HebrewLetter.Peh.hebrew; 
+				}
+			} else if (next == ' ' || (next == '\u0000' && afterNext == '\u0000')) {
+				return HebrewLetter.Peh_Final.hebrew; 
+			} else {
+				return HebrewLetter.Peh.hebrew; 
+			}
 		}
-		if (c == 'F' || c == 'O' || c == 'X') {
-			return 6;
+		else if (current == 'Q') { return HebrewLetter.Qoph.hebrew; }
+		else if (current == 'R') { return HebrewLetter.Resh.hebrew; }
+		else if (current == 'S') { 			
+			if (next == 'C' && afterNext == 'H') { //Sch
+				skipNext = true;
+				skipAfterNext = true;
+				return HebrewLetter.Shin.hebrew; 				
+			} else if (next == 'H') { // Sh
+				skipNext = true;
+				return HebrewLetter.Shin.hebrew;  
+			} else {
+				return HebrewLetter.Samekh.hebrew; 
+			}
 		}
-		if (c == 'G' || c == 'P' || c == 'Y') {
-			return 7;
+		else if (current == 'T') { 
+			if (next == 'Z' || next == 'X') { //Tz, Tx
+				skipNext = true;
+				if (afterNext == ' ' || afterNext == '\u0000') {
+					return HebrewLetter.Tzaddi_Final.hebrew; 
+				} else {
+					return HebrewLetter.Tzaddi.hebrew; 
+				}
+			} else if (next == 'H') { //Th
+				skipNext = true;
+				return HebrewLetter.Tav.hebrew; 
+			} else {
+				return HebrewLetter.Teth.hebrew; 	
+			}
 		}
-		if (c == 'H' || c == 'Q' || c == 'Z') {
-			return 8;
+		else if (current == 'U') { return HebrewLetter.Vav.hebrew; }
+		else if (current == 'V') { return HebrewLetter.Vav.hebrew; }
+		else if (current == 'W') { return HebrewLetter.Vav.hebrew; }
+		else if (current == 'X') { 
+			if (next == ' ' || (next == '\u0000' && afterNext == '\u0000')) {
+				return HebrewLetter.Tzaddi_Final.hebrew; 
+			} else {
+				return HebrewLetter.Tzaddi.hebrew; 
+			}
 		}
-		if (c == 'I' || c == 'R') {
-			return 9;
-		}
-		return 0;
-	}
-
-	public static Integer getIa(final String id) {
-		final char[] chars = id.toCharArray();
-		int result = 0;
-		for(int i = 0; i < chars.length; i++) {
-			final char c = chars[i];
-			result += getIa(c);
-		}
-		return result;
-	}
-
-	private static int getIa(char c) {
-		if (c == 'A') { return 1; }
-		if (c == 'B') { return 2; }
-		if (c == 'C') { return 3; }
-		if (c == 'D') { return 4; }
-		if (c == 'E') { return 5; }
-		if (c == 'F') { return 6; }
-		if (c == 'G') { return 7; }
-		if (c == 'H') { return 8; }
-		if (c == 'I') { return 9; }
-		if (c == 'J') { return 10; }
-		if (c == 'K') { return 11; }
-		if (c == 'L') { return 12; }
-		if (c == 'M') { return 13; }
-		if (c == 'N') { return 14; }
-		if (c == 'O') { return 15; }
-		if (c == 'P') { return 16; }
-		if (c == 'Q') { return 17; }
-		if (c == 'R') { return 18; }
-		if (c == 'S') { return 19; }
-		if (c == 'T') { return 20; }
-		if (c == 'U') { return 21; }
-		if (c == 'V') { return 22; }
-		if (c == 'W') { return 23; }
-		if (c == 'X') { return 24; }
-		if (c == 'Y') { return 25; }
-		if (c == 'Z') { return 26; }
-		return 0;
-	}
+		else if (current == 'Y') { return HebrewLetter.Yud.hebrew; }
+		else if (current == 'Z') { return HebrewLetter.Zain.hebrew; }
 		
-	public static Integer getNaeq(final String id) {
-		final char[] chars = id.toCharArray();
-		int result = 0;
-		for(int i = 0; i < chars.length; i++) {
-			final char c = chars[i];
-			result += getNaeq(c);
-		}
-		return result;
+		return current;
 	}
-
-	private static int getNaeq(final char c) {
-		if (c == 'A') { return 1; }
-		if (c == 'B') { return 20; }
-		if (c == 'C') { return 13; }
-		if (c == 'D') { return 6; }
-		if (c == 'E') { return 25; }
-		if (c == 'F') { return 18; }
-		if (c == 'G') { return 11; }
-		if (c == 'H') { return 4; }
-		if (c == 'I') { return 23; }
-		if (c == 'J') { return 16; }
-		if (c == 'K') { return 9; }
-		if (c == 'L') { return 2; }
-		if (c == 'M') { return 21; }
-		if (c == 'N') { return 14; }
-		if (c == 'O') { return 19; }
-		if (c == 'P') { return 26; }
-		if (c == 'Q') { return 17; }
-		if (c == 'R') { return 12; }
-		if (c == 'S') { return 5; }
-		if (c == 'T') { return 24; }
-		if (c == 'U') { return 17; }
-		if (c == 'V') { return 10; }
-		if (c == 'W') { return 3; }
-		if (c == 'X') { return 22; }
-		if (c == 'Y') { return 15; }
-		if (c == 'Z') { return 8; }
-		return 0;
-	}
-
-	public static Integer getTq(final String id) {
-		final char[] chars = id.toCharArray();
-		int result = 0;
-		for(int i = 0; i < chars.length; i++) {
-			final char c = chars[i];
-			result += getTq(c);
-		}
-		return result;
-	}
-	
-	private static int getTq(final char c) {
-		if (c == 'A') { return 5; }
-		if (c == 'B') { return 20; }
-		if (c == 'C') { return 2; }
-		if (c == 'D') { return 23; }
-		if (c == 'E') { return 13; }
-		if (c == 'F') { return 12; }
-		if (c == 'G') { return 11; }
-		if (c == 'H') { return 3; }
-		if (c == 'I') { return 26; }
-		if (c == 'J') { return 7; }
-		if (c == 'K') { return 17; }
-		if (c == 'L') { return 1; }
-		if (c == 'M') { return 21; }
-		if (c == 'N') { return 24; }
-		if (c == 'O') { return 10; }
-		if (c == 'P') { return 4; }
-		if (c == 'Q') { return 16; }
-		if (c == 'R') { return 14; }
-		if (c == 'S') { return 15; }
-		if (c == 'T') { return 9; }
-		if (c == 'U') { return 25; }
-		if (c == 'V') { return 22; }
-		if (c == 'W') { return 8; }
-		if (c == 'X') { return 6; }
-		if (c == 'Y') { return 18; }
-		if (c == 'Z') { return 19; }
-		return 0;
-	}
-
 }
