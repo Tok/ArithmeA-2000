@@ -3,8 +3,10 @@ package arithmea.shared;
 import java.util.HashMap;
 
 public class GematriaUtil {
-
-	public static HashMap<GematriaMethod, Integer> getAllValues(final String id) {
+	boolean skipNext = false;
+	boolean skipAfterNext = false;
+	
+	public HashMap<GematriaMethod, Integer> getAllValues(final String id) {
 		HashMap<GematriaMethod, Integer> result = new HashMap<GematriaMethod, Integer>(LatinMethod.values().length + HebrewMethod.values().length);
 
 		final char[] latinChars = id.toUpperCase().toCharArray();
@@ -52,40 +54,37 @@ public class GematriaUtil {
 		return result;
 	}
 
-	public static String getHebrew(final String id) {
+	public String getHebrew(final String id) {
 		final char[] chars = id.toCharArray();
 		StringBuilder result = new StringBuilder();
-		boolean skipNext = false;
-		boolean skipAfterNext = false;
 		for(int i = 0; i < chars.length; i++) {
 			if (skipNext) {
 				if (skipAfterNext) {
 					skipAfterNext = false;
-					break;
 				}
 				skipNext = false;
-				break;
-			}
-			final char current = chars[i];
-			char next = '\u0000';
-			if (i < chars.length - 1) {
-				next = chars[i+1];
-			}
-			char afterNext = '\u0000';
-			if (i < chars.length - 2) {
-				afterNext = chars[i+2];
-			}
+			} else { 
+				final char current = chars[i];
+				char next = '\u0000';
+				if (i < chars.length - 1) {
+					next = chars[i+1];
+				}
+				char afterNext = '\u0000';
+				if (i < chars.length - 2) {
+					afterNext = chars[i+2];
+				}
 
-			char resultCharacter = getHebrewCharacter(current, next, afterNext, skipNext, skipAfterNext);
+				char resultCharacter = getHebrewCharacter(current, next, afterNext);
 			
-			if (resultCharacter != '\u0000') {
-				result.append(resultCharacter);				
+				if (resultCharacter != '\u0000') {
+					result.append(resultCharacter);				
+				}
 			}
 		}
 		return result.toString();
 	}
 
-	private static char getHebrewCharacter(final char current, final char next, final char afterNext, boolean skipNext, boolean skipAfterNext) {
+	private char getHebrewCharacter(final char current, final char next, final char afterNext) {
 		if (current == 'A') { return HebrewLetter.Aleph.hebrew; } 
 		else if (current == 'B') {return HebrewLetter.Beth.hebrew; }
 		else if (current == 'C') {

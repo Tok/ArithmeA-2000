@@ -47,8 +47,9 @@ public class Term implements Serializable {
 
 	public Term(final String latinString) {
 		this.latinString = latinString.toUpperCase().trim();
-		this.hebrewString = GematriaUtil.getHebrew(latinString.toUpperCase().trim());
-		final HashMap<GematriaMethod, Integer> values = GematriaUtil.getAllValues(latinString.toUpperCase().trim());
+		GematriaUtil gu = new GematriaUtil();
+		this.hebrewString = gu.getHebrew(latinString.toUpperCase().trim());
+		final HashMap<GematriaMethod, Integer> values = gu.getAllValues(latinString.toUpperCase().trim());
 		this.chaldean = values.get(LatinMethod.Chaldean);
 		this.pythagorean = values.get(LatinMethod.Pythagorean);
 		this.ia = values.get(LatinMethod.IA);
