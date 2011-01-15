@@ -37,18 +37,16 @@ public class EditTermView extends Composite implements
 
 	public EditTermView() {
 		final DecoratorPanel contentDetailsDecorator = new DecoratorPanel();
-		contentDetailsDecorator.setWidth("18em");
+		contentDetailsDecorator.setWidth("600px");
 		initWidget(contentDetailsDecorator);
 
 		final VerticalPanel contentDetailsPanel = new VerticalPanel();
 		contentDetailsPanel.setWidth("100%");
 
 		detailsTable = new FlexTable();
-		detailsTable.setCellSpacing(0);
 		detailsTable.setWidth("100%");
-		detailsTable.addStyleName("terms-ListContainer");
-		detailsTable.getColumnFormatter().addStyleName(1, "add-terms-input");
 		latinString = new ExtendedTextBox();
+		latinString.setWidth("100%");
 		latinString.addValueChangeHandler(new ValueChangeHandler<String>() {
 			@Override
 			public void onValueChange(ValueChangeEvent<String> event) {
@@ -75,15 +73,22 @@ public class EditTermView extends Composite implements
 			labels.put(gm, label);
 		}
 
+
+		
 		initDetailsTable();
 		contentDetailsPanel.add(detailsTable);
 
-		final HorizontalPanel menuPanel = new HorizontalPanel();
+		final FlexTable menuTable = new FlexTable();
+		menuTable.setWidth("100%");
+		final HorizontalPanel hPanel = new HorizontalPanel();
 		saveButton = new Button("Save");
+		hPanel.add(saveButton);
 		cancelButton = new Button("Cancel");
-		menuPanel.add(saveButton);
-		menuPanel.add(cancelButton);
-		contentDetailsPanel.add(menuPanel);
+		hPanel.add(cancelButton);
+		menuTable.getCellFormatter().addStyleName(0, 0, "menu-table");
+		menuTable.setWidget(0, 0, hPanel);
+		contentDetailsPanel.add(menuTable);
+		
 		contentDetailsDecorator.add(contentDetailsPanel);
 
 		doChange();
@@ -120,7 +125,9 @@ public class EditTermView extends Composite implements
 	private void addRow(final FlexTable table, final int row,
 			final String description, final Label label) {
 		table.setWidget(row, 0, new Label(description));
+		table.getCellFormatter().addStyleName(row, 0, "border-cell");
 		table.setWidget(row, 1, label);
+		table.getCellFormatter().addStyleName(row, 1, "border-cell");
 		table.getCellFormatter().setAlignment(row, 1,
 				HasHorizontalAlignment.ALIGN_RIGHT,
 				HasVerticalAlignment.ALIGN_MIDDLE);

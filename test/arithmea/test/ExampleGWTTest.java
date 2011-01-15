@@ -83,7 +83,7 @@ public class ExampleGWTTest extends GWTTestCase {
 		terms.add(new Term("B"));
 		terms.add(new Term("C"));
 		termsPresenter.setTermDetails(terms);
-		termsPresenter.sortTermsBy(GematriaMethod.Ia);
+		termsPresenter.sortTermsBy(GematriaMethod.IA);
 		assertTrue(termsPresenter.getTermDetail(0).getLatinString().equals("A"));
 		assertTrue(termsPresenter.getTermDetail(1).getLatinString().equals("B"));
 		assertTrue(termsPresenter.getTermDetail(2).getLatinString().equals("C"));
@@ -98,7 +98,7 @@ public class ExampleGWTTest extends GWTTestCase {
 		terms.add(new Term("D"));
 		terms.add(new Term("E"));
 		termsPresenter.setTermDetails(terms);
-		termsPresenter.sortTermsBy(GematriaMethod.Naeq);
+		termsPresenter.sortTermsBy(GematriaMethod.NAEQ);
 		assertTrue(termsPresenter.getTermDetail(0).getLatinString().equals("A"));
 		assertTrue(termsPresenter.getTermDetail(1).getLatinString().equals("D"));
 		assertTrue(termsPresenter.getTermDetail(2).getLatinString().equals("C"));
@@ -114,7 +114,7 @@ public class ExampleGWTTest extends GWTTestCase {
 		terms.add(new Term("D"));
 		terms.add(new Term("E"));
 		termsPresenter.setTermDetails(terms);
-		termsPresenter.sortTermsBy(GematriaMethod.Tq);
+		termsPresenter.sortTermsBy(GematriaMethod.TQ);
 		assertTrue(termsPresenter.getTermDetail(0).getLatinString().equals("C"));
 		assertTrue(termsPresenter.getTermDetail(1).getLatinString().equals("A"));
 		assertTrue(termsPresenter.getTermDetail(2).getLatinString().equals("E"));
@@ -134,17 +134,17 @@ public class ExampleGWTTest extends GWTTestCase {
 	}
 
 	public void testIa() {
-		assertTrue(new Term(ABC).get(GematriaMethod.Ia).equals(new Integer(351)));
-		assertTrue(new Term("ARITHMEA").get(GematriaMethod.Ia).equals(new Integer(75)));
+		assertTrue(new Term(ABC).get(GematriaMethod.IA).equals(new Integer(351)));
+		assertTrue(new Term("ARITHMEA").get(GematriaMethod.IA).equals(new Integer(75)));
 	}
 
 	public void testNaeq() {
-		assertTrue(new Term(ABC).get(GematriaMethod.Naeq).equals(new Integer(361)));
-		assertTrue(new Term("ARITHMEA").get(GematriaMethod.Naeq).equals(new Integer(111)));
+		assertTrue(new Term(ABC).get(GematriaMethod.NAEQ).equals(new Integer(361)));
+		assertTrue(new Term("ARITHMEA").get(GematriaMethod.NAEQ).equals(new Integer(111)));
 	}
 
 	public void testTq() {
-		assertTrue(new Term(ABC).get(GematriaMethod.Tq).equals(new Integer(351)));
-		assertTrue(new Term("ARITHMEA").get(GematriaMethod.Tq).equals(new Integer(96)));
+		assertTrue(new Term(ABC).get(GematriaMethod.TQ).equals(new Integer(351)));
+		assertTrue(new Term("ARITHMEA").get(GematriaMethod.TQ).equals(new Integer(96)));
 	}
 }

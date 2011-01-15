@@ -1,13 +1,16 @@
 package arithmea.client.view;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import arithmea.client.presenter.TermsPresenter;
 import arithmea.shared.GematriaMethod;
 import arithmea.shared.Term;
 
 import com.google.gwt.event.dom.client.HasClickHandlers;
+import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.Composite;
@@ -16,12 +19,13 @@ import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 
 public class TermsView extends Composite implements TermsPresenter.Display {
 	private final Button addButton;
-	private final Button deleteButton;
+	private final Button deleteButton;	
+	private final Anchor termHeader = new Anchor("Term");
+	private final Map<GematriaMethod, Anchor> headers = new HashMap<GematriaMethod, Anchor>();
 	private final FlexTable termsTable;
 	private final FlexTable contentTable;
 
@@ -29,37 +33,31 @@ public class TermsView extends Composite implements TermsPresenter.Display {
 		final DecoratorPanel contentTableDecorator = new DecoratorPanel();
 		initWidget(contentTableDecorator);
 		contentTableDecorator.setWidth("100%");
-		contentTableDecorator.setWidth("18em");
+		contentTableDecorator.setWidth("600px");
 
 		contentTable = new FlexTable();
 		contentTable.setWidth("100%");
-		contentTable.getCellFormatter().addStyleName(0, 0,
-				"terms-ListContainer");
-		contentTable.getCellFormatter().setWidth(0, 0, "100%");
-		contentTable.getFlexCellFormatter().setVerticalAlignment(0, 0,
-				HasVerticalAlignment.ALIGN_TOP);
 
 		// create the menu
 		final HorizontalPanel hPanel = new HorizontalPanel();
-		hPanel.setBorderWidth(0);
-		hPanel.setSpacing(0);
-		hPanel.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_LEFT);
 		addButton = new Button("Add");
 		hPanel.add(addButton);
 		deleteButton = new Button("Delete");
 		hPanel.add(deleteButton);
-		contentTable.getCellFormatter().addStyleName(0, 0, "terms-ListMenu");
+		contentTable.getCellFormatter().addStyleName(0, 0, "menu-table");
 		contentTable.setWidget(0, 0, hPanel);
 
+		// prepare table headers
+		for (final GematriaMethod gm : GematriaMethod.values()) {
+			Anchor anchor = new Anchor(gm.name());
+			headers.put(gm, anchor);
+		}
+		
 		// create the terms table
 		termsTable = new FlexTable();
-		termsTable.setCellSpacing(0);
-		termsTable.setCellPadding(0);
 		termsTable.setWidth("100%");
-		termsTable.addStyleName("terms-ListContents");
-		termsTable.getColumnFormatter().setWidth(0, "15px");
+		
 		contentTable.setWidget(1, 0, termsTable);
-
 		contentTableDecorator.add(contentTable);
 	}
 
@@ -70,26 +68,42 @@ public class TermsView extends Composite implements TermsPresenter.Display {
 	public HasClickHandlers getDeleteButton() {
 		return deleteButton;
 	}
-
+	
+	public HasClickHandlers getHeader(GematriaMethod gm) {
+		return headers.get(gm);
+	}
+	
 	public HasClickHandlers getList() {
 		return termsTable;
 	}
 
 	public void setData(final List<Term> terms) {
 		termsTable.removeAllRows();
-		termsTable.setWidget(0, 1, new Label("Term"));
-		termsTable.setWidget(0, 2, new Label("Chal"));
-		termsTable.setWidget(0, 3, new Label("Pyth"));
-		termsTable.setWidget(0, 4, new Label("A=1"));
-		termsTable.setWidget(0, 5, new Label("NAEQ"));
-		termsTable.setWidget(0, 6, new Label("TQ"));
+
+		//set headers
+		termsTable.setWidget(0, 1, termHeader);
+		termsTable.getCellFormatter().addStyleName(0, 1, "border-cell");
+		int col = 2;
+		for (final GematriaMethod gm : GematriaMethod.values()) {
+			termsTable.setWidget(0, col, headers.get(gm));
+			termsTable.getCellFormatter().addStyleName(0, col, "border-cell");
+			col++;
+		}
+
+		//set data
 		for (int row = 0; row < terms.size(); ++row) {
 			final Term term = terms.get(row);
 			termsTable.setWidget(row+1, 0, new CheckBox());
+			termsTable.getCellFormatter().addStyleName(row+1, 0, "border-cell");
 			termsTable.setText(row+1, 1, term.getLatinString());
+			termsTable.getCellFormatter().addStyleName(row+1, 1, "border-cell");
 			int column = 2;
 			for (GematriaMethod gm : GematriaMethod.values()) {
 				termsTable.setText(row+1, column, term.get(gm).toString());
+				termsTable.getCellFormatter().addStyleName(row+1, column, "border-cell");
+				termsTable.getCellFormatter().setAlignment(row+1, column,
+						HasHorizontalAlignment.ALIGN_RIGHT,
+						HasVerticalAlignment.ALIGN_MIDDLE);
 				column++;
 			}
 		}
@@ -120,5 +134,15 @@ public class TermsView extends Composite implements TermsPresenter.Display {
 
 	public Widget asWidget() {
 		return this;
+	}
+
+	@Override
+	public HasClickHandlers getTermHeader() {
+		return termHeader;
+	}
+
+	@Override
+	public HasClickHandlers getGematriaHeader(GematriaMethod gm) {
+		return headers.get(gm);
 	}
 }

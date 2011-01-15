@@ -1,67 +1,39 @@
 .terms-ListRow td {
-  border-bottom: 1px solid #E2E2E2;
+	border-bottom: 1px solid #E2E2E2;
 }
 
 table {
-  border-collapse: collapse;
-  margin: 0px;
-  padding: 0px;
-  spacing: 0px;
+	border-collapse: collapse;
+	margin: 0px;
+	padding: 0px;
+	spacing: 0px;
 }
 
 td {
-  border-collapse: collapse;
-  margin: 0px;
-  padding: 0px;
-  spacing: 0px;
+	border-collapse: collapse;
+	margin: 0px;
+	padding: 0px;
+	spacing: 0px;
 }
 
-th, td {
-  padding: 0px;
-}
-  
-td.add-term-label {
-  text-align: left;
+th,td {
+	padding: 0px;
 }
 
-add-term-input {
-  border: 1px solid red;
-  border-collapse: collapse;
-  margin-right: 0px;
-  margin-left: auto;
-}
-  
-td.terms-NavContainer {
-  padding-left: 10px;
-  padding-right: 10px;
+.border-cell {
+	border: 1px solid #777777;
 }
 
-td.terms-ListMenu {
-  background-color: #D0E4F6;
-  padding-bottom: 6px;
-}
-
-td.terms-ListContainer {
-  padding-right: 10px;
-}
-
-.terms-HeaderContainer {
-  padding-right: 10px;
-}
-
-td.terms-ListCheckbox {
-  padding-right: 4px;
-  padding-top: 2px;
-  padding-bottom: 2px;
-}
-
-td.terms-ListName {
-  padding-top: 2px;
-  padding-bottom: 2px;
+.menu-table {
+/*	border: 1px solid #777777;*/
+	background-color: #D0E4F6;
+	padding-top: 6px;
+	padding-bottom: 6px;
+	padding-left: 6px;
+	padding-right: 6px;
 }
 
 .gwt-DecoratorPanel .middleCenter {
-   height: 100%;
-   width: 100%;
- }
- 
+	height: 100%;
+	width: 100%;
+}

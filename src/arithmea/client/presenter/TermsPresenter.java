@@ -27,6 +27,8 @@ public class TermsPresenter implements Presenter {
 		HasClickHandlers getAddButton();
 		HasClickHandlers getDeleteButton();
 		HasClickHandlers getList();
+		HasClickHandlers getTermHeader();
+		HasClickHandlers getGematriaHeader(GematriaMethod gm);
 		void setData(List<Term> data);
 //		int getClickedRow(ClickEvent event);
 		List<Integer> getSelectedRows();
@@ -55,6 +57,20 @@ public class TermsPresenter implements Presenter {
 				deleteSelectedTerms();
 			}
 		});
+		
+		display.getTermHeader().addClickHandler(new ClickHandler() {
+			public void onClick(final ClickEvent event) {
+				sortTermsByLatinString();
+			}
+		});	
+		for (final GematriaMethod gm : GematriaMethod.values()) {
+			display.getGematriaHeader(gm).addClickHandler(new ClickHandler() {
+				public void onClick(final ClickEvent event) {
+					sortTermsBy(gm);
+				}
+			});			
+		}
+		
 //		display.getList().addClickHandler(new ClickHandler() {
 //			public void onClick(final ClickEvent event) {
 //				int selectedRow = display.getClickedRow(event);
@@ -114,8 +130,10 @@ public class TermsPresenter implements Presenter {
 
 	public void sortTermsByLatinString() {
         Collections.sort(terms, new TermSortByLatinString());
+        display.setData(terms);
 	}
 	public void sortTermsBy(GematriaMethod gm) {
         Collections.sort(terms, new TermSortByGematriaMethod(gm));
+        display.setData(terms);
 	}
 }

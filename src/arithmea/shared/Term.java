@@ -54,11 +54,11 @@ public class Term implements Serializable {
 			return chaldean;
 		} else if (GematriaMethod.Pythagorean.equals(method)) {
 			return pythagorean;
-		} else if (GematriaMethod.Ia.equals(method)) {
+		} else if (GematriaMethod.IA.equals(method)) {
 			return ia;
-		} else if (GematriaMethod.Naeq.equals(method)) {
+		} else if (GematriaMethod.NAEQ.equals(method)) {
 			return naeq;
-		} else if (GematriaMethod.Tq.equals(method)) {
+		} else if (GematriaMethod.TQ.equals(method)) {
 			return tq;
 		}
 		
