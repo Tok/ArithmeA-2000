@@ -15,6 +15,7 @@ public class GematriaUtil {
 		int iaResult = 0;
 		int naeqResult = 0;
 		int tqResult = 0;
+		int germanResult = 0;		
 		for(int i = 0; i < latinChars.length; i++) {
 			try {
 				LatinLetter letter = LatinLetter.valueOf(String.valueOf(latinChars[i]));
@@ -23,6 +24,7 @@ public class GematriaUtil {
 				iaResult += letter.iaValue;
 				naeqResult += letter.naeqValue;
 				tqResult += letter.tqValue;
+				germanResult += letter.germanValue;
 			} catch(IllegalArgumentException iae) {
 				//ignore everything that isn't a latin letter
 			}
@@ -32,7 +34,8 @@ public class GematriaUtil {
 		result.put(LatinMethod.IA, iaResult);
 		result.put(LatinMethod.NAEQ, naeqResult);
 		result.put(LatinMethod.TQ, tqResult);
-
+		result.put(LatinMethod.German, germanResult);
+		
 		String hebrew = getHebrew(id);
 		final char[] hebrewChars = hebrew.toCharArray();
 		int fullResult = 0;

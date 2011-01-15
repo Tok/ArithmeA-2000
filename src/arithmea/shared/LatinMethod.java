@@ -1,5 +1,5 @@
 package arithmea.shared;
 
 public enum LatinMethod implements GematriaMethod {
-	Chaldean, Pythagorean, IA, NAEQ, TQ
+	Chaldean, Pythagorean, IA, NAEQ, TQ, German
 }

@@ -31,6 +31,9 @@ public class Term implements Serializable {
 	public Integer tq;
 	
 	@Persistent
+	public Integer german;
+	
+	@Persistent
 	private String hebrewString;
 
 	@Persistent
@@ -46,15 +49,22 @@ public class Term implements Serializable {
 	}
 
 	public Term(final String latinString) {
-		this.latinString = latinString.toUpperCase().trim();
+		String tmp = latinString.toUpperCase().trim();
+		tmp = tmp.replace("ß", "SS");
+		tmp = tmp.replace("Ä", "AE"); 
+		tmp = tmp.replace("Ö", "OE"); 
+		tmp = tmp.replace("Ü", "UE");
+		this.latinString = tmp;
+		
 		GematriaUtil gu = new GematriaUtil();
-		this.hebrewString = gu.getHebrew(latinString.toUpperCase().trim());
-		final HashMap<GematriaMethod, Integer> values = gu.getAllValues(latinString.toUpperCase().trim());
+		this.hebrewString = gu.getHebrew(tmp);
+		final HashMap<GematriaMethod, Integer> values = gu.getAllValues(tmp);
 		this.chaldean = values.get(LatinMethod.Chaldean);
 		this.pythagorean = values.get(LatinMethod.Pythagorean);
 		this.ia = values.get(LatinMethod.IA);
 		this.naeq = values.get(LatinMethod.NAEQ);
 		this.tq = values.get(LatinMethod.TQ);
+		this.german = values.get(LatinMethod.German);		
 		this.full = values.get(HebrewMethod.Full);
 		this.ordinal = values.get(HebrewMethod.Ordinal);
 		this.katan = values.get(HebrewMethod.Katan);
@@ -79,6 +89,8 @@ public class Term implements Serializable {
 			return naeq;
 		} else if (LatinMethod.TQ.equals(method)) {
 			return tq;
+		} else if (LatinMethod.German.equals(method)) {
+			return german;
 		} else if (HebrewMethod.Full.equals(method)) {
 			return full;
 		} else if (HebrewMethod.Ordinal.equals(method)) {
