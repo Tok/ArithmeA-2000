@@ -6,6 +6,7 @@ import arithmea.client.ArithmeaService;
 import arithmea.client.ArithmeaServiceAsync;
 import arithmea.client.presenter.TermsPresenter;
 import arithmea.client.view.TermsView;
+import arithmea.shared.HebrewMethod;
 import arithmea.shared.LatinMethod;
 import arithmea.shared.Term;
 
@@ -15,6 +16,9 @@ import com.google.gwt.junit.client.GWTTestCase;
 
 public class ExampleGWTTest extends GWTTestCase {
 	private static final String ABC = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+	private static final String DER_SCHLUESSEL = "Der Schlueﬂel";
+	
+	
 
 	private TermsPresenter termsPresenter;
 	private ArithmeaServiceAsync rpcService;
@@ -125,26 +129,47 @@ public class ExampleGWTTest extends GWTTestCase {
 	public void testChaldean() {
 		assertTrue(new Term(ABC).get(LatinMethod.Chaldean).equals(new Integer(103)));
 		assertTrue(new Term("ARITHMEA").get(LatinMethod.Chaldean).equals(new Integer(23)));
+		assertTrue(new Term(DER_SCHLUESSEL).get(LatinMethod.Chaldean).equals(new Integer(50)));
 	}
 
 	public void testPythagorean() {
 		assertTrue(new Term(ABC).get(LatinMethod.Pythagorean).equals(new Integer(126)));
 		assertTrue(new Term("ARITHMEA").get(LatinMethod.Pythagorean)
 				.equals(new Integer(39)));
+		assertTrue(new Term(DER_SCHLUESSEL).get(LatinMethod.Pythagorean).equals(new Integer(51)));
 	}
 
 	public void testIa() {
 		assertTrue(new Term(ABC).get(LatinMethod.IA).equals(new Integer(351)));
 		assertTrue(new Term("ARITHMEA").get(LatinMethod.IA).equals(new Integer(75)));
+		assertTrue(new Term(DER_SCHLUESSEL).get(LatinMethod.IA).equals(new Integer(150)));
 	}
 
 	public void testNaeq() {
 		assertTrue(new Term(ABC).get(LatinMethod.NAEQ).equals(new Integer(361)));
-		assertTrue(new Term("ARITHMEA").get(LatinMethod.NAEQ).equals(new Integer(111)));
+		assertTrue(new Term("ARITHMEA").get(LatinMethod.NAEQ).equals(new Integer(111)));		
+		assertTrue(new Term(DER_SCHLUESSEL).get(LatinMethod.NAEQ).equals(new Integer(146)));
 	}
 
 	public void testTq() {
 		assertTrue(new Term(ABC).get(LatinMethod.TQ).equals(new Integer(351)));
 		assertTrue(new Term("ARITHMEA").get(LatinMethod.TQ).equals(new Integer(96)));
+		assertTrue(new Term(DER_SCHLUESSEL).get(LatinMethod.NAEQ).equals(new Integer(153)));
+	}
+	
+	public void testGerman() {
+		assertTrue(new Term(DER_SCHLUESSEL).get(LatinMethod.NAEQ).equals(new Integer(55)));
+	}
+
+	public void testFull() {
+		assertTrue(new Term(DER_SCHLUESSEL).get(HebrewMethod.Full).equals(new Integer(695)));
+	}
+
+	public void testOrdinal() {
+		assertTrue(new Term(DER_SCHLUESSEL).get(HebrewMethod.Ordinal).equals(new Integer(110)));
+	}
+
+	public void testKatan() {
+		assertTrue(new Term(DER_SCHLUESSEL).get(HebrewMethod.Katan).equals(new Integer(38)));
 	}
 }
