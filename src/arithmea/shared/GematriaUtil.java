@@ -132,7 +132,12 @@ public class GematriaUtil {
 				return HebrewLetter.Nun.hebrew; 
 			}
 		}
-		else if (current == 'O') { return HebrewLetter.Ayin.hebrew; }
+		else if (current == 'O') { 
+			if (next == 'O') { // double O
+				skipNext = true;
+			}
+			return HebrewLetter.Ayin.hebrew; 
+		}
 		else if (current == 'P') { 
 			if (next == 'H') {
 				skipNext = true;
