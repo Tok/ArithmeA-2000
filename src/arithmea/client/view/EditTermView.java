@@ -139,6 +139,9 @@ public class EditTermView extends Composite implements
 			textBoxes.get(method).setText(value);
 			labels.get(method).setText(value);
 		}
+		
+		// update tree widget
+		tree.setWord(term.getHebrewString());
 	}
 
 	private void initDetailsTable() {

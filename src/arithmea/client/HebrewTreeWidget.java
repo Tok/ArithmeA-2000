@@ -1,5 +1,6 @@
 package arithmea.client;
 
+import arithmea.shared.HebrewLetter;
 import arithmea.shared.Path;
 import arithmea.shared.Sephira;
 import arithmea.shared.SephirothData;
@@ -12,10 +13,13 @@ import com.google.gwt.widgetideas.graphics.client.GWTCanvas;
 public class HebrewTreeWidget extends Composite {
 	private final VerticalPanel panel = new VerticalPanel();
 	private final SephirothData sd = new SephirothData();
+	
+	private String hebrewWord;
 	private GWTCanvas canvas;
 	
 	public HebrewTreeWidget(int width, int height) {
 		canvas = new GWTCanvas(width, height);
+		
 	    drawSephiroth();
 	    drawAllPaths();
 		panel.add(canvas);
@@ -26,6 +30,17 @@ public class HebrewTreeWidget extends Composite {
 
 	public GWTCanvas getCanvas() {
 		return canvas;
+	}
+
+	public void setWord(String hebrew) {
+		canvas.clear();
+		for (HebrewLetter letter : HebrewLetter.values()) {
+			CharSequence c = String.valueOf(letter.hebrew);
+			if (hebrew.contains(c)) {
+				drawPath(Path.valueOf(letter.name()));
+			}
+		}
+		drawSephiroth();
 	}
 	
 	private void drawAllPaths() {

@@ -35,4 +35,9 @@ public enum Path {
 		this.from = from;
 		this.to = to;
 	}
+	
+//	public Path getPath(HebrewLetter letter) {
+//		return this
+//	}
+	
 }
