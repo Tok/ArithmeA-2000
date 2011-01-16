@@ -4,10 +4,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 import arithmea.client.ExtendedTextBox;
+import arithmea.client.HebrewTreeWidget;
 import arithmea.client.presenter.EditTermPresenter;
 import arithmea.shared.GematriaMethod;
 import arithmea.shared.HebrewMethod;
 import arithmea.shared.LatinMethod;
+import arithmea.shared.SephirothData;
 import arithmea.shared.Term;
 
 import com.google.gwt.event.dom.client.HasClickHandlers;
@@ -30,6 +32,8 @@ import com.google.gwt.user.client.ui.Widget;
 
 public class EditTermView extends Composite implements
 		EditTermPresenter.Display {
+	private final HebrewTreeWidget tree = new HebrewTreeWidget(SephirothData.WIDTH, SephirothData.HEIGHT);
+
 	private final ExtendedTextBox inputTextBox;
 	private final Label latinString;
 	private final Label hebrewString;
@@ -112,7 +116,8 @@ public class EditTermView extends Composite implements
 		menuTable.getCellFormatter().addStyleName(0, 0, "menu-table");
 		menuTable.setWidget(0, 0, hPanel);
 		contentDetailsPanel.add(menuTable);
-		
+
+		contentDetailsPanel.add(tree);
 		contentDetailsDecorator.add(contentDetailsPanel);
 	}
 
@@ -206,6 +211,11 @@ public class EditTermView extends Composite implements
 	@Override
 	public HasValue<String> get(GematriaMethod gm) {
 		return textBoxes.get(gm);
+	}
+
+	@Override
+	public HebrewTreeWidget getTree() {
+		return tree;
 	}
 
 }

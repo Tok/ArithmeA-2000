@@ -1,6 +1,7 @@
 package arithmea.client.presenter;
 
 import arithmea.client.ArithmeaServiceAsync;
+import arithmea.client.HebrewTreeWidget;
 import arithmea.client.event.EditTermCancelledEvent;
 import arithmea.client.event.TermUpdatedEvent;
 import arithmea.shared.GematriaMethod;
@@ -24,6 +25,7 @@ public class EditTermPresenter implements Presenter{
     HasClickHandlers getSaveButton();
     HasClickHandlers getCancelButton();
     HasValue<String> getInputText();
+    HebrewTreeWidget getTree(); //TODO remove
     TextBox getInputTextBox(); //TODO remove
     HasValue<String> getLatinString();
     HasValue<String> getHebrewString();
@@ -82,7 +84,7 @@ public class EditTermPresenter implements Presenter{
       }
     });
   }
-
+  
   public void go(final HasWidgets container) {
     container.clear();
     container.add(display.asWidget());
