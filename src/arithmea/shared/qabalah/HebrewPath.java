@@ -1,6 +1,8 @@
-package arithmea.shared;
+package arithmea.shared.qabalah;
 
-public enum Path {
+import arithmea.shared.gematria.HebrewLetter;
+
+public enum HebrewPath {
 	Aleph(HebrewLetter.Aleph, 11, Sephira.Kether, Sephira.Chokmah), 
 	Beth(HebrewLetter.Beth, 12, Sephira.Kether, Sephira.Binah), 
 	Gimel(HebrewLetter.Gimel, 13, Sephira.Kether, Sephira.Tiphareth),
@@ -12,24 +14,31 @@ public enum Path {
 	Teth(HebrewLetter.Teth, 19, Sephira.Chesed, Sephira.Geburah),
 	Yud(HebrewLetter.Yud, 20, Sephira.Chesed, Sephira.Tiphareth),
 	Kaph(HebrewLetter.Kaph, 21, Sephira.Chesed, Sephira.Netzach),
+	Kaph_Final(HebrewLetter.Kaph_Final, 21, Sephira.Chesed, Sephira.Netzach),
 	Lamed(HebrewLetter.Lamed, 22, Sephira.Geburah, Sephira.Tiphareth),
 	Mem(HebrewLetter.Mem, 23, Sephira.Geburah, Sephira.Hod),
+	Mem_Final(HebrewLetter.Mem_Final, 23, Sephira.Geburah, Sephira.Hod),
 	Nun(HebrewLetter.Nun, 24, Sephira.Tiphareth, Sephira.Netzach),
+	Nun_Final(HebrewLetter.Nun_Final, 24, Sephira.Tiphareth, Sephira.Netzach),
 	Samekh(HebrewLetter.Samekh, 25, Sephira.Tiphareth, Sephira.Yesod),
 	Ayin(HebrewLetter.Ayin, 26, Sephira.Tiphareth, Sephira.Hod),
 	Peh(HebrewLetter.Peh, 27, Sephira.Netzach, Sephira.Hod),
-	Tzaddi(HebrewLetter.Tzaddi, 28, Sephira.Netzach, Sephira.Yesod),	
+	Peh_Final(HebrewLetter.Peh_Final, 27, Sephira.Netzach, Sephira.Hod),
+	Tzaddi(HebrewLetter.Tzaddi, 28, Sephira.Netzach, Sephira.Yesod),
+	Tzaddi_Final(HebrewLetter.Tzaddi_Final, 28, Sephira.Netzach, Sephira.Yesod),
 	Qoph(HebrewLetter.Qoph, 29, Sephira.Netzach, Sephira.Malkuth), 
 	Resh(HebrewLetter.Resh, 30, Sephira.Hod, Sephira.Yesod),
 	Shin(HebrewLetter.Shin, 31, Sephira.Hod, Sephira.Malkuth),
 	Tav(HebrewLetter.Tav, 32, Sephira.Yesod, Sephira.Malkuth);
+	
+
 	
 	public HebrewLetter letter;
 	public int number;
 	public Sephira from;
 	public Sephira to;
 	
-	private Path(HebrewLetter letter, int number, Sephira from, Sephira to) {
+	private HebrewPath(HebrewLetter letter, int number, Sephira from, Sephira to) {
 		this.letter = letter;
 		this.number = number;
 		this.from = from;

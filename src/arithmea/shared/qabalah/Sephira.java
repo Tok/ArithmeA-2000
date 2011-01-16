@@ -1,4 +1,4 @@
-package arithmea.shared;
+package arithmea.shared.qabalah;
 
 public enum Sephira {
 	Kether(false, 1), 

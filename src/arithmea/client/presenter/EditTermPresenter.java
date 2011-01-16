@@ -1,13 +1,14 @@
 package arithmea.client.presenter;
 
-import arithmea.client.ArithmeaServiceAsync;
-import arithmea.client.HebrewTreeWidget;
 import arithmea.client.event.EditTermCancelledEvent;
 import arithmea.client.event.TermUpdatedEvent;
-import arithmea.shared.GematriaMethod;
-import arithmea.shared.HebrewMethod;
-import arithmea.shared.LatinMethod;
-import arithmea.shared.Term;
+import arithmea.client.service.ArithmeaServiceAsync;
+import arithmea.client.widgets.tree.HebrewTreeWidget;
+import arithmea.client.widgets.tree.LatinTreeWidget;
+import arithmea.shared.data.Term;
+import arithmea.shared.gematria.GematriaMethod;
+import arithmea.shared.gematria.HebrewMethod;
+import arithmea.shared.gematria.LatinMethod;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -25,7 +26,8 @@ public class EditTermPresenter implements Presenter{
     HasClickHandlers getSaveButton();
     HasClickHandlers getCancelButton();
     HasValue<String> getInputText();
-    HebrewTreeWidget getTree(); //TODO remove
+    HebrewTreeWidget getHebrewTree(); //TODO remove
+    LatinTreeWidget getLatinTree(); //TODO remove    
     TextBox getInputTextBox(); //TODO remove
     HasValue<String> getLatinString();
     HasValue<String> getHebrewString();

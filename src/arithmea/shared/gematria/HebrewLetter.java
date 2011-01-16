@@ -1,4 +1,4 @@
-package arithmea.shared;
+package arithmea.shared.gematria;
 
 public enum HebrewLetter {
 	Aleph('\u05D0', false, 1, 1, 1), 

@@ -6,10 +6,10 @@ import java.util.List;
 import java.util.Map;
 
 import arithmea.client.presenter.TermsPresenter;
-import arithmea.shared.GematriaMethod;
-import arithmea.shared.HebrewMethod;
-import arithmea.shared.LatinMethod;
-import arithmea.shared.Term;
+import arithmea.shared.data.Term;
+import arithmea.shared.gematria.GematriaMethod;
+import arithmea.shared.gematria.HebrewMethod;
+import arithmea.shared.gematria.LatinMethod;
 
 import com.google.gwt.event.dom.client.HasClickHandlers;
 import com.google.gwt.user.client.ui.Anchor;

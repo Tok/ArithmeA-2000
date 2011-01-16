@@ -2,8 +2,8 @@ package arithmea.client.sort;
 
 import java.util.Comparator;
 
-import arithmea.shared.GematriaMethod;
-import arithmea.shared.Term;
+import arithmea.shared.data.Term;
+import arithmea.shared.gematria.GematriaMethod;
 
 public class TermSortByGematriaMethod implements Comparator<Term> {
 	private final GematriaMethod gm;

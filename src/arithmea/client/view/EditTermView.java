@@ -3,14 +3,15 @@ package arithmea.client.view;
 import java.util.HashMap;
 import java.util.Map;
 
-import arithmea.client.ExtendedTextBox;
-import arithmea.client.HebrewTreeWidget;
 import arithmea.client.presenter.EditTermPresenter;
-import arithmea.shared.GematriaMethod;
-import arithmea.shared.HebrewMethod;
-import arithmea.shared.LatinMethod;
-import arithmea.shared.SephirothData;
-import arithmea.shared.Term;
+import arithmea.client.widgets.ExtendedTextBox;
+import arithmea.client.widgets.tree.HebrewTreeWidget;
+import arithmea.client.widgets.tree.LatinTreeWidget;
+import arithmea.shared.data.Term;
+import arithmea.shared.gematria.GematriaMethod;
+import arithmea.shared.gematria.HebrewMethod;
+import arithmea.shared.gematria.LatinMethod;
+import arithmea.shared.qabalah.SephirothData;
 
 import com.google.gwt.event.dom.client.HasClickHandlers;
 import com.google.gwt.event.dom.client.KeyUpEvent;
@@ -32,7 +33,10 @@ import com.google.gwt.user.client.ui.Widget;
 
 public class EditTermView extends Composite implements
 		EditTermPresenter.Display {
-	private final HebrewTreeWidget tree = new HebrewTreeWidget(SephirothData.WIDTH, SephirothData.HEIGHT);
+	
+	private final HorizontalPanel treePanel = new HorizontalPanel();
+	private final HebrewTreeWidget hebrewTree = new HebrewTreeWidget(SephirothData.WIDTH, SephirothData.HEIGHT);
+	private final LatinTreeWidget latinTree = new LatinTreeWidget(SephirothData.WIDTH, SephirothData.HEIGHT);
 
 	private final ExtendedTextBox inputTextBox;
 	private final Label latinString;
@@ -117,7 +121,10 @@ public class EditTermView extends Composite implements
 		menuTable.setWidget(0, 0, hPanel);
 		contentDetailsPanel.add(menuTable);
 
-		contentDetailsPanel.add(tree);
+		treePanel.add(hebrewTree);
+		treePanel.add(latinTree);
+		contentDetailsPanel.add(treePanel);
+		
 		contentDetailsDecorator.add(contentDetailsPanel);
 	}
 
@@ -140,8 +147,9 @@ public class EditTermView extends Composite implements
 			labels.get(method).setText(value);
 		}
 		
-		// update tree widget
-		tree.setWord(term.getHebrewString());
+		// update tree widgets
+		hebrewTree.setWord(term.getHebrewString());
+		latinTree.setWord(term.getLatinString());		
 	}
 
 	private void initDetailsTable() {
@@ -217,8 +225,13 @@ public class EditTermView extends Composite implements
 	}
 
 	@Override
-	public HebrewTreeWidget getTree() {
-		return tree;
+	public HebrewTreeWidget getHebrewTree() {
+		return hebrewTree;
+	}
+	
+	@Override
+	public LatinTreeWidget getLatinTree() {
+		return latinTree;
 	}
 
 }

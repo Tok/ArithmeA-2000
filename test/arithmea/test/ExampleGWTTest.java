@@ -2,13 +2,13 @@ package arithmea.test;
 
 import java.util.ArrayList;
 
-import arithmea.client.ArithmeaService;
-import arithmea.client.ArithmeaServiceAsync;
 import arithmea.client.presenter.TermsPresenter;
+import arithmea.client.service.ArithmeaService;
+import arithmea.client.service.ArithmeaServiceAsync;
 import arithmea.client.view.TermsView;
-import arithmea.shared.HebrewMethod;
-import arithmea.shared.LatinMethod;
-import arithmea.shared.Term;
+import arithmea.shared.data.Term;
+import arithmea.shared.gematria.HebrewMethod;
+import arithmea.shared.gematria.LatinMethod;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.shared.HandlerManager;
@@ -16,10 +16,8 @@ import com.google.gwt.junit.client.GWTTestCase;
 
 public class ExampleGWTTest extends GWTTestCase {
 	private static final String ABC = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-	private static final String DER_SCHLUESSEL = "Der Schlueﬂel";
+	private static final String DER_SCHLUESSEL = "Der Schluessel";
 	
-	
-
 	private TermsPresenter termsPresenter;
 	private ArithmeaServiceAsync rpcService;
 	private HandlerManager eventBus;
@@ -154,11 +152,11 @@ public class ExampleGWTTest extends GWTTestCase {
 	public void testTq() {
 		assertTrue(new Term(ABC).get(LatinMethod.TQ).equals(new Integer(351)));
 		assertTrue(new Term("ARITHMEA").get(LatinMethod.TQ).equals(new Integer(96)));
-		assertTrue(new Term(DER_SCHLUESSEL).get(LatinMethod.NAEQ).equals(new Integer(153)));
+		assertTrue(new Term(DER_SCHLUESSEL).get(LatinMethod.TQ).equals(new Integer(153)));
 	}
 	
 	public void testGerman() {
-		assertTrue(new Term(DER_SCHLUESSEL).get(LatinMethod.NAEQ).equals(new Integer(55)));
+		assertTrue(new Term(DER_SCHLUESSEL).get(LatinMethod.German).equals(new Integer(55)));
 	}
 
 	public void testFull() {

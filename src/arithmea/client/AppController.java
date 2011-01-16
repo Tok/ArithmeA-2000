@@ -11,6 +11,7 @@ import arithmea.client.event.TermUpdatedEventHandler;
 import arithmea.client.presenter.EditTermPresenter;
 import arithmea.client.presenter.Presenter;
 import arithmea.client.presenter.TermsPresenter;
+import arithmea.client.service.ArithmeaServiceAsync;
 import arithmea.client.view.EditTermView;
 import arithmea.client.view.TermsView;
 

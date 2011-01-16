@@ -1,4 +1,4 @@
-package arithmea.client;
+package arithmea.client.widgets;
 
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.user.client.DOM;

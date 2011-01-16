@@ -1,4 +1,4 @@
-package arithmea.server;
+package arithmea.server.serivce;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -9,8 +9,8 @@ import javax.jdo.PersistenceManager;
 import javax.jdo.PersistenceManagerFactory;
 import javax.jdo.Query;
 
-import arithmea.client.ArithmeaService;
-import arithmea.shared.Term;
+import arithmea.client.service.ArithmeaService;
+import arithmea.shared.data.Term;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 

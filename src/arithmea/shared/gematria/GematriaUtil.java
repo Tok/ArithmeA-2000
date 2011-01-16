@@ -1,6 +1,7 @@
-package arithmea.shared;
+package arithmea.shared.gematria;
 
 import java.util.HashMap;
+
 
 public class GematriaUtil {
 	boolean skipNext = false;

@@ -1,4 +1,4 @@
-package arithmea.shared;
+package arithmea.shared.data;
 
 import java.io.Serializable;
 import java.util.HashMap;
@@ -6,6 +6,11 @@ import java.util.HashMap;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
+
+import arithmea.shared.gematria.GematriaMethod;
+import arithmea.shared.gematria.GematriaUtil;
+import arithmea.shared.gematria.HebrewMethod;
+import arithmea.shared.gematria.LatinMethod;
 
 @PersistenceCapable(detachable = "true")
 public class Term implements Serializable {

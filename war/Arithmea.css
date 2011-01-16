@@ -49,3 +49,39 @@ th,td {
 	height: 100%;
 	width: 100%;
 }
+
+.Black {
+	color: black;
+}
+
+.BlackBg {
+	background-color: black;
+}
+
+.Grey {
+	color: grey;
+}
+
+.Red {
+	color: #ED1C24;
+}
+
+.Green {
+	color: #22B14C;
+}
+
+.Blue {
+	color: #3F48CC;
+}
+
+.Orange {
+	color: #FF7F27;
+}
+
+.Purple {
+	color: #A349A4;
+}
+
+.Yellow {
+	color: #FFF200;
+}

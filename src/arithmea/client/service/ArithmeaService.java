@@ -1,8 +1,8 @@
-package arithmea.client;
+package arithmea.client.service;
 
 import java.util.ArrayList;
 
-import arithmea.shared.Term;
+import arithmea.shared.data.Term;
 
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;

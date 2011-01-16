@@ -6,7 +6,7 @@
 <web-app>
 	<servlet>
 		<servlet-name>arithmeaServiceServlet</servlet-name>
-		<servlet-class>arithmea.server.ArithmeaServiceImpl</servlet-class>
+		<servlet-class>arithmea.server.serivce.ArithmeaServiceImpl</servlet-class>
 	</servlet>
 <!--	<servlet>-->
 <!--		<servlet-name>jUnitHostImpl</servlet-name>-->

@@ -4,15 +4,15 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import arithmea.client.ArithmeaServiceAsync;
 import arithmea.client.event.AddTermEvent;
+import arithmea.client.service.ArithmeaServiceAsync;
 import arithmea.client.sort.TermSortByGematriaMethod;
 import arithmea.client.sort.TermSortByHebrewString;
 import arithmea.client.sort.TermSortByLatinString;
-import arithmea.shared.GematriaMethod;
-import arithmea.shared.HebrewMethod;
-import arithmea.shared.LatinMethod;
-import arithmea.shared.Term;
+import arithmea.shared.data.Term;
+import arithmea.shared.gematria.GematriaMethod;
+import arithmea.shared.gematria.HebrewMethod;
+import arithmea.shared.gematria.LatinMethod;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;

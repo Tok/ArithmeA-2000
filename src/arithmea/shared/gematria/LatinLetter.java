@@ -1,4 +1,4 @@
-package arithmea.shared;
+package arithmea.shared.gematria;
 
 public enum LatinLetter {
 	A('A', 1, 1,  1,  1,  5, 1),

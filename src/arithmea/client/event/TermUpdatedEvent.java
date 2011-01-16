@@ -1,6 +1,6 @@
 package arithmea.client.event;
 
-import arithmea.shared.Term;
+import arithmea.shared.data.Term;
 
 import com.google.gwt.event.shared.GwtEvent;
 

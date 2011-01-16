@@ -1,28 +1,26 @@
-package arithmea.client;
+package arithmea.client.widgets.tree;
 
-import arithmea.shared.HebrewLetter;
-import arithmea.shared.Path;
-import arithmea.shared.Sephira;
-import arithmea.shared.SephirothData;
+import arithmea.shared.qabalah.Sephira;
+import arithmea.shared.qabalah.SephirothData;
 
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.widgetideas.graphics.client.Color;
 import com.google.gwt.widgetideas.graphics.client.GWTCanvas;
 
-public class HebrewTreeWidget extends Composite {
+public abstract class AbstractTreeWidget extends Composite {
 	private final VerticalPanel panel = new VerticalPanel();
 	private final SephirothData sd = new SephirothData();
 	
-	private String hebrewWord;
 	private GWTCanvas canvas;
 	
-	public HebrewTreeWidget(int width, int height) {
+	public AbstractTreeWidget(int width, int height) {
 		canvas = new GWTCanvas(width, height);
 		
+	    
 	    drawSephiroth();
-	    drawAllPaths();
-		panel.add(canvas);
+		
+	    panel.add(canvas);
 		
 		initWidget(panel);
 		setStyleName("tree-of-life");
@@ -32,32 +30,18 @@ public class HebrewTreeWidget extends Composite {
 		return canvas;
 	}
 
-	public void setWord(String hebrew) {
-		canvas.clear();
-		for (HebrewLetter letter : HebrewLetter.values()) {
-			CharSequence c = String.valueOf(letter.hebrew);
-			if (hebrew.contains(c)) {
-				drawPath(Path.valueOf(letter.name()));
-			}
-		}
-		drawSephiroth();
-	}
-	
-	private void drawAllPaths() {
-		canvas.setLineWidth(1);
+	public void drawSephiroth() {
 		canvas.setStrokeStyle(Color.WHITE);
-		for (Path path : Path.values()) {
-			drawPath(path);
-		}
-	}
-	
-	private void drawSephiroth() {
-		canvas.setLineWidth(1);
-//		Color color = new Color("#777777");
-		Color color = Color.WHITE;
-		canvas.setFillStyle(color);
-		canvas.setStrokeStyle(color);
 		for (Sephira sephira : Sephira.values()) {
+			Color color = sd.getPosition(sephira).color;
+			if (!sephira.isImplicate) {
+				canvas.setLineWidth(3);
+			} else {
+				canvas.setLineWidth(1);				
+			}
+			canvas.setFillStyle(color);
+			canvas.setStrokeStyle(Color.WHITE);
+			
 			drawArc(sd.getPosition(sephira).x,  
 						sd.getPosition(sephira).y,
 						25,   0, 360, false);				
@@ -76,11 +60,9 @@ public class HebrewTreeWidget extends Composite {
 		canvas.stroke();
 	}
 	
-	private void drawPath(Path path) {
-		drawPath(path.from, path.to);
-	}
+
 	
-	private void drawPath(Sephira from, Sephira to) {
+	public void drawPath(Sephira from, Sephira to) {
 		drawLine(
 			sd.getPosition(from).x, 
 			sd.getPosition(from).y, 

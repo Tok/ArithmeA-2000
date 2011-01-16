@@ -1,5 +1,8 @@
 package arithmea.client;
 
+import arithmea.client.service.ArithmeaService;
+import arithmea.client.service.ArithmeaServiceAsync;
+
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
