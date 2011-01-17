@@ -17,5 +17,6 @@ public interface ArithmeaServiceAsync {
 	
 	void getTermsFor(String methodName, Integer number,
 			AsyncCallback<ArrayList<Term>> callback);
+	void parseTerms(String input, AsyncCallback<String> callback);
 }
 

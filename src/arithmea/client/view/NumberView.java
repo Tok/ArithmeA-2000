@@ -41,7 +41,6 @@ public class NumberView extends Composite implements NumberPresenter.Display {
 		cancelButton = new Button("Cancel");
 		hPanel.add(cancelButton);
 		numberBox = new ExtendedTextBox();
-//		numberBox.set
 		numberBox.setText(number);
 		
 		hPanel.add(numberBox);

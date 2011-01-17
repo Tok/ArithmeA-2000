@@ -111,4 +111,16 @@ public class ArithmeaServiceImpl extends RemoteServiceServlet implements
 		return result;
 	}
 
+	@Override
+	public String parseTerms(String input) {
+		String[] words = input.split(" ");
+		int count = 0;
+		for (String word : words) {
+			Term term = new Term(word);
+			addTerm(term);
+			count++;
+		}
+		return "parsed " + count + " words.";
+	}
+
 }

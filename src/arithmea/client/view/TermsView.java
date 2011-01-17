@@ -26,6 +26,8 @@ import com.google.gwt.user.client.ui.Widget;
 
 public class TermsView extends Composite implements TermsPresenter.Display {
 	private final Button addButton;
+	private final Button showNumbersButton;
+	private final Button parseTextButton;
 	private final Button deleteButton;	
 	private final Anchor latinHeader = new Anchor("Latin");
 	private final Anchor hebrewHeader = new Anchor("Hebrew");
@@ -48,8 +50,13 @@ public class TermsView extends Composite implements TermsPresenter.Display {
 		final HorizontalPanel hPanel = new HorizontalPanel();
 		deleteButton = new Button("Delete Word");
 		hPanel.add(deleteButton);
+		showNumbersButton = new Button("Show by Numbers");
+		hPanel.add(showNumbersButton);
+		parseTextButton = new Button("Parse Text");
+		hPanel.add(parseTextButton);
 		addButton = new Button("Add New Word");
 		hPanel.add(addButton);
+		
 		contentTable.getCellFormatter().addStyleName(0, 0, "menu-table");
 		contentTable.setWidget(0, 0, hPanel);
 
@@ -81,6 +88,14 @@ public class TermsView extends Composite implements TermsPresenter.Display {
 
 	public HasClickHandlers getDeleteButton() {
 		return deleteButton;
+	}
+	
+	public HasClickHandlers getShowNumbersButton() {
+		return showNumbersButton;
+	}
+	
+	public HasClickHandlers getParseTextButton() {
+		return parseTextButton;
 	}
 	
 	public HasClickHandlers getHeader(LatinMethod gm) {

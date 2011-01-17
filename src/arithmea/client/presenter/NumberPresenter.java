@@ -86,8 +86,14 @@ public class NumberPresenter implements Presenter {
 	private void tryShow() {		
 		Integer number = null;
 		try {
-			number = Integer.valueOf(this.display.getNumber().getValue());
-			doShow(number);
+			String input = this.display.getNumber().getValue();
+			if (!input.equals("")) {
+				number = Integer.valueOf(input);
+				doShow(number);				
+			} else {
+				display.getSimilarWords().clear();
+				display.getSimilarWords().add(new Label("Please enter a number and select a method."));
+			}
 		} catch(NumberFormatException nfe) {
 			display.getSimilarWords().clear();
 			display.getSimilarWords().add(new Label("Only numbers allowed."));

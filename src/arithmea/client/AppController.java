@@ -6,17 +6,21 @@ import arithmea.client.event.CancelledEvent;
 import arithmea.client.event.CancelledEventHandler;
 import arithmea.client.event.EditTermEvent;
 import arithmea.client.event.EditTermEventHandler;
+import arithmea.client.event.ParseTextEvent;
+import arithmea.client.event.ParseTextEventHandler;
 import arithmea.client.event.ShowNumberEvent;
 import arithmea.client.event.ShowNumberEventHandler;
 import arithmea.client.event.TermUpdatedEvent;
 import arithmea.client.event.TermUpdatedEventHandler;
 import arithmea.client.presenter.EditTermPresenter;
 import arithmea.client.presenter.NumberPresenter;
+import arithmea.client.presenter.ParseTextPresenter;
 import arithmea.client.presenter.Presenter;
 import arithmea.client.presenter.TermsPresenter;
 import arithmea.client.service.ArithmeaServiceAsync;
 import arithmea.client.view.EditTermView;
 import arithmea.client.view.NumberView;
+import arithmea.client.view.ParseTextView;
 import arithmea.client.view.TermsView;
 
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
@@ -72,6 +76,13 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 						doShowNumber();
 					}
 				});
+		
+		eventBus.addHandler(ParseTextEvent.TYPE,
+				new ParseTextEventHandler() {
+					public void onParseText(ParseTextEvent event) {
+						doParseText();
+					}
+				});
 	}
 
 	private void doAddNewTerm() {
@@ -96,6 +107,10 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 	private void doShowNumber() {
 		History.newItem("show");
 	}
+	
+	private void doParseText() {
+		History.newItem("parse");
+	}
 
 	public void go(final HasWidgets container) {
 		this.container = container;
@@ -119,6 +134,9 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 			} else if (token.equals("show")) {
 				presenter = new NumberPresenter(rpcService, eventBus,
 						new NumberView());
+			} else if (token.equals("parse")) {
+				presenter = new ParseTextPresenter(rpcService, eventBus,
+						new ParseTextView());
 			}
 			presenter.go(container);
 		}

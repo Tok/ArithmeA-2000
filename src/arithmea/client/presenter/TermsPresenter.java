@@ -5,6 +5,8 @@ import java.util.Collections;
 import java.util.List;
 
 import arithmea.client.event.AddTermEvent;
+import arithmea.client.event.ParseTextEvent;
+import arithmea.client.event.ShowNumberEvent;
 import arithmea.client.service.ArithmeaServiceAsync;
 import arithmea.client.sort.TermSortByGematriaMethod;
 import arithmea.client.sort.TermSortByHebrewString;
@@ -28,6 +30,8 @@ public class TermsPresenter implements Presenter {
 
 	public interface Display {
 		HasClickHandlers getAddButton();
+		HasClickHandlers getShowNumbersButton();
+		HasClickHandlers getParseTextButton();
 		HasClickHandlers getDeleteButton();
 		HasClickHandlers getList();
 		HasClickHandlers getLatinHeader();		
@@ -53,6 +57,16 @@ public class TermsPresenter implements Presenter {
 		display.getAddButton().addClickHandler(new ClickHandler() {
 			public void onClick(final ClickEvent event) {
 				eventBus.fireEvent(new AddTermEvent());
+			}
+		});
+		display.getShowNumbersButton().addClickHandler(new ClickHandler() {
+			public void onClick(final ClickEvent event) {
+				eventBus.fireEvent(new ShowNumberEvent());
+			}
+		});
+		display.getParseTextButton().addClickHandler(new ClickHandler() {
+			public void onClick(final ClickEvent event) {
+				eventBus.fireEvent(new ParseTextEvent());
 			}
 		});
 		display.getDeleteButton().addClickHandler(new ClickHandler() {
