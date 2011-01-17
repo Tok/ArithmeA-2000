@@ -34,7 +34,6 @@ public class TermsPresenter implements Presenter {
 		HasClickHandlers getHebrewHeader();
 		HasClickHandlers getGematriaHeader(GematriaMethod gm);
 		void setData(List<Term> data);
-//		int getClickedRow(ClickEvent event);
 		List<Integer> getSelectedRows();
 		Widget asWidget();
 	}
@@ -76,7 +75,7 @@ public class TermsPresenter implements Presenter {
 				public void onClick(final ClickEvent event) {
 					sortTermsBy(gm);
 				}
-			});			
+			});
 		}
 		for (final HebrewMethod gm : HebrewMethod.values()) {
 			display.getGematriaHeader(gm).addClickHandler(new ClickHandler() {
@@ -85,16 +84,6 @@ public class TermsPresenter implements Presenter {
 				}
 			});			
 		}
-		
-//		display.getList().addClickHandler(new ClickHandler() {
-//			public void onClick(final ClickEvent event) {
-//				int selectedRow = display.getClickedRow(event);
-//				if (selectedRow >= 0) {
-//					final String id = terms.get(selectedRow).getLatinString();
-//					eventBus.fireEvent(new EditTermEvent(id));
-//				}
-//			}
-//		});
 	}
 
 	public void go(final HasWidgets container) {

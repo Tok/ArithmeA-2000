@@ -16,10 +16,7 @@ public abstract class AbstractTreeWidget extends Composite {
 	
 	public AbstractTreeWidget(int width, int height) {
 		canvas = new GWTCanvas(width, height);
-		
-	    
 	    drawSephiroth();
-		
 	    panel.add(canvas);
 		
 		initWidget(panel);
@@ -44,7 +41,8 @@ public abstract class AbstractTreeWidget extends Composite {
 			
 			drawArc(sd.getPosition(sephira).x,  
 						sd.getPosition(sephira).y,
-						25,   0, 360, false);				
+						SephirothData.UNIT / 2,   0, 360, false);			
+			
 			if (!sephira.isImplicate) {
 				canvas.fill();
 		 	}
@@ -59,8 +57,6 @@ public abstract class AbstractTreeWidget extends Composite {
 		canvas.closePath();
 		canvas.stroke();
 	}
-	
-
 	
 	public void drawPath(Sephira from, Sephira to) {
 		drawLine(

@@ -94,4 +94,21 @@ public class ArithmeaServiceImpl extends RemoteServiceServlet implements
 		return result;
 	}
 
+	@Override
+	public ArrayList<Term> getTermsFor(String method, Integer number) {
+		final PersistenceManager pm = PMF.getPersistenceManager();
+		ArrayList<Term> result = new ArrayList<Term>();
+		try {
+			Query query = pm.newQuery(Term.class);
+			query.setFilter(method.toLowerCase() + " == n");
+			query.declareParameters("Integer n");
+			@SuppressWarnings("unchecked")
+			List<Term> tmp = (List<Term>) query.execute(number);
+			result.addAll(tmp);
+		} finally {
+			pm.close();
+		}
+		return result;
+	}
+
 }

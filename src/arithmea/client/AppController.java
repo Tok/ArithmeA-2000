@@ -2,17 +2,21 @@ package arithmea.client;
 
 import arithmea.client.event.AddTermEvent;
 import arithmea.client.event.AddTermEventHandler;
-import arithmea.client.event.EditTermCancelledEvent;
-import arithmea.client.event.EditTermCancelledEventHandler;
+import arithmea.client.event.CancelledEvent;
+import arithmea.client.event.CancelledEventHandler;
 import arithmea.client.event.EditTermEvent;
 import arithmea.client.event.EditTermEventHandler;
+import arithmea.client.event.ShowNumberEvent;
+import arithmea.client.event.ShowNumberEventHandler;
 import arithmea.client.event.TermUpdatedEvent;
 import arithmea.client.event.TermUpdatedEventHandler;
 import arithmea.client.presenter.EditTermPresenter;
+import arithmea.client.presenter.NumberPresenter;
 import arithmea.client.presenter.Presenter;
 import arithmea.client.presenter.TermsPresenter;
 import arithmea.client.service.ArithmeaServiceAsync;
 import arithmea.client.view.EditTermView;
+import arithmea.client.view.NumberView;
 import arithmea.client.view.TermsView;
 
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
@@ -48,9 +52,9 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 			}
 		});
 
-		eventBus.addHandler(EditTermCancelledEvent.TYPE,
-				new EditTermCancelledEventHandler() {
-					public void onEditTermCancelled(EditTermCancelledEvent event) {
+		eventBus.addHandler(CancelledEvent.TYPE,
+				new CancelledEventHandler() {
+					public void onCancelled(CancelledEvent event) {
 						doEditTermCancelled();
 					}
 				});
@@ -59,6 +63,13 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 				new TermUpdatedEventHandler() {
 					public void onTermUpdated(TermUpdatedEvent event) {
 						doTermUpdated();
+					}
+				});
+		
+		eventBus.addHandler(ShowNumberEvent.TYPE,
+				new ShowNumberEventHandler() {
+					public void onShowNumber(ShowNumberEvent event) {
+						doShowNumber();
 					}
 				});
 	}
@@ -81,6 +92,10 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 	private void doTermUpdated() {
 		History.newItem("list");
 	}
+	
+	private void doShowNumber() {
+		History.newItem("show");
+	}
 
 	public void go(final HasWidgets container) {
 		this.container = container;
@@ -98,12 +113,12 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 			if (token.equals("list")) {
 				presenter = new TermsPresenter(rpcService, eventBus,
 						new TermsView());
-			} else if (token.equals("add")) {
+			} else if (token.equals("add") || token.equals("edit")) {
 				presenter = new EditTermPresenter(rpcService, eventBus,
 						new EditTermView());
-			} else if (token.equals("edit")) {
-				presenter = new EditTermPresenter(rpcService, eventBus,
-						new EditTermView());
+			} else if (token.equals("show")) {
+				presenter = new NumberPresenter(rpcService, eventBus,
+						new NumberView());
 			}
 			presenter.go(container);
 		}

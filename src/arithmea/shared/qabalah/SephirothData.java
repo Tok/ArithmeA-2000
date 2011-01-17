@@ -4,20 +4,21 @@ package arithmea.shared.qabalah;
 import com.google.gwt.widgetideas.graphics.client.Color;
 
 public class SephirothData {
-	private final static int UNIT = 50;
+	public final static int UNIT = 49;
+	private final static int FACTOR = ((UNIT * 2) * 86) / 100;	
 	public final static int WIDTH = 6 * UNIT;
 	public final static int HEIGHT = 10 * UNIT;
 
 	public enum SephiraPosition {
 		Kether(Sephira.Kether, Color.WHITE, UNIT * 3, UNIT), 
-		Chokmah(Sephira.Chokmah, Color.GREY, (UNIT * 3) + (HEIGHT * 86) / HEIGHT, UNIT * 2), 
-		Binah(Sephira.Binah, Color.BLACK, (UNIT * 3) - (HEIGHT * 86) / HEIGHT, UNIT * 2), 
+		Chokmah(Sephira.Chokmah, Color.GREY, (UNIT * 3) + (HEIGHT * FACTOR) / HEIGHT, UNIT * 2), 
+		Binah(Sephira.Binah, Color.BLACK, (UNIT * 3) - (HEIGHT * FACTOR) / HEIGHT, UNIT * 2), 
 		Daath(Sephira.Daath, Color.LIGHTGREY, UNIT * 3, UNIT * 3), 
-		Chesed(Sephira.Chesed, new Color("#3F48CC"), (UNIT * 3) + (HEIGHT * 86) / HEIGHT, UNIT * 4), 
-		Geburah(Sephira.Geburah, new Color("#ED1C24"), (UNIT * 3) - (HEIGHT * 86) / HEIGHT, UNIT * 4), 
+		Chesed(Sephira.Chesed, new Color("#3F48CC"), (UNIT * 3) + (HEIGHT * FACTOR) / HEIGHT, UNIT * 4), 
+		Geburah(Sephira.Geburah, new Color("#ED1C24"), (UNIT * 3) - (HEIGHT * FACTOR) / HEIGHT, UNIT * 4), 
 		Tiphareth(Sephira.Tiphareth, new Color("#FFF200"), UNIT * 3, UNIT * 5), 
-		Netzach(Sephira.Netzach, new Color("#22B14C"), (UNIT * 3) + (HEIGHT * 86) / HEIGHT, UNIT * 6), 
-		Hod(Sephira.Hod, new Color("#FF7F27"), (UNIT * 3) - (HEIGHT * 86) / HEIGHT, UNIT * 6), 
+		Netzach(Sephira.Netzach, new Color("#22B14C"), (UNIT * 3) + (HEIGHT * FACTOR) / HEIGHT, UNIT * 6), 
+		Hod(Sephira.Hod, new Color("#FF7F27"), (UNIT * 3) - (HEIGHT * FACTOR) / HEIGHT, UNIT * 6), 
 		Yesod(Sephira.Yesod, new Color("#A349A4"), UNIT * 3, UNIT * 7), 
 		Malkuth(Sephira.Malkuth, new Color("#642100"), UNIT * 3, UNIT * 9);
 

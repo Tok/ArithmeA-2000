@@ -14,5 +14,7 @@ public interface ArithmeaService extends RemoteService {
   ArrayList<Term> deleteTerms(final ArrayList<String> ids);
   ArrayList<Term> getTerms();
   Term updateTerm(final Term term); //Read
-  Boolean deleteTerm(final String id);  //Destroy
+  Boolean deleteTerm(final String id); //Destroy
+
+  ArrayList<Term> getTermsFor(final String methodName, final Integer number);
 }

@@ -21,6 +21,7 @@ import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 
 public class TermsView extends Composite implements TermsPresenter.Display {
@@ -28,7 +29,9 @@ public class TermsView extends Composite implements TermsPresenter.Display {
 	private final Button deleteButton;	
 	private final Anchor latinHeader = new Anchor("Latin");
 	private final Anchor hebrewHeader = new Anchor("Hebrew");
+	
 	private final Map<GematriaMethod, Anchor> headers = new HashMap<GematriaMethod, Anchor>();
+	
 	private final FlexTable termsTable;
 	private final FlexTable contentTable;
 
@@ -43,20 +46,24 @@ public class TermsView extends Composite implements TermsPresenter.Display {
 
 		// create the menu
 		final HorizontalPanel hPanel = new HorizontalPanel();
-		addButton = new Button("Add New Word");
-		hPanel.add(addButton);
 		deleteButton = new Button("Delete Word");
 		hPanel.add(deleteButton);
+		addButton = new Button("Add New Word");
+		hPanel.add(addButton);
 		contentTable.getCellFormatter().addStyleName(0, 0, "menu-table");
 		contentTable.setWidget(0, 0, hPanel);
 
 		// prepare table headers
+		latinHeader.setStyleName("table-header");
+		hebrewHeader.setStyleName("table-header");
 		for (final LatinMethod gm : LatinMethod.values()) {
 			Anchor anchor = new Anchor(gm.name());
+			anchor.setStyleName("table-header");
 			headers.put(gm, anchor);
 		}
 		for (final HebrewMethod gm : HebrewMethod.values()) {
 			Anchor anchor = new Anchor(gm.name());
+			anchor.setStyleName("table-header");
 			headers.put(gm, anchor);
 		}
 		
@@ -88,67 +95,57 @@ public class TermsView extends Composite implements TermsPresenter.Display {
 		termsTable.removeAllRows();
 
 		//set headers
-		termsTable.setWidget(0, 1, latinHeader);
-		termsTable.getCellFormatter().addStyleName(0, 1, "border-cell");
+		addWidgetToTable(0, 1, latinHeader, false);
 		int col = 2;
 		for (final LatinMethod gm : LatinMethod.values()) {
-			termsTable.setWidget(0, col, headers.get(gm));
-			termsTable.getCellFormatter().addStyleName(0, col, "border-cell");
+			addWidgetToTable(0, col, headers.get(gm), false);
 			col++;
 		}
-		termsTable.setWidget(0, col, hebrewHeader);
-		termsTable.getCellFormatter().addStyleName(0, col, "border-cell");
+		addWidgetToTable(0, col, hebrewHeader, false);
 		col++;
 		for (final HebrewMethod gm : HebrewMethod.values()) {
-			termsTable.setWidget(0, col, headers.get(gm));
-			termsTable.getCellFormatter().addStyleName(0, col, "border-cell");
+			addWidgetToTable(0, col, headers.get(gm), false);
 			col++;
 		}
 		
 		//set data
 		for (int row = 0; row < terms.size(); ++row) {
 			final Term term = terms.get(row);
-			termsTable.setWidget(row+1, 0, new CheckBox());
-			termsTable.getCellFormatter().addStyleName(row+1, 0, "border-cell");
-			termsTable.setText(row+1, 1, term.getLatinString());
-			termsTable.getCellFormatter().addStyleName(row+1, 1, "border-cell");
+			addWidgetToTable(row+1, 0, new CheckBox(), false);
+			Anchor latinAnchor = new Anchor(term.getLatinString());
+			latinAnchor.setHref("?word=" + term.getLatinString() + "#add");
+			addWidgetToTable(row+1, 1, latinAnchor, false);
 			int column = 2;
 			for (LatinMethod gm : LatinMethod.values()) {
-				termsTable.setText(row+1, column, term.get(gm).toString());
-				termsTable.getCellFormatter().addStyleName(row+1, column, "border-cell");
-				termsTable.getCellFormatter().setAlignment(row+1, column,
-						HasHorizontalAlignment.ALIGN_RIGHT,
-						HasVerticalAlignment.ALIGN_MIDDLE);
+				Anchor anchor = prepareContentAnchor(gm.name(), term.get(gm));
+				addWidgetToTable(row+1, column, anchor, true);
 				column++;
 			}
-			termsTable.setText(row+1, column, term.getHebrewString());
-			termsTable.getCellFormatter().addStyleName(row+1, column, "border-cell");
-			termsTable.getCellFormatter().setAlignment(row+1, column,
-					HasHorizontalAlignment.ALIGN_RIGHT,
-					HasVerticalAlignment.ALIGN_MIDDLE);
+			addWidgetToTable(row+1, column, new Label(term.getHebrewString()), true);
 			column++;
 			for (HebrewMethod gm : HebrewMethod.values()) {
-				termsTable.setText(row+1, column, term.get(gm).toString());
-				termsTable.getCellFormatter().addStyleName(row+1, column, "border-cell");
-				termsTable.getCellFormatter().setAlignment(row+1, column,
-						HasHorizontalAlignment.ALIGN_RIGHT,
-						HasVerticalAlignment.ALIGN_MIDDLE);
+				Anchor anchor = prepareContentAnchor(gm.name(), term.get(gm));
+				addWidgetToTable(row+1, column, anchor, true);
 				column++;
 			}
 		}
 	}
-
-//	public int getClickedRow(final ClickEvent event) {
-//		int selectedRow = -1;
-//		final HTMLTable.Cell cell = termsTable.getCellForEvent(event);
-//		if (cell != null) {
-//			// suppress clicks when check box is selected
-//			if (cell.getCellIndex() > 0) {
-//				selectedRow = cell.getRowIndex() - 1;
-//			}
-//		}
-//		return selectedRow;
-//	}
+	
+	private void addWidgetToTable(int row, int column, Widget widget, boolean alignRight) {
+		termsTable.setWidget(row, column, widget);
+		termsTable.getCellFormatter().addStyleName(row, column, "border-cell");
+		if (alignRight) {
+			termsTable.getCellFormatter().setAlignment(row, column,
+					HasHorizontalAlignment.ALIGN_RIGHT,
+					HasVerticalAlignment.ALIGN_MIDDLE);
+		}
+	}
+	
+	private Anchor prepareContentAnchor(String methodName, int number) {
+		Anchor anchor = new Anchor(String.valueOf(number));
+		anchor.setHref("?method="+methodName+"&number="+number+"#show");
+		return anchor;
+	}
 
 	public List<Integer> getSelectedRows() {
 		final List<Integer> selectedRows = new ArrayList<Integer>();

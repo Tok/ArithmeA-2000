@@ -2,6 +2,7 @@ package arithmea.client.widgets.tree;
 
 import arithmea.shared.gematria.LatinLetter;
 import arithmea.shared.qabalah.LatinPath;
+import arithmea.shared.qabalah.SephirothData;
 
 import com.google.gwt.widgetideas.graphics.client.Color;
 
@@ -14,7 +15,7 @@ public class LatinTreeWidget extends AbstractTreeWidget {
 
 	public void setWord(String latin) {
 		getCanvas().clear();
-		getCanvas().setLineWidth(10);
+		getCanvas().setLineWidth(SephirothData.UNIT / 5);
 		getCanvas().setStrokeStyle(Color.WHITE);
 		for (LatinLetter letter : LatinLetter.values()) {
 			CharSequence c = String.valueOf(letter.character);

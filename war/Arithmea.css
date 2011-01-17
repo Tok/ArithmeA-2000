@@ -33,6 +33,21 @@ th,td {
 	padding-right: 6px;
 }
 
+.flow-panel {
+	padding-top: 6px;
+	padding-bottom: 6px;
+	padding-left: 6px;
+	padding-right: 6px;
+}
+
+.padding-right {
+	padding-right: 6px;
+}
+
+.table-header {
+	font-weight: bold;
+}
+
 .text-table {
 	height: 46px;
 }

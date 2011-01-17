@@ -2,6 +2,7 @@ package arithmea.client.widgets.tree;
 
 import arithmea.shared.gematria.HebrewLetter;
 import arithmea.shared.qabalah.HebrewPath;
+import arithmea.shared.qabalah.SephirothData;
 
 import com.google.gwt.widgetideas.graphics.client.Color;
 
@@ -14,7 +15,7 @@ public class HebrewTreeWidget extends AbstractTreeWidget {
 
 	public void setWord(String hebrew) {
 		getCanvas().clear();
-		getCanvas().setLineWidth(10);
+		getCanvas().setLineWidth(SephirothData.UNIT / 5);
 		getCanvas().setStrokeStyle(Color.WHITE);
 		for (HebrewLetter letter : HebrewLetter.values()) {
 			CharSequence c = String.valueOf(letter.hebrew);
