@@ -95,6 +95,14 @@ public class GematriaUtil {
 			if (next == 'H') {
 				skipNext = true;
 			}
+			if (next == 'K') {
+				skipNext = true;
+				if (afterNext == ' ' || next == '-' || afterNext == '\u0000') {
+					return HebrewLetter.Kaph_Final.hebrew; 					
+				} else {
+					return HebrewLetter.Kaph.hebrew; 
+				}
+			}
 			return HebrewLetter.Cheth.hebrew; 
 		}
 		else if (current == 'D') { return HebrewLetter.Daleth.hebrew; }
