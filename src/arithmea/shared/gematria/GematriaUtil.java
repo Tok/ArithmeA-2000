@@ -78,7 +78,7 @@ public class GematriaUtil {
 					afterNext = chars[i+2];
 				}
 
-				char resultCharacter = getHebrewCharacter(current, next, afterNext);
+				char resultCharacter = getHebrewCharacter(i == 0, current, next, afterNext);
 			
 				if (resultCharacter != '\u0000') {
 					result.append(resultCharacter);				
@@ -88,7 +88,7 @@ public class GematriaUtil {
 		return result.toString();
 	}
 
-	private char getHebrewCharacter(final char current, final char next, final char afterNext) {
+	private char getHebrewCharacter(boolean isFirst, final char current, final char next, final char afterNext) {
 		if (current == 'A') { return HebrewLetter.Aleph.hebrew; } 
 		else if (current == 'B') {return HebrewLetter.Beth.hebrew; }
 		else if (current == 'C') {
@@ -107,12 +107,12 @@ public class GematriaUtil {
 		else if (current == 'K') {
 			if (next == 'H') {
 				skipNext = true;
-				if (afterNext == ' ' || afterNext == '\u0000') {
+				if (afterNext == ' ' || next == '-' || afterNext == '\u0000') {
 					return HebrewLetter.Kaph_Final.hebrew; 					
 				} else {
 					return HebrewLetter.Kaph.hebrew; 
 				}
-			} else if (next == ' ' || (next == '\u0000' && afterNext == '\u0000')) {
+			} else if (next == ' ' || next == '-' || (next == '\u0000' && afterNext == '\u0000')) {
 				return HebrewLetter.Kaph_Final.hebrew; 
 			} else {
 				return HebrewLetter.Kaph.hebrew; 
@@ -120,14 +120,14 @@ public class GematriaUtil {
 		}
 		else if (current == 'L') { return HebrewLetter.Lamed.hebrew; }
 		else if (current == 'M') { 
-			if (next == ' ' || (next == '\u0000' && afterNext == '\u0000')) {
+			if (next == ' ' || next == '-' || (next == '\u0000' && afterNext == '\u0000')) {
 				return HebrewLetter.Mem_Final.hebrew; 
 			} else {
 				return HebrewLetter.Mem.hebrew; 
 			}
 		}
 		else if (current == 'N') { 
-			if (next == ' ' || (next == '\u0000' && afterNext == '\u0000')) {
+			if (next == ' ' || next == '-' || (next == '\u0000' && afterNext == '\u0000')) {
 				return HebrewLetter.Nun_Final.hebrew; 
 			} else {
 				return HebrewLetter.Nun.hebrew; 
@@ -136,18 +136,23 @@ public class GematriaUtil {
 		else if (current == 'O') { 
 			if (next == 'O') { // double O
 				skipNext = true;
+				return HebrewLetter.Ayin.hebrew; 
+			} else if (isFirst) { // O at start of word
+				return HebrewLetter.Ayin.hebrew; 				
+			} else { // other O's
+				return HebrewLetter.Vav.hebrew; 
 			}
-			return HebrewLetter.Ayin.hebrew; 
+
 		}
 		else if (current == 'P') { 
 			if (next == 'H') {
 				skipNext = true;
-				if (afterNext == ' ' || afterNext == '\u0000') {
+				if (afterNext == ' ' || next == '-' || afterNext == '\u0000') {
 					return HebrewLetter.Peh_Final.hebrew; 					
 				} else {
 					return HebrewLetter.Peh.hebrew; 
 				}
-			} else if (next == ' ' || (next == '\u0000' && afterNext == '\u0000')) {
+			} else if (next == ' ' || next == '-' || (next == '\u0000' && afterNext == '\u0000')) {
 				return HebrewLetter.Peh_Final.hebrew; 
 			} else {
 				return HebrewLetter.Peh.hebrew; 
@@ -170,7 +175,7 @@ public class GematriaUtil {
 		else if (current == 'T') { 
 			if (next == 'Z' || next == 'X') { //Tz, Tx
 				skipNext = true;
-				if (afterNext == ' ' || afterNext == '\u0000') {
+				if (afterNext == ' ' || next == '-' || afterNext == '\u0000') {
 					return HebrewLetter.Tzaddi_Final.hebrew; 
 				} else {
 					return HebrewLetter.Tzaddi.hebrew; 
@@ -186,7 +191,7 @@ public class GematriaUtil {
 		else if (current == 'V') { return HebrewLetter.Vav.hebrew; }
 		else if (current == 'W') { return HebrewLetter.Vav.hebrew; }
 		else if (current == 'X') { 
-			if (next == ' ' || (next == '\u0000' && afterNext == '\u0000')) {
+			if (next == ' ' || next == '-' || (next == '\u0000' && afterNext == '\u0000')) {
 				return HebrewLetter.Tzaddi_Final.hebrew; 
 			} else {
 				return HebrewLetter.Tzaddi.hebrew; 

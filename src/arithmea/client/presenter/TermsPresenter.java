@@ -16,6 +16,8 @@ import arithmea.shared.gematria.GematriaMethod;
 import arithmea.shared.gematria.HebrewMethod;
 import arithmea.shared.gematria.LatinMethod;
 
+import com.google.gwt.event.dom.client.ChangeEvent;
+import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.HasClickHandlers;
@@ -23,6 +25,7 @@ import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HasWidgets;
+import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.Widget;
 
 public class TermsPresenter implements Presenter {
@@ -39,6 +42,9 @@ public class TermsPresenter implements Presenter {
 		HasClickHandlers getGematriaHeader(GematriaMethod gm);
 		void setData(List<Term> data);
 		List<Integer> getSelectedRows();
+		ListBox getLetterBox();
+		int getOffset();
+		void setOffset(int offset);
 		Widget asWidget();
 	}
 
@@ -74,6 +80,13 @@ public class TermsPresenter implements Presenter {
 				deleteSelectedTerms();
 			}
 		});
+		display.getLetterBox().addChangeHandler(new ChangeHandler() {
+			public void onChange(ChangeEvent event) {
+				display.setOffset(0);
+				fetchTermDetails();
+			}
+		});
+
 		display.getLatinHeader().addClickHandler(new ClickHandler() {
 			public void onClick(final ClickEvent event) {
 				sortTermsByLatinString();
@@ -116,16 +129,32 @@ public class TermsPresenter implements Presenter {
 	}
 
 	private void fetchTermDetails() {
-		rpcService.getTerms(new AsyncCallback<ArrayList<Term>>() {
-			public void onSuccess(ArrayList<Term> result) {
-				terms = result;
-				sortTermsByLatinString();
-				display.setData(terms);
-			}
-			public void onFailure(Throwable caught) {
-				Window.alert("Fail fetching term details");
-			}
-		});
+		String letter = display.getLetterBox().getValue(
+			display.getLetterBox().getSelectedIndex()
+		);
+		if (letter.equalsIgnoreCase("All")) {
+			rpcService.getAllTermsFromOffset(display.getOffset(), new AsyncCallback<ArrayList<Term>>() {
+				public void onSuccess(ArrayList<Term> result) {
+					terms = result;
+					sortTermsByLatinString();
+					display.setData(terms);
+				}
+				public void onFailure(Throwable caught) {
+					Window.alert("Fail fetching term details");
+				}
+			});	
+		} else {
+			rpcService.getTermsFromOffset(letter, display.getOffset(), new AsyncCallback<ArrayList<Term>>() {
+				public void onSuccess(ArrayList<Term> result) {
+					terms = result;
+					sortTermsByLatinString();
+					display.setData(terms);
+				}
+				public void onFailure(Throwable caught) {
+					Window.alert("Fail fetching term details");
+				}
+			});	
+		}
 	}
 
 	private void deleteSelectedTerms() {
@@ -134,14 +163,13 @@ public class TermsPresenter implements Presenter {
 		for (int i = 0; i < selectedRows.size(); ++i) {
 			ids.add(terms.get(selectedRows.get(i)).getLatinString());
 		}
-		rpcService.deleteTerms(ids, new AsyncCallback<ArrayList<Term>>() {
-			public void onSuccess(ArrayList<Term> result) {
-				terms = result;
-				sortTermsByLatinString();
-				display.setData(terms);
+		rpcService.deleteTerms(ids, new AsyncCallback<String>() {
+			public void onSuccess(String result) {
+				Window.alert(result);
+				fetchTermDetails();
 			}
 			public void onFailure(Throwable caught) {
-				Window.alert("Fail deleting selected terms");
+				Window.alert("Fail deleting selected terms.");
 			}
 		});
 	}

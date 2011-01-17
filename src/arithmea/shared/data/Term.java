@@ -11,6 +11,7 @@ import arithmea.shared.gematria.GematriaMethod;
 import arithmea.shared.gematria.GematriaUtil;
 import arithmea.shared.gematria.HebrewMethod;
 import arithmea.shared.gematria.LatinMethod;
+import arithmea.shared.gematria.ValidationUtil;
 
 @PersistenceCapable(detachable = "true")
 public class Term implements Serializable {
@@ -18,7 +19,10 @@ public class Term implements Serializable {
 
 	@PrimaryKey
 	@Persistent
-	private String latinString;
+	private String latinString;	
+	
+	@Persistent
+	private String firstLetter;
 	
 	@Persistent
 	public Integer chaldean;
@@ -54,25 +58,18 @@ public class Term implements Serializable {
 	}
 
 	public Term(final String latinString) {
-		String tmp = latinString.toUpperCase().trim();
-
-		int position = 0;
-		for (char c : tmp.toCharArray()) {
-			if (c == '\u0223') {
-				tmp = tmp.substring(0, position) + "SS" + tmp.substring(position + 1);
-			} else if (c == '\u0196') { //FIXME
-				tmp = tmp.substring(0, position) + "AE" + tmp.substring(position + 1);
-			} else if (c == '\u0220') { //FIXME
-				tmp = tmp.substring(0, position) + "UE" + tmp.substring(position + 1);
-			} else if (c == '\u0214') { //FIXME
-				tmp = tmp.substring(0, position) + "OE" + tmp.substring(position + 1);
-			}
-			position++;
+		ValidationUtil vu = new ValidationUtil();
+		String tmp = vu.getLetterString(latinString);
+		this.latinString = tmp;	
+		if (tmp.length() == 0) {
+			throw new IllegalArgumentException("Fail: String has no letters.");
+		} else {
+			this.firstLetter = tmp.substring(0, 1);
 		}
-		this.latinString = tmp;
 		
 		GematriaUtil gu = new GematriaUtil();
 		this.hebrewString = gu.getHebrew(tmp);
+		
 		final HashMap<GematriaMethod, Integer> values = gu.getAllValues(tmp);
 		this.chaldean = values.get(LatinMethod.Chaldean);
 		this.pythagorean = values.get(LatinMethod.Pythagorean);
@@ -87,6 +84,10 @@ public class Term implements Serializable {
 	
 	public String getLatinString() {
 		return latinString;
+	}
+	
+	public String getFirstLetter() {
+		return firstLetter;
 	}
 	
 	public String getHebrewString() {

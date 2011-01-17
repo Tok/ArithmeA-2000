@@ -94,15 +94,20 @@ public class EditTermPresenter implements Presenter{
   }
 
   private void doSave() {
-	final Term term = new Term(display.getLatinString().getValue());
-    rpcService.updateTerm(term, new AsyncCallback<Term>() {
-        public void onSuccess(final Term result) {
-          eventBus.fireEvent(new TermUpdatedEvent(result));
-        }
-        public void onFailure(final Throwable caught) {
-          Window.alert("Fail updating Term");
-        }
-    });
+	try {
+		String latinString = display.getLatinString().getValue();
+		final Term term = new Term(latinString);
+		rpcService.updateTerm(term, new AsyncCallback<Term>() {
+			public void onSuccess(final Term result) {
+				eventBus.fireEvent(new TermUpdatedEvent(result));
+			}
+			public void onFailure(final Throwable caught) {
+				Window.alert("Fail updating Term");
+			}
+		});
+	} catch (IllegalArgumentException iae) {
+		Window.alert(iae.getMessage());	
+	}
   }
   
 }

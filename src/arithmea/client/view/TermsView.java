@@ -9,6 +9,7 @@ import arithmea.client.presenter.TermsPresenter;
 import arithmea.shared.data.Term;
 import arithmea.shared.gematria.GematriaMethod;
 import arithmea.shared.gematria.HebrewMethod;
+import arithmea.shared.gematria.LatinLetter;
 import arithmea.shared.gematria.LatinMethod;
 
 import com.google.gwt.event.dom.client.HasClickHandlers;
@@ -18,10 +19,12 @@ import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.DecoratorPanel;
 import com.google.gwt.user.client.ui.FlexTable;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.Widget;
 
 public class TermsView extends Composite implements TermsPresenter.Display {
@@ -29,6 +32,7 @@ public class TermsView extends Composite implements TermsPresenter.Display {
 	private final Button showNumbersButton;
 	private final Button parseTextButton;
 	private final Button deleteButton;	
+	private final ListBox letterBox;
 	private final Anchor latinHeader = new Anchor("Latin");
 	private final Anchor hebrewHeader = new Anchor("Hebrew");
 	
@@ -36,8 +40,18 @@ public class TermsView extends Composite implements TermsPresenter.Display {
 	
 	private final FlexTable termsTable;
 	private final FlexTable contentTable;
+	
+	private String letter;
+	private int offset;
 
 	public TermsView() {
+		try {
+			letter = com.google.gwt.user.client.Window.Location.getParameter("letter");
+			offset = Integer.valueOf(com.google.gwt.user.client.Window.Location.getParameter("offset"));
+		} catch (NumberFormatException nfe) {
+			offset = 0;
+		}
+		
 		final DecoratorPanel contentTableDecorator = new DecoratorPanel();
 		initWidget(contentTableDecorator);
 		contentTableDecorator.setWidth("100%");
@@ -56,7 +70,18 @@ public class TermsView extends Composite implements TermsPresenter.Display {
 		hPanel.add(parseTextButton);
 		addButton = new Button("Add New Word");
 		hPanel.add(addButton);
-		
+		letterBox = new ListBox();
+		letterBox.addItem("All");
+		int index = 0;
+		for (LatinLetter ll : LatinLetter.values()) {
+			letterBox.addItem(ll.name());
+			if (ll.name().equalsIgnoreCase(letter)) {
+				letterBox.setSelectedIndex(index);
+			}
+			index++;
+		}
+		hPanel.add(letterBox);
+
 		contentTable.getCellFormatter().addStyleName(0, 0, "menu-table");
 		contentTable.setWidget(0, 0, hPanel);
 
@@ -124,7 +149,8 @@ public class TermsView extends Composite implements TermsPresenter.Display {
 		}
 		
 		//set data
-		for (int row = 0; row < terms.size(); ++row) {
+		int row;
+		for (row = 0; row < terms.size(); ++row) {
 			final Term term = terms.get(row);
 			addWidgetToTable(row+1, 0, new CheckBox(), false);
 			Anchor latinAnchor = new Anchor(term.getLatinString());
@@ -144,6 +170,27 @@ public class TermsView extends Composite implements TermsPresenter.Display {
 				column++;
 			}
 		}
+		
+		//make pager
+		FlowPanel pagerPanel = new FlowPanel();
+		
+		Anchor back = new Anchor("<<back");
+		back.setStyleName("padding-right");
+		Integer backOffset = offset - 15;
+		if (backOffset < 0) { backOffset = 0; }
+		back.setHref("?letter=" + letter + "&offset=" + backOffset + "#list");
+		pagerPanel.add(back);
+		
+		Integer nextOffset = offset;
+		if (row >= 15) {
+			nextOffset += 15;
+		} 
+		Anchor next = new Anchor("next>>");
+		next.setStyleName("padding-right");
+		next.setHref("?letter=" + letter + "&offset=" + nextOffset + "#list");
+		pagerPanel.add(next);
+		
+		addWidgetToTable(row+1, 1, pagerPanel, false);
 	}
 	
 	private void addWidgetToTable(int row, int column, Widget widget, boolean alignRight) {
@@ -190,5 +237,20 @@ public class TermsView extends Composite implements TermsPresenter.Display {
 	@Override
 	public HasClickHandlers getGematriaHeader(GematriaMethod gm) {
 		return headers.get(gm);
+	}
+	
+	@Override
+	public ListBox getLetterBox() {
+		return letterBox;
+	}
+
+	@Override
+	public int getOffset() {
+		return offset;
+	}
+
+	@Override
+	public void setOffset(int offset) {
+		this.offset = offset;
 	}
 }

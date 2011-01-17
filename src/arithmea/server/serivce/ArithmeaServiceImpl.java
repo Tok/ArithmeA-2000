@@ -1,7 +1,6 @@
 package arithmea.server.serivce;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import javax.jdo.JDOHelper;
@@ -28,6 +27,10 @@ public class ArithmeaServiceImpl extends RemoteServiceServlet implements
 	}
 
 	public Term updateTerm(final Term term) {
+		if (term.getFirstLetter().equals(" ")) {
+			return term;
+		}
+		
 		final PersistenceManager pm = PMF.getPersistenceManager();
 		try {
 			pm.makePersistent(term);
@@ -47,51 +50,12 @@ public class ArithmeaServiceImpl extends RemoteServiceServlet implements
 		return true;
 	}
 
-	public ArrayList<Term> deleteTerms(final ArrayList<String> ids) {
-		for (int i = 0; i < ids.size(); ++i) {
+	public String deleteTerms(final ArrayList<String> ids) {
+		int i;
+		for (i = 0; i < ids.size(); ++i) {
 			deleteTerm(ids.get(i));
 		}
-		return getTerms();
-	}
-
-	private List<Term> getAllTerms() {
-		final PersistenceManager pm = PMF.getPersistenceManager();
-		List<Term> result = new ArrayList<Term>();
-		try {
-			Query q = pm.newQuery(Term.class);
-			@SuppressWarnings("unchecked")
-			List<Term> players = (List<Term>) q.execute();
-			result.addAll(players);
-		} finally {
-			pm.close();
-		}
-		return result;
-	}
-	
-	public ArrayList<Term> getTerms() {
-		//TODO remove this
-		final ArrayList<Term> terms = new ArrayList<Term>();
-		final Iterator<Term> it = getAllTerms().iterator();
-		while (it.hasNext()) {
-			Term term = it.next();
-			terms.add(term);
-		}
-		return terms;
-	}
-
-	public Term getTerm(String id) {
-		final PersistenceManager pm = PMF.getPersistenceManager();
-		Term result = null;
-		try {
-			Query query = pm.newQuery(Term.class);
-			query.setFilter("id == i");
-			query.setUnique(true);
-			query.declareParameters("String i");
-			result = (Term) query.execute(id);
-		} finally {
-			pm.close();
-		}
-		return result;
+		return "Deleted " + i + " words.";
 	}
 
 	@Override
@@ -110,17 +74,72 @@ public class ArithmeaServiceImpl extends RemoteServiceServlet implements
 		}
 		return result;
 	}
+	
+	@Override
+	public ArrayList<Term> getTermsFromOffset(String letter, int from) {
+		final PersistenceManager pm = PMF.getPersistenceManager();
+		ArrayList<Term> result = new ArrayList<Term>();
+		try {
+			Query query = pm.newQuery(Term.class);
+			query.setFilter("firstLetter == l");
+			query.declareParameters("String l");
+			query.setRange(from, from + 15);
+			@SuppressWarnings("unchecked")
+			List<Term> tmp = (List<Term>) query.execute(letter);
+			result.addAll(tmp);
+		} finally {
+			pm.close();
+		}
+		return result;
+	}
+	
+	public ArrayList<Term> getAllTermsFromOffset(Integer offset) {
+		final PersistenceManager pm = PMF.getPersistenceManager();
+		ArrayList<Term> result = new ArrayList<Term>();
+		try {
+			Query query = pm.newQuery(Term.class);
+			query.setRange(offset, offset + 15);
+			@SuppressWarnings("unchecked")
+			List<Term> tmp = (List<Term>) query.execute();
+			result.addAll(tmp);
+		} finally {
+			pm.close();
+		}
+		return result;
+	}
+	
+	public Term getTerm(String id) {
+		final PersistenceManager pm = PMF.getPersistenceManager();
+		Term result = null;
+		try {
+			Query query = pm.newQuery(Term.class);
+			query.setFilter("id == i");
+			query.setUnique(true);
+			query.declareParameters("String i");
+			result = (Term) query.execute(id);
+		} finally {
+			pm.close();
+		}
+		return result;
+	}
+
+
 
 	@Override
 	public String parseTerms(String input) {
 		String[] words = input.split(" ");
 		int count = 0;
+		int ignored = 0;
 		for (String word : words) {
-			Term term = new Term(word);
-			addTerm(term);
-			count++;
+			try {
+				Term term = new Term(word);
+				addTerm(term);
+				count++;
+			} catch(IllegalArgumentException iae) {
+				ignored++;
+			}
 		}
-		return "parsed " + count + " words.";
+		return "parsed " + count + " words. (" + ignored + " ignored).";
 	}
 
 }

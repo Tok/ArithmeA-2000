@@ -144,29 +144,36 @@ public class EditTermView extends Composite implements
 	}
 	
 	private void doChange() {
-		// force upper case
-		final String newTerm = inputTextBox.getText().toUpperCase();
-		final Term term = new Term(newTerm);
-		latinString.setText(term.getLatinString());
-		hebrewString.setText(term.getHebrewString());
+		try {
+			final Term term = new Term(inputTextBox.getText());
+			latinString.setText(term.getLatinString());
+			hebrewString.setText(term.getHebrewString());
 		
-		// create new term and update view
-		for (LatinMethod method : LatinMethod.values()) {
-			String value = term.get(method).toString();
-			textBoxes.get(method).setText(value);
-			anchors.get(method).setText(value);
-			anchors.get(method).setHref("?method="+method.name()+"&number="+value+"#show");
-		}
-		for (HebrewMethod method : HebrewMethod.values()) {
-			String value = term.get(method).toString();
-			textBoxes.get(method).setText(value);
-			anchors.get(method).setText(value);
-			anchors.get(method).setHref("?method="+method.name()+"&number="+value+"#show");
+			// create new term and update view
+			for (LatinMethod method : LatinMethod.values()) {
+				String value = term.get(method).toString();
+				textBoxes.get(method).setText(value);
+				anchors.get(method).setText(value);
+				anchors.get(method).setHref("?method="+method.name()+"&number="+value+"#show");
+			}
+			for (HebrewMethod method : HebrewMethod.values()) {
+				String value = term.get(method).toString();
+				textBoxes.get(method).setText(value);
+				anchors.get(method).setText(value);
+				anchors.get(method).setHref("?method="+method.name()+"&number="+value+"#show");
+			}
+
+			// update tree widgets
+			hebrewTree.setWord(term.getHebrewString());
+			latinTree.setWord(term.getLatinString());
+
+		} catch (IllegalArgumentException iae) {
+			latinString.setText("");
+			hebrewString.setText("");
+			hebrewTree.setWord("");
+			latinTree.setWord("");
 		}
 		
-		// update tree widgets
-		hebrewTree.setWord(term.getHebrewString());
-		latinTree.setWord(term.getLatinString());
 	}
 
 	private void initDetailsTable() {
