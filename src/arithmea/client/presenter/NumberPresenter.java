@@ -122,10 +122,10 @@ public class NumberPresenter implements Presenter {
 						display.getSimilarWords().add(new Label("Listing " + result.size() + " matches: "));
 						while (it.hasNext()) {
 							Term term = it.next();
-							Anchor anchor = new Anchor(term.getLatinString());
+							Anchor anchor = new Anchor(term.getLatinString() + " ");
 							anchor.setHref("?word=" + term.getLatinString() + "#add");
 							anchor.setStyleName("padding-right");
-							display.getSimilarWords().add(anchor);	
+							display.getSimilarWords().add(anchor);
 						}
 					}
 				}

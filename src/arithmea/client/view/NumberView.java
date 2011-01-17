@@ -67,7 +67,7 @@ public class NumberView extends Composite implements NumberPresenter.Display {
 		contentTable.getCellFormatter().addStyleName(0, 0, "menu-table");
 		contentTable.setWidget(0, 0, hPanel);
 		
-		similarWords.setWidth("100%");
+		similarWords.setWidth("776");
 		similarWords.setStyleName("flow-panel");
 		contentTable.setWidget(1, 0, similarWords);
 		
