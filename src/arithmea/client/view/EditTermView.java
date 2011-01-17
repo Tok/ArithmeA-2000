@@ -52,14 +52,14 @@ public class EditTermView extends Composite implements
 		final String word = com.google.gwt.user.client.Window.Location.getParameter("word");
 		
 		final DecoratorPanel contentDetailsDecorator = new DecoratorPanel();
-		contentDetailsDecorator.setWidth("600px");
+		contentDetailsDecorator.setWidth("800px");
 		initWidget(contentDetailsDecorator);
 
 		final VerticalPanel contentDetailsPanel = new VerticalPanel();
-		contentDetailsPanel.setWidth("100%");
+//		contentDetailsPanel.setWidth("100%");
 		
 		final FlexTable menuTable = new FlexTable();
-		menuTable.setWidth("100%");
+		menuTable.setWidth("790");
 		final HorizontalPanel hPanel = new HorizontalPanel();
 		hPanel.setWidth("100%");
 

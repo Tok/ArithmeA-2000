@@ -4,7 +4,7 @@ package arithmea.shared.qabalah;
 import com.google.gwt.widgetideas.graphics.client.Color;
 
 public class SephirothData {
-	public final static int UNIT = 49;
+	public final static int UNIT = 30; //default = 50
 	private final static int FACTOR = ((UNIT * 2) * 86) / 100;	
 	public final static int WIDTH = 6 * UNIT;
 	public final static int HEIGHT = 10 * UNIT;

@@ -32,7 +32,7 @@ public class NumberView extends Composite implements NumberPresenter.Display {
 		final DecoratorPanel contentTableDecorator = new DecoratorPanel();
 		initWidget(contentTableDecorator);
 		contentTableDecorator.setWidth("100%");
-		contentTableDecorator.setWidth("600px");
+		contentTableDecorator.setWidth("800px");
 
 		contentTable = new FlexTable();
 		contentTable.setWidth("100%");
