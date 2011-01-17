@@ -134,7 +134,7 @@ public class GematriaUtil {
 			}
 		}
 		else if (current == 'O') { 
-			if (next == 'O') { // double O
+			if (next == 'O' || next == 'U') { // double O and ou
 				skipNext = true;
 				return HebrewLetter.Ayin.hebrew; 
 			} else if (isFirst) { // O at start of word
