@@ -173,7 +173,12 @@ public class GematriaUtil {
 				return HebrewLetter.Peh.hebrew; 
 			}
 		}
-		else if (current == 'Q') { return HebrewLetter.Qoph.hebrew; }
+		else if (current == 'Q') { 
+			if (next == 'U') {
+				skipNext = true;				
+			}
+			return HebrewLetter.Qoph.hebrew; 
+		}
 		else if (current == 'R') { return HebrewLetter.Resh.hebrew; }
 		else if (current == 'S') { 			
 			if (next == 'C' && afterNext == 'H') { //Sch
