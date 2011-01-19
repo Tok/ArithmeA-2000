@@ -120,8 +120,8 @@ public class GematriaUtil {
 		else if (current == 'I') { return HebrewLetter.Yud.hebrew; }
 		else if (current == 'J') { return HebrewLetter.Gimel.hebrew; }
 		else if (current == 'K') {
-			if (next == 'H') {
-				skipNext = true;
+			if (next == 'H') { //KH
+				//don't skip next heh
 				if (afterNext == ' ' || next == '-' || afterNext == '\u0000') {
 					return HebrewLetter.Kaph_Final.hebrew; 					
 				} else {
