@@ -95,16 +95,16 @@ public class GematriaUtil {
 		else if (current == 'C') {
 			if (next == 'H') {
 				skipNext = true;
+				return HebrewLetter.Cheth.hebrew; 
 			}
-			if (next == 'K') {
+			if (next == 'C' || next == 'K') { //CC and CK
 				skipNext = true;
-				if (afterNext == ' ' || next == '-' || afterNext == '\u0000') {
-					return HebrewLetter.Kaph_Final.hebrew; 					
-				} else {
-					return HebrewLetter.Kaph.hebrew; 
-				}
 			}
-			return HebrewLetter.Cheth.hebrew; 
+			if (afterNext == ' ' || next == '-' || afterNext == '\u0000') {
+				return HebrewLetter.Kaph_Final.hebrew; 					
+			} else {
+				return HebrewLetter.Kaph.hebrew; 
+			}
 		}
 		else if (current == 'D') { return HebrewLetter.Daleth.hebrew; }
 		else if (current == 'E') { return '\u0000'; }
@@ -177,6 +177,9 @@ public class GematriaUtil {
 			} else if (next == 'H') { // Sh
 				skipNext = true;
 				return HebrewLetter.Shin.hebrew;  
+			} else if (next == 'S') { // SS
+				skipNext = true;
+				return HebrewLetter.Zain.hebrew;  
 			} else {
 				return HebrewLetter.Samekh.hebrew; 
 			}
@@ -192,6 +195,9 @@ public class GematriaUtil {
 			} else if (next == 'H') { //Th
 				skipNext = true;
 				return HebrewLetter.Tav.hebrew; 
+			} else if (next == 'S') { //Ts
+				skipNext = true;
+				return HebrewLetter.Zain.hebrew; 
 			} else {
 				return HebrewLetter.Teth.hebrew; 	
 			}
