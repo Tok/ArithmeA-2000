@@ -107,7 +107,13 @@ public class GematriaUtil {
 			}
 		}
 		else if (current == 'D') { return HebrewLetter.Daleth.hebrew; }
-		else if (current == 'E') { return '\u0000'; }
+		else if (current == 'E') { 
+			if (next == 'E') { //EE
+				skipNext = true;				
+				return HebrewLetter.Heh.hebrew;
+			}
+			return '\u0000'; 
+		}
 		else if (current == 'F') { return HebrewLetter.Peh.hebrew; }
 		else if (current == 'G') { return HebrewLetter.Gimel.hebrew; }
 		else if (current == 'H') { return HebrewLetter.Heh.hebrew; }
