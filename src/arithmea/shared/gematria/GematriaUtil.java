@@ -65,8 +65,9 @@ public class GematriaUtil {
 			if (skipNext) {
 				if (skipAfterNext) {
 					skipAfterNext = false;
+				} else {
+					skipNext = false;
 				}
-				skipNext = false;
 			} else { 
 				final char current = chars[i];
 				char next = '\u0000';
