@@ -19,5 +19,6 @@ public interface ArithmeaServiceAsync {
 	void getAllTermsFromOffset(Integer offset,
 			AsyncCallback<ArrayList<Term>> asyncCallback);
 	void deleteTerms(ArrayList<String> ids, AsyncCallback<String> callback);
+	void deleteAllTerms(AsyncCallback<String> callback);
 }
 

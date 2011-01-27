@@ -19,4 +19,5 @@ public interface ArithmeaService extends RemoteService {
   ArrayList<Term> getTermsFor(final String methodName, final Integer number);
   String parseTerms(String input);
   ArrayList<Term> getAllTermsFromOffset(Integer offset);
+  String deleteAllTerms();
 }

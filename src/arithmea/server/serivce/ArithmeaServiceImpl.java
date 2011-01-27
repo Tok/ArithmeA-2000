@@ -3,6 +3,7 @@ package arithmea.server.serivce;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.jdo.Extent;
 import javax.jdo.JDOHelper;
 import javax.jdo.PersistenceManager;
 import javax.jdo.PersistenceManagerFactory;
@@ -56,6 +57,18 @@ public class ArithmeaServiceImpl extends RemoteServiceServlet implements
 			deleteTerm(ids.get(i));
 		}
 		return "Deleted " + i + " words.";
+	}
+	
+	@Override
+	public String deleteAllTerms() {
+		PersistenceManager pm = PMF.getPersistenceManager();
+		Extent<Term> extent = pm.getExtent(Term.class, false);
+		int count = 0;
+		for (Term term : extent) {
+			pm.deletePersistent(term);
+			count++;
+		}
+		return String.valueOf(count);
 	}
 
 	@Override

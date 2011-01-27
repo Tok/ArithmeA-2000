@@ -27,6 +27,8 @@ import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.user.client.History;
+import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HasWidgets;
 
 public class AppController implements Presenter, ValueChangeHandler<String> {
@@ -137,6 +139,15 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 			} else if (token.equals("parse")) {
 				presenter = new ParseTextPresenter(rpcService, eventBus,
 						new ParseTextView());
+			} else if (token.equals("deleteAll")) {
+				rpcService.deleteAllTerms(new AsyncCallback<String>() {
+					public void onSuccess(String result) {
+						Window.alert("deleted " + result + " terms.");
+					}
+					public void onFailure(Throwable caught) {
+						Window.alert("Fail deleting terms: " + caught);
+					}
+				});
 			}
 			presenter.go(container);
 		}

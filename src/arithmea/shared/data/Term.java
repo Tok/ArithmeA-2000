@@ -38,6 +38,9 @@ public class Term implements Serializable {
 
 	@Persistent
 	public Integer tq;
+
+	@Persistent
+	public Integer eq;
 	
 	@Persistent
 	public Integer german;
@@ -76,7 +79,8 @@ public class Term implements Serializable {
 		this.ia = values.get(LatinMethod.IA);
 		this.naeq = values.get(LatinMethod.NAEQ);
 		this.tq = values.get(LatinMethod.TQ);
-		this.german = values.get(LatinMethod.German);		
+		this.eq = values.get(LatinMethod.EQ);	
+		this.german = values.get(LatinMethod.German);			
 		this.full = values.get(HebrewMethod.Full);
 		this.ordinal = values.get(HebrewMethod.Ordinal);
 		this.katan = values.get(HebrewMethod.Katan);
@@ -105,6 +109,8 @@ public class Term implements Serializable {
 			return naeq;
 		} else if (LatinMethod.TQ.equals(method)) {
 			return tq;
+		} else if (LatinMethod.EQ.equals(method)) {
+			return eq;
 		} else if (LatinMethod.German.equals(method)) {
 			return german;
 		} else if (HebrewMethod.Full.equals(method)) {
