@@ -34,6 +34,7 @@ public class TermsView extends Composite implements TermsPresenter.Display {
 	private final Button parseTextButton;
 	private final Button deleteButton;	
 	private final ListBox letterBox;
+	private final CheckBox highlightCheckBox = new CheckBox("Highlight");
 	private final Anchor latinHeader = new Anchor("Latin");
 	private final Anchor hebrewHeader = new Anchor("Hebrew");
 	
@@ -44,11 +45,13 @@ public class TermsView extends Composite implements TermsPresenter.Display {
 	
 	private String letter;
 	private int offset;
+	private boolean highlight;
 
 	public TermsView() {
 		try {
 			letter = com.google.gwt.user.client.Window.Location.getParameter("letter");
 			offset = Integer.valueOf(com.google.gwt.user.client.Window.Location.getParameter("offset"));
+			highlight = Boolean.valueOf(com.google.gwt.user.client.Window.Location.getParameter("highlight"));
 		} catch (NumberFormatException nfe) {
 			offset = 0;
 		}
@@ -82,6 +85,10 @@ public class TermsView extends Composite implements TermsPresenter.Display {
 			index++;
 		}
 		hPanel.add(letterBox);
+		
+		highlightCheckBox.setValue(highlight);
+		highlightCheckBox.setStyleName("black");
+		hPanel.add(highlightCheckBox);
 
 		contentTable.getCellFormatter().addStyleName(0, 0, "menu-table");
 		contentTable.setWidget(0, 0, hPanel);
@@ -162,6 +169,7 @@ public class TermsView extends Composite implements TermsPresenter.Display {
 				int value = term.get(gm);
 				Anchor anchor = prepareContentAnchor(gm.name(), value);
 				
+				if (highlightCheckBox.getValue()) {
 				for (Highlight hl : Highlight.values()) {
 					if (hl.getNumber() == value) {
 						anchor.setStyleName(hl.getColor());
@@ -172,6 +180,7 @@ public class TermsView extends Composite implements TermsPresenter.Display {
 						anchor.setStyleName("");
 						break;
 					}
+				}
 				}
 				
 //				if (gm.equals(LatinMethod.Chaldean) || gm.equals(LatinMethod.Chaldean)) {
@@ -191,6 +200,7 @@ public class TermsView extends Composite implements TermsPresenter.Display {
 				int value = term.get(gm);
 				Anchor anchor = prepareContentAnchor(gm.name(), value);
 				
+				if (highlightCheckBox.getValue()) {
 				for (Highlight hl : Highlight.values()) {
 					if (hl.getNumber() == value) {
 						anchor.setStyleName(hl.getColor());
@@ -201,6 +211,7 @@ public class TermsView extends Composite implements TermsPresenter.Display {
 						anchor.setStyleName("");
 						break;
 					}
+				}
 				}
 				
 				addWidgetToTable(row+1, column, anchor, true);
@@ -215,7 +226,7 @@ public class TermsView extends Composite implements TermsPresenter.Display {
 		back.setStyleName("padding-right");
 		Integer backOffset = offset - 15;
 		if (backOffset < 0) { backOffset = 0; }
-		back.setHref("?letter=" + letter + "&offset=" + backOffset + "#list");
+		back.setHref("?letter=" + letter + "&offset=" + backOffset + "&highlight=" + highlightCheckBox.getValue() + "#list");
 		pagerPanel.add(back);
 		
 		Integer nextOffset = offset;
@@ -224,7 +235,7 @@ public class TermsView extends Composite implements TermsPresenter.Display {
 		} 
 		Anchor next = new Anchor("next>>");
 		next.setStyleName("padding-right");
-		next.setHref("?letter=" + letter + "&offset=" + nextOffset + "#list");
+		next.setHref("?letter=" + letter + "&offset=" + nextOffset + "&highlight=" + highlightCheckBox.getValue() + "#list");
 		pagerPanel.add(next);
 		
 		addWidgetToTable(row+1, 1, pagerPanel, false);
@@ -289,5 +300,10 @@ public class TermsView extends Composite implements TermsPresenter.Display {
 	@Override
 	public void setOffset(int offset) {
 		this.offset = offset;
+	}
+
+	@Override
+	public CheckBox getHighlightCheckBox() {
+		return highlightCheckBox;
 	}
 }

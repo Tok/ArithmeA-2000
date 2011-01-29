@@ -75,6 +75,14 @@ th,td {
 	color: black;
 }
 
+.White {
+	color: white;
+}
+
+.WhiteBg {
+	background-color: white;
+}
+
 .BlackBg {
 	background-color: black;
 }

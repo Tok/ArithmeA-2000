@@ -21,9 +21,12 @@ import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.HasClickHandlers;
+import com.google.gwt.event.logical.shared.ValueChangeEvent;
+import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.Widget;
@@ -43,6 +46,7 @@ public class TermsPresenter implements Presenter {
 		void setData(List<Term> data);
 		List<Integer> getSelectedRows();
 		ListBox getLetterBox();
+		CheckBox getHighlightCheckBox();
 		int getOffset();
 		void setOffset(int offset);
 		Widget asWidget();
@@ -86,6 +90,12 @@ public class TermsPresenter implements Presenter {
 				fetchTermDetails();
 			}
 		});
+		display.getHighlightCheckBox().addValueChangeHandler(new ValueChangeHandler<Boolean>() {
+			public void onValueChange(ValueChangeEvent<Boolean> event) {
+				display.setData(terms);
+			}
+		});
+
 
 		display.getLatinHeader().addClickHandler(new ClickHandler() {
 			public void onClick(final ClickEvent event) {

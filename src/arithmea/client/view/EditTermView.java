@@ -49,9 +49,13 @@ public class EditTermView extends Composite implements
 	private final Button saveButton;
 	private final Button cancelButton;
 
+	private final String word;
+	private final boolean highlight;
+	
 	public EditTermView() {
-		final String word = com.google.gwt.user.client.Window.Location.getParameter("word");
-		
+		word = com.google.gwt.user.client.Window.Location.getParameter("word");
+		highlight = Boolean.valueOf(com.google.gwt.user.client.Window.Location.getParameter("highlight"));
+
 		final DecoratorPanel contentDetailsDecorator = new DecoratorPanel();
 		contentDetailsDecorator.setWidth("800px");
 		initWidget(contentDetailsDecorator);
@@ -154,6 +158,7 @@ public class EditTermView extends Composite implements
 			for (LatinMethod method : LatinMethod.values()) {
 				int value = term.get(method);
 				textBoxes.get(method).setText(String.valueOf(value));
+				if(highlight) {
 				for (Highlight hl : Highlight.values()) {
 					if (hl.getNumber() == value) {
 						anchors.get(method).setStyleName(hl.getColor());
@@ -165,12 +170,14 @@ public class EditTermView extends Composite implements
 						break;
 					}
 				}
+				}
 				anchors.get(method).setText(String.valueOf(value));
 				anchors.get(method).setHref("?method="+method.name()+"&number="+value+"#show");
 			}
 			for (HebrewMethod method : HebrewMethod.values()) {
 				int value = term.get(method);
 				textBoxes.get(method).setText(String.valueOf(value));
+				if(highlight) {
 				for (Highlight hl : Highlight.values()) {
 					if (hl.getNumber() == value) {
 						anchors.get(method).setStyleName(hl.getColor());
@@ -181,6 +188,7 @@ public class EditTermView extends Composite implements
 						anchors.get(method).setStyleName("");
 						break;
 					}
+				}
 				}
 				anchors.get(method).setText(String.valueOf(value));
 				anchors.get(method).setHref("?method="+method.name()+"&number="+value+"#show");
