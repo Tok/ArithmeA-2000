@@ -7,6 +7,7 @@ import arithmea.client.presenter.EditTermPresenter;
 import arithmea.client.widgets.ExtendedTextBox;
 import arithmea.client.widgets.tree.HebrewTreeWidget;
 import arithmea.client.widgets.tree.LatinTreeWidget;
+import arithmea.shared.data.Highlight;
 import arithmea.shared.data.Term;
 import arithmea.shared.gematria.GematriaMethod;
 import arithmea.shared.gematria.HebrewMethod;
@@ -151,15 +152,37 @@ public class EditTermView extends Composite implements
 		
 			// create new term and update view
 			for (LatinMethod method : LatinMethod.values()) {
-				String value = term.get(method).toString();
-				textBoxes.get(method).setText(value);
-				anchors.get(method).setText(value);
+				int value = term.get(method);
+				textBoxes.get(method).setText(String.valueOf(value));
+				for (Highlight hl : Highlight.values()) {
+					if (hl.getNumber() == value) {
+						anchors.get(method).setStyleName(hl.getColor());
+						anchors.get(method).setTitle(hl.getNumberQuality());
+						break;
+					}
+					if (hl.getNumber() > value) {
+						anchors.get(method).setStyleName("");
+						break;
+					}
+				}
+				anchors.get(method).setText(String.valueOf(value));
 				anchors.get(method).setHref("?method="+method.name()+"&number="+value+"#show");
 			}
 			for (HebrewMethod method : HebrewMethod.values()) {
-				String value = term.get(method).toString();
-				textBoxes.get(method).setText(value);
-				anchors.get(method).setText(value);
+				int value = term.get(method);
+				textBoxes.get(method).setText(String.valueOf(value));
+				for (Highlight hl : Highlight.values()) {
+					if (hl.getNumber() == value) {
+						anchors.get(method).setStyleName(hl.getColor());
+						anchors.get(method).setTitle(hl.getNumberQuality());
+						break;
+					}
+					if (hl.getNumber() > value) {
+						anchors.get(method).setStyleName("");
+						break;
+					}
+				}
+				anchors.get(method).setText(String.valueOf(value));
 				anchors.get(method).setHref("?method="+method.name()+"&number="+value+"#show");
 			}
 

@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import arithmea.client.presenter.TermsPresenter;
+import arithmea.shared.data.Highlight;
 import arithmea.shared.data.Term;
 import arithmea.shared.gematria.GematriaMethod;
 import arithmea.shared.gematria.HebrewMethod;
@@ -158,14 +159,50 @@ public class TermsView extends Composite implements TermsPresenter.Display {
 			addWidgetToTable(row+1, 1, latinAnchor, false);
 			int column = 2;
 			for (LatinMethod gm : LatinMethod.values()) {
-				Anchor anchor = prepareContentAnchor(gm.name(), term.get(gm));
+				int value = term.get(gm);
+				Anchor anchor = prepareContentAnchor(gm.name(), value);
+				
+				for (Highlight hl : Highlight.values()) {
+					if (hl.getNumber() == value) {
+						anchor.setStyleName(hl.getColor());
+						anchor.setTitle(hl.getNumberQuality());
+						break;
+					}
+					if (hl.getNumber() > value) {
+						anchor.setStyleName("");
+						break;
+					}
+				}
+				
+//				if (gm.equals(LatinMethod.Chaldean) || gm.equals(LatinMethod.Chaldean)) {
+//					int value = term.get(gm);
+//					if (value == 11 || value == 22 || value == 33) {
+//						anchor.setStyleName("red");
+//					}
+//				} else {
+//				}
+
 				addWidgetToTable(row+1, column, anchor, true);
 				column++;
 			}
 			addWidgetToTable(row+1, column, new Label(term.getHebrewString()), true);
 			column++;
 			for (HebrewMethod gm : HebrewMethod.values()) {
-				Anchor anchor = prepareContentAnchor(gm.name(), term.get(gm));
+				int value = term.get(gm);
+				Anchor anchor = prepareContentAnchor(gm.name(), value);
+				
+				for (Highlight hl : Highlight.values()) {
+					if (hl.getNumber() == value) {
+						anchor.setStyleName(hl.getColor());
+						anchor.setTitle(hl.getNumberQuality());
+						break;
+					}
+					if (hl.getNumber() > value) {
+						anchor.setStyleName("");
+						break;
+					}
+				}
+				
 				addWidgetToTable(row+1, column, anchor, true);
 				column++;
 			}
