@@ -55,6 +55,9 @@ public class TermsPresenter implements Presenter {
 	private final ArithmeaServiceAsync rpcService;
 	private final HandlerManager eventBus;
 	private final Display display;
+	
+//	private String letter;
+//	private boolean highlight;
 
 	public TermsPresenter(final ArithmeaServiceAsync rpcService,
 			final HandlerManager eventBus, final Display view) {
@@ -86,12 +89,16 @@ public class TermsPresenter implements Presenter {
 		});
 		display.getLetterBox().addChangeHandler(new ChangeHandler() {
 			public void onChange(ChangeEvent event) {
+//				letter = event.toString();
+//				com.google.gwt.user.client.Window.Location.replace("/Arithmea.html?letter=" + letter + "&highlight=" + highlight + "#list");
 				display.setOffset(0);
 				fetchTermDetails();
 			}
 		});
 		display.getHighlightCheckBox().addValueChangeHandler(new ValueChangeHandler<Boolean>() {
 			public void onValueChange(ValueChangeEvent<Boolean> event) {
+//				highlight = event.getValue();
+//				com.google.gwt.user.client.Window.Location.replace("/Arithmea.html?letter=" + letter + "&highlight=" + highlight + "#list");
 				display.setData(terms);
 			}
 		});

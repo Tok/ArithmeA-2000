@@ -4,9 +4,9 @@ package arithmea.shared.qabalah;
 public enum LatinPath {
 	A(1, Sephira.Kether, Sephira.Chokmah), 
 	B(2, Sephira.Kether, Sephira.Chesed), 
-	C(3, Sephira.Kether, Sephira.Tiphareth), 
-	D(4, Sephira.Kether, Sephira.Binah), 
-	E(5, Sephira.Kether, Sephira.Geburah), 
+	C(3, Sephira.Kether, Sephira.Binah), 
+	D(4, Sephira.Kether, Sephira.Geburah), 
+	E(5, Sephira.Kether, Sephira.Tiphareth), 
 	F(6, Sephira.Chokmah, Sephira.Binah), 
 	G(7, Sephira.Chokmah, Sephira.Geburah), 
 	H(8, Sephira.Chokmah, Sephira.Tiphareth), 
