@@ -3,6 +3,7 @@ package arithmea.client.view;
 import java.util.HashMap;
 import java.util.Map;
 
+import arithmea.client.event.ShowNumberEvent;
 import arithmea.client.presenter.EditTermPresenter;
 import arithmea.client.widgets.ExtendedTextBox;
 import arithmea.client.widgets.tree.HebrewTreeWidget;
@@ -14,11 +15,14 @@ import arithmea.shared.gematria.HebrewMethod;
 import arithmea.shared.gematria.LatinMethod;
 import arithmea.shared.qabalah.SephirothData;
 
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.HasClickHandlers;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
+import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
@@ -48,14 +52,12 @@ public class EditTermView extends Composite implements
 	private final FlexTable detailsTable;
 	private final Button saveButton;
 	private final Button cancelButton;
-
-	private final String word;
-	private final boolean highlight;
 	
-	public EditTermView() {
-		word = com.google.gwt.user.client.Window.Location.getParameter("word");
-		highlight = Boolean.valueOf(com.google.gwt.user.client.Window.Location.getParameter("highlight"));
-
+	private final HandlerManager eventBus;
+	
+	public EditTermView(HandlerManager eventBus, String word) {
+		this.eventBus = eventBus;
+		
 		final DecoratorPanel contentDetailsDecorator = new DecoratorPanel();
 		contentDetailsDecorator.setWidth("800px");
 		initWidget(contentDetailsDecorator);
@@ -156,42 +158,10 @@ public class EditTermView extends Composite implements
 		
 			// create new term and update view
 			for (LatinMethod method : LatinMethod.values()) {
-				int value = term.get(method);
-				textBoxes.get(method).setText(String.valueOf(value));
-				if(highlight) {
-				for (Highlight hl : Highlight.values()) {
-					if (hl.getNumber() == value) {
-						anchors.get(method).setStyleName(hl.getColor());
-						anchors.get(method).setTitle(hl.getNumberQuality());
-						break;
-					}
-					if (hl.getNumber() > value) {
-						anchors.get(method).setStyleName("");
-						break;
-					}
-				}
-				}
-				anchors.get(method).setText(String.valueOf(value));
-				anchors.get(method).setHref("?method="+method.name()+"&number="+value+"#show");
+				prepareMethodAnchor(term, method);
 			}
 			for (HebrewMethod method : HebrewMethod.values()) {
-				int value = term.get(method);
-				textBoxes.get(method).setText(String.valueOf(value));
-				if(highlight) {
-				for (Highlight hl : Highlight.values()) {
-					if (hl.getNumber() == value) {
-						anchors.get(method).setStyleName(hl.getColor());
-						anchors.get(method).setTitle(hl.getNumberQuality());
-						break;
-					}
-					if (hl.getNumber() > value) {
-						anchors.get(method).setStyleName("");
-						break;
-					}
-				}
-				}
-				anchors.get(method).setText(String.valueOf(value));
-				anchors.get(method).setHref("?method="+method.name()+"&number="+value+"#show");
+				prepareMethodAnchor(term, method);
 			}
 
 			// update tree widgets
@@ -207,6 +177,31 @@ public class EditTermView extends Composite implements
 		
 	}
 
+	private void prepareMethodAnchor(final Term term, final GematriaMethod method) {
+		final String methodName = method.name();
+		final int value = term.get(method);
+		textBoxes.get(method).setText(String.valueOf(value));
+		for (Highlight hl : Highlight.values()) {
+			if (hl.getNumber() == value) {
+				anchors.get(method).setStyleName(hl.getColor());
+				anchors.get(method).setTitle(hl.getNumberQuality());
+				break;
+			}
+			if (hl.getNumber() > value) {
+				anchors.get(method).setStyleName("");
+				break;
+			}
+		}
+		anchors.get(method).setText(String.valueOf(value));
+		anchors.get(method).addClickHandler(new ClickHandler() {
+			@Override
+			public void onClick(ClickEvent event) {
+				eventBus.fireEvent(new ShowNumberEvent(methodName, String.valueOf(value)));
+			}
+		});
+		anchors.get(method).setHref("#show/" + methodName + "/" + String.valueOf(value));
+	}
+	
 	private void initDetailsTable() {
 		detailsTable.setWidget(0, 1, latinString);
 		detailsTable.getCellFormatter().addStyleName(0, 1, "text-table");

@@ -21,13 +21,12 @@ import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.HasClickHandlers;
-import com.google.gwt.event.logical.shared.ValueChangeEvent;
-import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.ui.CheckBox;
+import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HasWidgets;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -46,19 +45,16 @@ public class TermsPresenter implements Presenter {
 		void setData(List<Term> data);
 		List<Integer> getSelectedRows();
 		ListBox getLetterBox();
-		CheckBox getHighlightCheckBox();
 		int getOffset();
 		void setOffset(int offset);
 		Widget asWidget();
+		FlexTable getTermsTable();
 	}
 
 	private final ArithmeaServiceAsync rpcService;
 	private final HandlerManager eventBus;
 	private final Display display;
 	
-//	private String letter;
-//	private boolean highlight;
-
 	public TermsPresenter(final ArithmeaServiceAsync rpcService,
 			final HandlerManager eventBus, final Display view) {
 		this.rpcService = rpcService;
@@ -69,12 +65,12 @@ public class TermsPresenter implements Presenter {
 	public void bind() {
 		display.getAddButton().addClickHandler(new ClickHandler() {
 			public void onClick(final ClickEvent event) {
-				eventBus.fireEvent(new AddTermEvent());
+				eventBus.fireEvent(new AddTermEvent(""));
 			}
 		});
 		display.getShowNumbersButton().addClickHandler(new ClickHandler() {
 			public void onClick(final ClickEvent event) {
-				eventBus.fireEvent(new ShowNumberEvent());
+				eventBus.fireEvent(new ShowNumberEvent("", ""));
 			}
 		});
 		display.getParseTextButton().addClickHandler(new ClickHandler() {
@@ -89,20 +85,10 @@ public class TermsPresenter implements Presenter {
 		});
 		display.getLetterBox().addChangeHandler(new ChangeHandler() {
 			public void onChange(ChangeEvent event) {
-//				letter = event.toString();
-//				com.google.gwt.user.client.Window.Location.replace("/Arithmea.html?letter=" + letter + "&highlight=" + highlight + "#list");
 				display.setOffset(0);
 				fetchTermDetails();
 			}
 		});
-		display.getHighlightCheckBox().addValueChangeHandler(new ValueChangeHandler<Boolean>() {
-			public void onValueChange(ValueChangeEvent<Boolean> event) {
-//				highlight = event.getValue();
-//				com.google.gwt.user.client.Window.Location.replace("/Arithmea.html?letter=" + letter + "&highlight=" + highlight + "#list");
-				display.setData(terms);
-			}
-		});
-
 
 		display.getLatinHeader().addClickHandler(new ClickHandler() {
 			public void onClick(final ClickEvent event) {
@@ -149,6 +135,9 @@ public class TermsPresenter implements Presenter {
 		String letter = display.getLetterBox().getValue(
 			display.getLetterBox().getSelectedIndex()
 		);
+		if(display.getTermsTable().getRowCount() == 0) {
+			display.getTermsTable().setWidget(0, 0, new Label("Loading.."));
+		}
 		if (letter.equalsIgnoreCase("All")) {
 			rpcService.getAllTermsFromOffset(display.getOffset(), new AsyncCallback<ArrayList<Term>>() {
 				public void onSuccess(ArrayList<Term> result) {

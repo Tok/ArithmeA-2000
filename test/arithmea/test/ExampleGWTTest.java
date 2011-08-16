@@ -30,7 +30,7 @@ public class ExampleGWTTest extends GWTTestCase {
 	public void gwtSetUp() {
 		rpcService = GWT.create(ArithmeaService.class);
 		eventBus = new HandlerManager(null);
-		display = new TermsView();
+		display = new TermsView(eventBus, "", 0);
 		termsPresenter = new TermsPresenter(rpcService, eventBus, display);
 	}
 

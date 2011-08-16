@@ -96,7 +96,7 @@ public class ArithmeaServiceImpl extends RemoteServiceServlet implements
 			Query query = pm.newQuery(Term.class);
 			query.setFilter("firstLetter == l");
 			query.declareParameters("String l");
-			query.setRange(from, from + 15);
+			query.setRange(from, from + 20);
 			@SuppressWarnings("unchecked")
 			List<Term> tmp = (List<Term>) query.execute(letter);
 			result.addAll(tmp);
@@ -111,7 +111,7 @@ public class ArithmeaServiceImpl extends RemoteServiceServlet implements
 		ArrayList<Term> result = new ArrayList<Term>();
 		try {
 			Query query = pm.newQuery(Term.class);
-			query.setRange(offset, offset + 15);
+			query.setRange(offset, offset + 20);
 			@SuppressWarnings("unchecked")
 			List<Term> tmp = (List<Term>) query.execute();
 			result.addAll(tmp);

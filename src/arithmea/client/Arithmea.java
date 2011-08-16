@@ -1,6 +1,6 @@
 package arithmea.client;
 
-import arithmea.client.event.CancelledEvent;
+import arithmea.client.event.ShowListEvent;
 import arithmea.client.service.ArithmeaService;
 import arithmea.client.service.ArithmeaServiceAsync;
 
@@ -19,15 +19,15 @@ public class Arithmea implements EntryPoint {
 		final HandlerManager eventBus = new HandlerManager(null);
 		final AppController appViewer = new AppController(rpcService, eventBus);
 
-		Image titleImage = new Image("/images/ArithmeaTitle.png");
+		final Image titleImage = new Image("/images/ArithmeaTitle.png");
 		titleImage.addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
-				eventBus.fireEvent(new CancelledEvent());
+				eventBus.fireEvent(new ShowListEvent());
 			}
 		});
-
 		RootPanel.get("title").add(titleImage);
+
 		appViewer.go(RootPanel.get("content"));
 	}
 

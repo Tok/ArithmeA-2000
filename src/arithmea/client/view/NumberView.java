@@ -25,10 +25,7 @@ public class NumberView extends Composite implements NumberPresenter.Display {
 	private final FlowPanel similarWords = new FlowPanel();
 	private final FlexTable contentTable;
 
-	public NumberView() {
-		final String method = com.google.gwt.user.client.Window.Location.getParameter("method");
-		final String number = com.google.gwt.user.client.Window.Location.getParameter("number");
-		
+	public NumberView(String method, String number) {		
 		final DecoratorPanel contentTableDecorator = new DecoratorPanel();
 		initWidget(contentTableDecorator);
 		contentTableDecorator.setWidth("100%");

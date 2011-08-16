@@ -2,6 +2,9 @@
 	border-bottom: 1px solid #E2E2E2;
 }
 
+a, a:visited, a:hover {
+}
+
 table {
 	border-collapse: collapse;
 	margin: 0px;
@@ -91,26 +94,26 @@ th,td {
 	color: grey;
 }
 
-.Red {
+a.Red, a:visited.Red {
 	color: #ED1C24;
 }
 
-.Green {
+a.Green, a:visited.Green {
 	color: #22B14C;
 }
 
-.Blue {
+a.Blue, a:visited.Blue {
 	color: #3F48CC;
 }
 
-.Orange {
+a.Orange, a:visited.Orange {
 	color: #FF7F27;
 }
 
-.Purple {
+a.Purple, a:visited.Purple {
 	color: #A349A4;
 }
 
-.Yellow {
+a.Yellow, a:visited.Yellow {
 	color: #FFF200;
 }

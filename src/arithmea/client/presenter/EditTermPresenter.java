@@ -1,7 +1,6 @@
 package arithmea.client.presenter;
 
-import arithmea.client.event.CancelledEvent;
-import arithmea.client.event.TermUpdatedEvent;
+import arithmea.client.event.ShowListEvent;
 import arithmea.client.service.ArithmeaServiceAsync;
 import arithmea.client.widgets.tree.HebrewTreeWidget;
 import arithmea.client.widgets.tree.LatinTreeWidget;
@@ -82,7 +81,7 @@ public class EditTermPresenter implements Presenter{
 
     this.display.getCancelButton().addClickHandler(new ClickHandler() {   
       public void onClick(final ClickEvent event) {
-        eventBus.fireEvent(new CancelledEvent());
+        eventBus.fireEvent(new ShowListEvent());
       }
     });
   }
@@ -99,7 +98,7 @@ public class EditTermPresenter implements Presenter{
 		final Term term = new Term(latinString);
 		rpcService.updateTerm(term, new AsyncCallback<Term>() {
 			public void onSuccess(final Term result) {
-				eventBus.fireEvent(new TermUpdatedEvent(result));
+				eventBus.fireEvent(new ShowListEvent());
 			}
 			public void onFailure(final Throwable caught) {
 				Window.alert("Fail updating Term");

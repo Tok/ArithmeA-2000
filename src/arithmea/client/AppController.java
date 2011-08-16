@@ -2,16 +2,14 @@ package arithmea.client;
 
 import arithmea.client.event.AddTermEvent;
 import arithmea.client.event.AddTermEventHandler;
-import arithmea.client.event.CancelledEvent;
-import arithmea.client.event.CancelledEventHandler;
 import arithmea.client.event.EditTermEvent;
 import arithmea.client.event.EditTermEventHandler;
 import arithmea.client.event.ParseTextEvent;
 import arithmea.client.event.ParseTextEventHandler;
+import arithmea.client.event.ShowListEvent;
+import arithmea.client.event.ShowListEventHandler;
 import arithmea.client.event.ShowNumberEvent;
 import arithmea.client.event.ShowNumberEventHandler;
-import arithmea.client.event.TermUpdatedEvent;
-import arithmea.client.event.TermUpdatedEventHandler;
 import arithmea.client.presenter.EditTermPresenter;
 import arithmea.client.presenter.NumberPresenter;
 import arithmea.client.presenter.ParseTextPresenter;
@@ -48,7 +46,7 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 
 		eventBus.addHandler(AddTermEvent.TYPE, new AddTermEventHandler() {
 			public void onAddTerm(AddTermEvent event) {
-				doAddNewTerm();
+				doAddNewTerm(event.getWord());
 			}
 		});
 
@@ -58,24 +56,17 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 			}
 		});
 
-		eventBus.addHandler(CancelledEvent.TYPE,
-				new CancelledEventHandler() {
-					public void onCancelled(CancelledEvent event) {
-						doEditTermCancelled();
-					}
-				});
-
-		eventBus.addHandler(TermUpdatedEvent.TYPE,
-				new TermUpdatedEventHandler() {
-					public void onTermUpdated(TermUpdatedEvent event) {
-						doTermUpdated();
+		eventBus.addHandler(ShowListEvent.TYPE,
+				new ShowListEventHandler() {
+					public void onShowList(ShowListEvent event) {
+						doShowList(event.getLetter(), event.getOffset());
 					}
 				});
 		
 		eventBus.addHandler(ShowNumberEvent.TYPE,
 				new ShowNumberEventHandler() {
 					public void onShowNumber(ShowNumberEvent event) {
-						doShowNumber();
+						doShowNumber(event.getMethod(), event.getNumber());
 					}
 				});
 		
@@ -87,37 +78,36 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 				});
 	}
 
-	private void doAddNewTerm() {
-		History.newItem("add");
+	private void doAddNewTerm(String word) {
+		History.newItem("add/" + word);
 	}
 
 	private void doEditTerm(final String id) {
-		History.newItem("edit", false);
-		Presenter presenter = new EditTermPresenter(rpcService, eventBus,
-				new EditTermView(), id);
+		History.newItem("edit/", false);
+		Presenter presenter = new EditTermPresenter(rpcService, eventBus, new EditTermView(eventBus, ""), id);
 		presenter.go(container);
 	}
-
-	private void doEditTermCancelled() {
-		History.newItem("list");
-	}
-
-	private void doTermUpdated() {
-		History.newItem("list");
+	
+	private void doShowList(String letter, int offset) {
+		if (letter.equals("All") && offset == 0) {			
+			History.newItem("list/");
+		} else {
+			History.newItem("list/" + letter + "/" + offset);
+		}
 	}
 	
-	private void doShowNumber() {
-		History.newItem("show");
+	private void doShowNumber(String method, String number) {
+		History.newItem("show/" + method + "/" + number);
 	}
 	
 	private void doParseText() {
-		History.newItem("parse");
+		History.newItem("parse/");
 	}
 
 	public void go(final HasWidgets container) {
 		this.container = container;
 		if ("".equals(History.getToken())) {
-			History.newItem("list");
+			History.newItem("list/");
 		} else {
 			History.fireCurrentHistoryState();
 		}
@@ -127,19 +117,40 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 		final String token = event.getValue();
 		if (token != null) {
 			Presenter presenter = null;
-			if (token.equals("list")) {
+			if (token.startsWith("list/")) {
+				String letterString = "All";
+				if (token.split("/").length > 1) {
+					letterString = token.split("/")[1];
+				}
+				String offsetString = "0";
+				if (token.split("/").length > 2) {
+					offsetString = token.split("/")[2];
+				}
+
 				presenter = new TermsPresenter(rpcService, eventBus,
-						new TermsView());
-			} else if (token.equals("add") || token.equals("edit")) {
+						new TermsView(eventBus, letterString, Integer.valueOf(offsetString)));
+			} else if (token.startsWith("add") || token.startsWith("edit")) {
+				String wordString = "";
+				if (token.split("/").length > 1) {
+					wordString = token.split("/")[1];
+				}
 				presenter = new EditTermPresenter(rpcService, eventBus,
-						new EditTermView());
-			} else if (token.equals("show")) {
+						new EditTermView(eventBus, wordString));
+			} else if (token.startsWith("show/")) {
+				String methodString = "All";
+				if (token.split("/").length > 1) {
+					methodString = token.split("/")[1];
+				}
+				String numberString = "0";
+				if (token.split("/").length > 2) {
+					numberString = token.split("/")[2];
+				}
 				presenter = new NumberPresenter(rpcService, eventBus,
-						new NumberView());
-			} else if (token.equals("parse")) {
+						new NumberView(methodString, numberString));
+			} else if (token.equals("parse/")) {
 				presenter = new ParseTextPresenter(rpcService, eventBus,
 						new ParseTextView());
-			} else if (token.equals("deleteAll")) {
+			} else if (token.equals("deleteAll/")) {
 				rpcService.deleteAllTerms(new AsyncCallback<String>() {
 					public void onSuccess(String result) {
 						Window.alert("deleted " + result + " terms.");

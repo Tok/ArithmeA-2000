@@ -3,7 +3,8 @@ package arithmea.client.presenter;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import arithmea.client.event.CancelledEvent;
+import arithmea.client.event.AddTermEvent;
+import arithmea.client.event.ShowListEvent;
 import arithmea.client.service.ArithmeaServiceAsync;
 import arithmea.shared.data.Term;
 
@@ -52,7 +53,7 @@ public class NumberPresenter implements Presenter {
 	public void bind() {
 		this.display.getCancelButton().addClickHandler(new ClickHandler() {
 			public void onClick(final ClickEvent event) {
-				eventBus.fireEvent(new CancelledEvent());
+				eventBus.fireEvent(new ShowListEvent());
 			}
 		});
 		
@@ -121,9 +122,15 @@ public class NumberPresenter implements Presenter {
 					} else {
 						display.getSimilarWords().add(new Label("Listing " + result.size() + " matches: "));
 						while (it.hasNext()) {
-							Term term = it.next();
+							final Term term = it.next();
 							Anchor anchor = new Anchor(term.getLatinString() + " ");
-							anchor.setHref("?word=" + term.getLatinString() + "#add");
+							anchor.addClickHandler(new ClickHandler() {
+								@Override
+								public void onClick(ClickEvent event) {
+									eventBus.fireEvent(new AddTermEvent(term.getLatinString()));
+								}
+							});
+							anchor.setHref("#add/" + term.getLatinString());
 							anchor.setStyleName("padding-right");
 							display.getSimilarWords().add(anchor);
 						}

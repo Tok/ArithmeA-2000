@@ -1,6 +1,6 @@
 package arithmea.client.presenter;
 
-import arithmea.client.event.CancelledEvent;
+import arithmea.client.event.ShowListEvent;
 import arithmea.client.service.ArithmeaServiceAsync;
 
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -37,7 +37,7 @@ public class ParseTextPresenter implements Presenter {
 	public void bind() {
 		this.display.getCancelButton().addClickHandler(new ClickHandler() {
 			public void onClick(final ClickEvent event) {
-				eventBus.fireEvent(new CancelledEvent());
+				eventBus.fireEvent(new ShowListEvent());
 			}
 		});
 		this.display.getParseButton().addClickHandler(new ClickHandler() {
