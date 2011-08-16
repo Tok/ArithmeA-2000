@@ -140,14 +140,16 @@ public class ArithmeaServiceImpl extends RemoteServiceServlet implements
 
 	@Override
 	public String parseTerms(String input) {
-		String[] words = input.split(" ");
+		String[] words = input.split("\\s+");
 		int count = 0;
 		int ignored = 0;
 		for (String word : words) {
 			try {
-				Term term = new Term(word);
-				addTerm(term);
-				count++;
+				if (word.length() < 30) { //ignore long words
+					Term term = new Term(word);
+					addTerm(term);
+					count++;
+				}
 			} catch(IllegalArgumentException iae) {
 				ignored++;
 			}

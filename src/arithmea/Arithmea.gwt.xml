@@ -1,14 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module rename-to='arithmea'>
   <inherits name='com.google.gwt.user.User'/>
-  <inherits name='com.google.gwt.user.theme.dark.Dark'/>     
-  <inherits name='com.google.gwt.widgetideas.GWTCanvas'/>
+  <inherits name='com.google.gwt.user.theme.dark.Dark'/>
  
   <entry-point class='arithmea.client.Arithmea'/>
 
   <source path='client'/>
   <source path='shared'/>
   <source path='test'/>
-
-  <inherits name="com.google.gwt.junit.JUnit"/>
 </module>

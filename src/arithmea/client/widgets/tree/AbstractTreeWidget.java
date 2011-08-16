@@ -3,19 +3,30 @@ package arithmea.client.widgets.tree;
 import arithmea.shared.qabalah.Sephira;
 import arithmea.shared.qabalah.SephirothData;
 
+import com.google.gwt.canvas.client.Canvas;
+import com.google.gwt.canvas.dom.client.Context2d;
+import com.google.gwt.canvas.dom.client.CssColor;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.VerticalPanel;
-import com.google.gwt.widgetideas.graphics.client.Color;
-import com.google.gwt.widgetideas.graphics.client.GWTCanvas;
+//import com.google.gwt.widgetideas.graphics.client.Color;
+//import com.google.gwt.widgetideas.graphics.client.GWTCanvas;
 
 public abstract class AbstractTreeWidget extends Composite {
 	private final VerticalPanel panel = new VerticalPanel();
 	private final SephirothData sd = new SephirothData();
 	
-	private GWTCanvas canvas;
+//	private GWTCanvas canvas;
+	private Canvas canvas;
 	
 	public AbstractTreeWidget(int width, int height) {
-		canvas = new GWTCanvas(width, height);
+		canvas = Canvas.createIfSupported();
+		canvas.setCoordinateSpaceHeight(height * 2);
+		canvas.setCoordinateSpaceWidth(width / 4);
+		
+//		canvas.setWidth(String.valueOf(width / 2));
+//		canvas.setHeight(String.valueOf(height * 3));
+//		canvas.setHeight("400px");
+		
 	    drawSephiroth();
 	    panel.add(canvas);
 		
@@ -23,39 +34,42 @@ public abstract class AbstractTreeWidget extends Composite {
 		setStyleName("tree-of-life");
 	}
 
-	public GWTCanvas getCanvas() {
+	public Canvas getCanvas() {
 		return canvas;
 	}
 
 	public void drawSephiroth() {
-		canvas.setStrokeStyle(Color.WHITE);
+		Context2d ctx = canvas.getContext2d();
+		
+		ctx.setStrokeStyle(CssColor.make("#FFFFFF"));
+//		canvas.setStrokeStyle(CssColor.WHITE);
 		for (Sephira sephira : Sephira.values()) {
-			Color color = sd.getPosition(sephira).color;
+			CssColor color = sd.getPosition(sephira).color;
 			if (!sephira.isImplicate) {
-				canvas.setLineWidth(3);
+				ctx.setLineWidth(3);
 			} else {
-				canvas.setLineWidth(1);				
+				ctx.setLineWidth(1);				
 			}
-			canvas.setFillStyle(color);
-			canvas.setStrokeStyle(Color.WHITE);
+			ctx.setFillStyle(color);
+			ctx.setStrokeStyle(CssColor.make("#FFFFFF"));
 			
 			drawArc(sd.getPosition(sephira).x,  
 						sd.getPosition(sephira).y,
 						SephirothData.UNIT / 2,   0, 360, false);			
 			
 			if (!sephira.isImplicate) {
-				canvas.fill();
+				ctx.fill();
 		 	}
 	 	}
 	}
 
 	private void drawArc(int x, int y, int r, int startAngle, int endAngle, boolean antiClock) {
-		canvas.beginPath();
+		canvas.getContext2d().beginPath();
 		final double start = Math.PI * (startAngle -90) / 180;
 		final double end = Math.PI * (endAngle -90) / 180;
-		canvas.arc(x, y, r, start, end, antiClock);
-		canvas.closePath();
-		canvas.stroke();
+		canvas.getContext2d().arc(x, y, r, start, end, antiClock);
+		canvas.getContext2d().closePath();
+		canvas.getContext2d().stroke();
 	}
 	
 	public void drawPath(Sephira from, Sephira to) {
@@ -67,11 +81,11 @@ public abstract class AbstractTreeWidget extends Composite {
 	}
 	
 	private void drawLine(int startX, int startY, int endX, int endY) {
-		canvas.beginPath();
-		canvas.moveTo(startX, startY);
-		canvas.lineTo(endX, endY);
-		canvas.closePath();
-		canvas.stroke();
+		canvas.getContext2d().beginPath();
+		canvas.getContext2d().moveTo(startX, startY);
+		canvas.getContext2d().lineTo(endX, endY);
+		canvas.getContext2d().closePath();
+		canvas.getContext2d().stroke();
 	}
 
 }

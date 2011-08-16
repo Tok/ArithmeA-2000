@@ -213,6 +213,7 @@ a, a:visited, a:hover {
   cursor: move;
   border: 0px; 
   background: #00CCFF;
+  line-height: 0px;
 }
 .gwt-VerticalSplitPanel {
 }
@@ -220,6 +221,7 @@ a, a:visited, a:hover {
   cursor: move;
   border: 0px; 
   background: #00CCFF;
+  line-height: 0px;
 }
 
 .gwt-HTML {
@@ -1062,10 +1064,15 @@ td.datePickerMonth {
 }
 .gwt-TabLayoutPanel .gwt-TabLayoutPanelTabs {
 }
+.gwt-TabLayoutPanelContentContainer {
+  border-color: #00CCFF;
+  border-style: solid;
+  border-width: 2px 1px 1px;
+}
 .gwt-TabLayoutPanel .gwt-TabLayoutPanelContent {
   border-color: #00CCFF;
   border-style: solid;
-  border-width: 3px 2px 2px;
+  border-width: 1px;
   overflow: hidden;
   padding: 6px;
 }

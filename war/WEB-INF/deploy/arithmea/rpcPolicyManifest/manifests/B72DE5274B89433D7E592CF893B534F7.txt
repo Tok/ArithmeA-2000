@@ -1,2 +1,0 @@
-serviceClass: arithmea.client.service.ArithmeaService
-path: F0461B40316934103D90E05F71440E5A.gwt.rpc

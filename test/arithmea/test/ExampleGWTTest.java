@@ -160,14 +160,14 @@ public class ExampleGWTTest extends GWTTestCase {
 	}
 
 	public void testFull() {
-		assertTrue(new Term(DER_SCHLUESSEL).get(HebrewMethod.Full).equals(new Integer(695)));
+		assertTrue(new Term(DER_SCHLUESSEL).get(HebrewMethod.Full).equals(new Integer(577)));
 	}
 
 	public void testOrdinal() {
-		assertTrue(new Term(DER_SCHLUESSEL).get(HebrewMethod.Ordinal).equals(new Integer(110)));
+		assertTrue(new Term(DER_SCHLUESSEL).get(HebrewMethod.Ordinal).equals(new Integer(82)));
 	}
 
 	public void testKatan() {
-		assertTrue(new Term(DER_SCHLUESSEL).get(HebrewMethod.Katan).equals(new Integer(38)));
+		assertTrue(new Term(DER_SCHLUESSEL).get(HebrewMethod.Katan).equals(new Integer(28)));
 	}
 }

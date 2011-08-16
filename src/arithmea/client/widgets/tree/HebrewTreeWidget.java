@@ -4,7 +4,7 @@ import arithmea.shared.gematria.HebrewLetter;
 import arithmea.shared.qabalah.HebrewPath;
 import arithmea.shared.qabalah.SephirothData;
 
-import com.google.gwt.widgetideas.graphics.client.Color;
+import com.google.gwt.canvas.dom.client.CssColor;
 
 public class HebrewTreeWidget extends AbstractTreeWidget {
 
@@ -14,9 +14,9 @@ public class HebrewTreeWidget extends AbstractTreeWidget {
 	}
 
 	public void setWord(String hebrew) {
-		getCanvas().clear();
-		getCanvas().setLineWidth(SephirothData.UNIT / 5);
-		getCanvas().setStrokeStyle(Color.WHITE);
+		getCanvas().getContext2d().clearRect(0, 0, getCanvas().getCoordinateSpaceWidth(), getCanvas().getCoordinateSpaceHeight());
+		getCanvas().getContext2d().setLineWidth(SephirothData.UNIT / 5);
+		getCanvas().getContext2d().setStrokeStyle(CssColor.make("#FFFFFF"));
 		for (HebrewLetter letter : HebrewLetter.values()) {
 			CharSequence c = String.valueOf(letter.hebrew);
 			if (hebrew.contains(c)) {
@@ -29,8 +29,8 @@ public class HebrewTreeWidget extends AbstractTreeWidget {
 	}
 	
 	private void drawAllPaths() {
-		getCanvas().setLineWidth(1);
-		getCanvas().setStrokeStyle(Color.WHITE);
+		getCanvas().getContext2d().setLineWidth(1);
+		getCanvas().getContext2d().setStrokeStyle(CssColor.make("#FFFFFF"));
 		for (HebrewPath path : HebrewPath.values()) {
 			drawPath(path);
 		}
