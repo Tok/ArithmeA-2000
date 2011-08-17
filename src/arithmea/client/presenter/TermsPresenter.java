@@ -49,6 +49,7 @@ public class TermsPresenter implements Presenter {
 		void setOffset(int offset);
 		Widget asWidget();
 		FlexTable getTermsTable();
+		void setLetter(String letter);
 	}
 
 	private final ArithmeaServiceAsync rpcService;
@@ -135,6 +136,7 @@ public class TermsPresenter implements Presenter {
 		String letter = display.getLetterBox().getValue(
 			display.getLetterBox().getSelectedIndex()
 		);
+		display.setLetter(letter);
 		if(display.getTermsTable().getRowCount() == 0) {
 			display.getTermsTable().setWidget(0, 0, new Label("Loading.."));
 		}

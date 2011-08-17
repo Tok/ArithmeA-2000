@@ -68,7 +68,7 @@ public class TermsView extends Composite implements TermsPresenter.Display {
 
 		// create the menu
 		final HorizontalPanel hPanel = new HorizontalPanel();
-		deleteButton = new Button("Delete Word");
+		deleteButton = new Button("Delete");
 		hPanel.add(deleteButton);
 		showNumbersButton = new Button("Show by Numbers");
 		hPanel.add(showNumbersButton);
@@ -78,7 +78,7 @@ public class TermsView extends Composite implements TermsPresenter.Display {
 		hPanel.add(addButton);
 		letterBox = new ListBox();
 		letterBox.addItem("All");
-		int index = 0;
+		int index = 1;
 		for (LatinLetter ll : LatinLetter.values()) {
 			letterBox.addItem(ll.name());
 			if (ll.name().equalsIgnoreCase(letter)) {
@@ -203,7 +203,7 @@ public class TermsView extends Composite implements TermsPresenter.Display {
 				eventBus.fireEvent(new ShowListEvent(letter, finalBackOffset));
 			}
 		});
-//		back.setHref("#list/" + letter + "/" + finalBackOffset);
+		back.setHref("#list/" + letter + "/" + finalBackOffset);
 		
 		pagerPanel.add(back);
 		
@@ -220,7 +220,7 @@ public class TermsView extends Composite implements TermsPresenter.Display {
 				eventBus.fireEvent(new ShowListEvent(letter, finalNextOffset));
 			}
 		});
-//		next.setHref("#list/" + letter + "/" + finalNextOffset);
+		next.setHref("#list/" + letter + "/" + finalNextOffset);
 		pagerPanel.add(next);
 		
 		addWidgetToTable(row+1, 1, pagerPanel, false);
@@ -258,7 +258,7 @@ public class TermsView extends Composite implements TermsPresenter.Display {
 				eventBus.fireEvent(new ShowNumberEvent(methodName, String.valueOf(number)));
 			}
 		});
-		anchor.setHref("#show/" + methodName + "/" + number);
+		anchor.setHref("#show/" + methodName.toLowerCase() + "/" + number);
 		return anchor;
 	}
 
@@ -310,5 +310,10 @@ public class TermsView extends Composite implements TermsPresenter.Display {
 	@Override
 	public FlexTable getTermsTable() {
 		return termsTable;
+	}
+
+	@Override
+	public void setLetter(String letter) {
+		this.letter = letter;
 	}
 }

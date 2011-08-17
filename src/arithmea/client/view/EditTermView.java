@@ -199,7 +199,7 @@ public class EditTermView extends Composite implements
 				eventBus.fireEvent(new ShowNumberEvent(methodName, String.valueOf(value)));
 			}
 		});
-		anchors.get(method).setHref("#show/" + methodName + "/" + String.valueOf(value));
+		anchors.get(method).setHref("#show/" + methodName.toLowerCase() + "/" + String.valueOf(value));
 	}
 	
 	private void initDetailsTable() {
