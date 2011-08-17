@@ -7,6 +7,8 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.DecoratorPanel;
 import com.google.gwt.user.client.ui.FlexTable;
+import com.google.gwt.user.client.ui.HasHorizontalAlignment;
+import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.TextArea;
@@ -47,6 +49,11 @@ public class ParseTextView extends Composite implements ParseTextPresenter.Displ
 
 		contentTable.setWidget(2, 0, textArea);
 		contentTable.getCellFormatter().addStyleName(2, 0, "text-area");
+		
+		contentTable.getCellFormatter().setAlignment(2, 0,
+				HasHorizontalAlignment.ALIGN_LEFT,
+				HasVerticalAlignment.ALIGN_TOP);
+		contentTable.getCellFormatter().setHeight(2, 0, "607px");
 		
 		contentTableDecorator.add(contentTable);
 	}

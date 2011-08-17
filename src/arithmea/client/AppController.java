@@ -97,7 +97,11 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 	}
 	
 	private void doShowNumber(String method, String number) {
-		History.newItem("show/" + method + "/" + number);
+		if (method != null && method.length() > 0 && number != null && number.length() > 0) {
+			History.newItem("show/" + method + "/" + number);
+		} else {
+			History.newItem("show/");
+		}
 	}
 	
 	private void doParseText() {

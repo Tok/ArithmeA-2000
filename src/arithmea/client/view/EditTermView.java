@@ -152,6 +152,7 @@ public class EditTermView extends Composite implements
 			doChange();
 		}
 		
+		contentDetailsPanel.setHeight("671px");
 		contentDetailsDecorator.add(contentDetailsPanel);
 	}
 	

@@ -11,6 +11,8 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.DecoratorPanel;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.HasHorizontalAlignment;
+import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.TextBox;
@@ -67,6 +69,10 @@ public class NumberView extends Composite implements NumberPresenter.Display {
 		similarWords.setWidth("776");
 		similarWords.setStyleName("flow-panel");
 		contentTable.setWidget(1, 0, similarWords);
+		contentTable.getCellFormatter().setAlignment(1, 0,
+				HasHorizontalAlignment.ALIGN_LEFT,
+				HasVerticalAlignment.ALIGN_TOP);
+		contentTable.getCellFormatter().setHeight(1, 0, "631px");
 		
 		contentTableDecorator.add(contentTable);
 	}
