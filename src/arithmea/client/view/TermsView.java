@@ -108,7 +108,7 @@ public class TermsView extends Composite implements TermsPresenter.Display {
 		// create the terms table
 		termsTable = new FlexTable();
 		termsTable.setWidth("100%");
-		termsTable.setHeight("535px");
+		termsTable.setHeight("635px");
 		
 		contentTable.setWidget(1, 0, termsTable);
 		contentTableDecorator.add(contentTable);
