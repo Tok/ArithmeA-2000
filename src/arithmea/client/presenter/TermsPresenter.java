@@ -25,6 +25,8 @@ import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.FlexTable;
+import com.google.gwt.user.client.ui.HasHorizontalAlignment;
+import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
@@ -139,6 +141,9 @@ public class TermsPresenter implements Presenter {
 		display.setLetter(letter);
 		if(display.getTermsTable().getRowCount() == 0) {
 			display.getTermsTable().setWidget(0, 0, new Label("Loading.."));
+			display.getTermsTable().getCellFormatter().setAlignment(0, 0,
+					HasHorizontalAlignment.ALIGN_LEFT,
+					HasVerticalAlignment.ALIGN_TOP);
 		}
 		if (letter.equalsIgnoreCase("All")) {
 			rpcService.getAllTermsFromOffset(display.getOffset(), new AsyncCallback<ArrayList<Term>>() {

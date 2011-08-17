@@ -108,6 +108,7 @@ public class TermsView extends Composite implements TermsPresenter.Display {
 		// create the terms table
 		termsTable = new FlexTable();
 		termsTable.setWidth("100%");
+		termsTable.setHeight("535px");
 		
 		contentTable.setWidget(1, 0, termsTable);
 		contentTableDecorator.add(contentTable);
@@ -194,7 +195,7 @@ public class TermsView extends Composite implements TermsPresenter.Display {
 		
 		Anchor back = new Anchor("<<back");
 		back.setStyleName("padding-right");
-		Integer backOffset = offset - 20;
+		Integer backOffset = offset - 30;
 		if (backOffset < 0) { backOffset = 0; }
 		final Integer finalBackOffset = backOffset;
 		back.addClickHandler(new ClickHandler() {
@@ -208,8 +209,8 @@ public class TermsView extends Composite implements TermsPresenter.Display {
 		pagerPanel.add(back);
 		
 		Integer nextOffset = offset;
-		if (row >= 20) {
-			nextOffset += 20;
+		if (row >= 30) {
+			nextOffset += 30;
 		} 
 		final Integer finalNextOffset = nextOffset;
 		Anchor next = new Anchor("next>>");
