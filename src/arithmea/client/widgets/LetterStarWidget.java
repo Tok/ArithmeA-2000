@@ -67,7 +67,7 @@ public class LetterStarWidget extends Composite {
 		ctx.setLineWidth(1);
 
 		//draw circle
-		ctx.arc(canvas.getCoordinateSpaceWidth() / 2, canvas.getCoordinateSpaceHeight() / 2, canvas.getCoordinateSpaceWidth() * 0.4, 0, 360);
+		ctx.arc(canvas.getCoordinateSpaceWidth() / 2, canvas.getCoordinateSpaceHeight() / 2, canvas.getCoordinateSpaceWidth() * 0.4, 0, 360 * Math.PI / 180);
 
 		//draw letters
 		for (LatinLetter ll: LatinLetter.values()) {
