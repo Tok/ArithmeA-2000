@@ -8,24 +8,17 @@ import com.google.gwt.canvas.dom.client.Context2d;
 import com.google.gwt.canvas.dom.client.CssColor;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.VerticalPanel;
-//import com.google.gwt.widgetideas.graphics.client.Color;
-//import com.google.gwt.widgetideas.graphics.client.GWTCanvas;
 
 public abstract class AbstractTreeWidget extends Composite {
 	private final VerticalPanel panel = new VerticalPanel();
 	private final SephirothData sd = new SephirothData();
 	
-//	private GWTCanvas canvas;
 	private Canvas canvas;
 	
 	public AbstractTreeWidget(int width, int height) {
 		canvas = Canvas.createIfSupported();
 		canvas.setCoordinateSpaceHeight(height * 2);
 		canvas.setCoordinateSpaceWidth(width / 4);
-		
-//		canvas.setWidth(String.valueOf(width / 2));
-//		canvas.setHeight(String.valueOf(height * 3));
-//		canvas.setHeight("400px");
 		
 	    drawSephiroth();
 	    panel.add(canvas);

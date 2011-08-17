@@ -6,6 +6,7 @@ import java.util.Map;
 import arithmea.client.event.ShowNumberEvent;
 import arithmea.client.presenter.EditTermPresenter;
 import arithmea.client.widgets.ExtendedTextBox;
+import arithmea.client.widgets.LetterStarWidget;
 import arithmea.client.widgets.tree.HebrewTreeWidget;
 import arithmea.client.widgets.tree.LatinTreeWidget;
 import arithmea.shared.data.Highlight;
@@ -43,7 +44,8 @@ public class EditTermView extends Composite implements
 	private final HorizontalPanel treePanel = new HorizontalPanel();
 	private final HebrewTreeWidget hebrewTree = new HebrewTreeWidget(SephirothData.WIDTH, SephirothData.HEIGHT);
 	private final LatinTreeWidget latinTree = new LatinTreeWidget(SephirothData.WIDTH, SephirothData.HEIGHT);
-
+	private final LetterStarWidget letterStar = new LetterStarWidget(300, 300);
+	
 	private final ExtendedTextBox inputTextBox;
 	private final Label latinString;
 	private final Label hebrewString;
@@ -140,6 +142,9 @@ public class EditTermView extends Composite implements
 
 		treePanel.add(hebrewTree);
 		treePanel.add(latinTree);
+		
+		treePanel.add(letterStar);
+		
 		contentDetailsPanel.add(treePanel);
 		
 		if (word != null && !word.equals("")) {
@@ -167,12 +172,16 @@ public class EditTermView extends Composite implements
 			// update tree widgets
 			hebrewTree.setWord(term.getHebrewString());
 			latinTree.setWord(term.getLatinString());
+			
+			// and the star widget
+			letterStar.setWord(term.getLatinString());
 
 		} catch (IllegalArgumentException iae) {
 			latinString.setText("");
 			hebrewString.setText("");
 			hebrewTree.setWord("");
 			latinTree.setWord("");
+			letterStar.setWord("");
 		}
 		
 	}
