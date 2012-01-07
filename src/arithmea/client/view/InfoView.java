@@ -36,6 +36,7 @@ public class InfoView extends Composite implements InfoPresenter.Display {
 		
 		FlexTable infoTable = new FlexTable();
 		int row = 0;
+		infoTable.setWidget(row++, 0, new HTML("&nbsp;"));		
 		infoTable.setText(row++, 0, "Chaldean:");
 		infoTable.setText(row++, 0, "Shows the value of the word in chaldean numerology. The result is not reduced in order to preserve the full information.");
 		infoTable.setWidget(row++, 0, new Anchor("http://en.wikipedia.org/wiki/Arithmancy#The_Chaldean_Method", "http://en.wikipedia.org/wiki/Arithmancy#The_Chaldean_Method"));
@@ -68,6 +69,12 @@ public class InfoView extends Composite implements InfoPresenter.Display {
 		
 		infoTable.setText(row++, 0, "EQ:");
 		infoTable.setText(row++, 0, "English Qabalah method that uses the same sequence as NAEQ, but without reducing the Values (thanks to Alien696).");
+		infoTable.setWidget(row++, 0, new HTML("&nbsp;"));		
+		infoTable.setWidget(row++, 0, new HTML("&nbsp;"));		
+		infoTable.setWidget(row++, 0, new HTML("&nbsp;"));		
+
+		infoTable.setText(row++, 0, "You can find the source-code of this application at:");
+		infoTable.setWidget(row++, 0, new Anchor("http://github.com/Tok/ArithmeA-2000", "http://github.com/Tok/ArithmeA-2000"));
 		infoTable.setWidget(row++, 0, new HTML("&nbsp;"));		
 
 		contentTable.setWidget(1, 0, infoTable);
