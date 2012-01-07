@@ -6,17 +6,21 @@ import arithmea.client.event.EditTermEvent;
 import arithmea.client.event.EditTermEventHandler;
 import arithmea.client.event.ParseTextEvent;
 import arithmea.client.event.ParseTextEventHandler;
+import arithmea.client.event.ShowInfoEvent;
+import arithmea.client.event.ShowInfoEventHandler;
 import arithmea.client.event.ShowListEvent;
 import arithmea.client.event.ShowListEventHandler;
 import arithmea.client.event.ShowNumberEvent;
 import arithmea.client.event.ShowNumberEventHandler;
 import arithmea.client.presenter.EditTermPresenter;
+import arithmea.client.presenter.InfoPresenter;
 import arithmea.client.presenter.NumberPresenter;
 import arithmea.client.presenter.ParseTextPresenter;
 import arithmea.client.presenter.Presenter;
 import arithmea.client.presenter.TermsPresenter;
 import arithmea.client.service.ArithmeaServiceAsync;
 import arithmea.client.view.EditTermView;
+import arithmea.client.view.InfoView;
 import arithmea.client.view.NumberView;
 import arithmea.client.view.ParseTextView;
 import arithmea.client.view.TermsView;
@@ -76,6 +80,12 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 						doParseText();
 					}
 				});
+		eventBus.addHandler(ShowInfoEvent.TYPE, new ShowInfoEventHandler() {
+			@Override
+			public void onShowInfo(ShowInfoEvent event) {
+				doShowInfo();
+			}
+		});
 	}
 
 	private void doAddNewTerm(String word) {
@@ -102,6 +112,10 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 		} else {
 			History.newItem("show/");
 		}
+	}
+	
+	private void doShowInfo() {
+		History.newItem("info/");
 	}
 	
 	private void doParseText() {
@@ -154,6 +168,9 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 			} else if (token.equals("parse/")) {
 				presenter = new ParseTextPresenter(rpcService, eventBus,
 						new ParseTextView());
+			} else if (token.equals("info/")) {
+				presenter = new InfoPresenter(rpcService, eventBus,
+						new InfoView());
 			} else if (token.equals("deleteAll/")) {
 				rpcService.deleteAllTerms(new AsyncCallback<String>() {
 					public void onSuccess(String result) {

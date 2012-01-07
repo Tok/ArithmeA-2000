@@ -39,6 +39,7 @@ public class TermsView extends Composite implements TermsPresenter.Display {
 	private final Button showNumbersButton;
 	private final Button parseTextButton;
 	private final Button deleteButton;	
+	private final Button showInfoButton;
 	private final ListBox letterBox;
 	private final Anchor latinHeader = new Anchor("Latin");
 	private final Anchor hebrewHeader = new Anchor("Hebrew");
@@ -76,6 +77,8 @@ public class TermsView extends Composite implements TermsPresenter.Display {
 		hPanel.add(parseTextButton);
 		addButton = new Button("Add New Word");
 		hPanel.add(addButton);
+		showInfoButton = new Button("Show Info");
+		hPanel.add(showInfoButton);
 		letterBox = new ListBox();
 		letterBox.addItem("All");
 		int index = 1;
@@ -124,6 +127,10 @@ public class TermsView extends Composite implements TermsPresenter.Display {
 
 	public HasClickHandlers getDeleteButton() {
 		return deleteButton;
+	}
+	
+	public HasClickHandlers getShowInfoButton() {
+		return showInfoButton;
 	}
 	
 	public HasClickHandlers getShowNumbersButton() {
