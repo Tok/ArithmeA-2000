@@ -122,7 +122,6 @@ public class EditTermPresenter implements Presenter {
                 public void onSuccess(final Term result) {
                     eventBus.fireEvent(new ShowListEvent());
                 }
-
                 public void onFailure(final Throwable caught) {
                     Window.alert("Fail updating Term");
                 }

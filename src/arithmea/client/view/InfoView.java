@@ -43,53 +43,50 @@ public class InfoView extends Composite implements InfoPresenter.Display {
         int row = 0;
         infoTable.setWidget(row++, 0, new HTML("&nbsp;"));
         infoTable.setText(row++, 0, "Chaldean:");
-        infoTable.setText(row++, 0,
-                "Shows the value of the word in chaldean numerology. The result is not reduced in order to preserve the full information.");
-        infoTable.setWidget(row++, 0, new Anchor("http://en.wikipedia.org/wiki/Arithmancy#The_Chaldean_Method",
-                "http://en.wikipedia.org/wiki/Arithmancy#The_Chaldean_Method"));
+        infoTable.setText(row++, 0, "Shows the value of the word in chaldean numerology. The result is not reduced in order to preserve the full information.");
+        final String chaldeanWikiUrl = "http://en.wikipedia.org/wiki/Arithmancy#The_Chaldean_Method";
+        infoTable.setWidget(row++, 0, new Anchor(chaldeanWikiUrl, chaldeanWikiUrl));
         infoTable.setWidget(row++, 0, new HTML("&nbsp;"));
 
         infoTable.setText(row++, 0, "Pythagorean:");
-        infoTable
-                .setText(row++, 0,
-                        "Shows the value of the word in pythagorean (or agrippan) numerology. The result is not reduced in order to preserve the full information.");
-        infoTable.setWidget(row++, 0, new Anchor("http://en.wikipedia.org/wiki/Arithmancy#The_Agrippan_Method",
-                "http://en.wikipedia.org/wiki/Arithmancy#The_Agrippan_Method"));
+        infoTable.setText(row++, 0, "Shows the value of the word in pythagorean (or agrippan) numerology. The result is not reduced in order to preserve the full information.");
+        final String pythWikiUrl = "http://en.wikipedia.org/wiki/Arithmancy#The_Agrippan_Method";
+        infoTable.setWidget(row++, 0, new Anchor(pythWikiUrl, pythWikiUrl));
         infoTable.setWidget(row++, 0, new HTML("&nbsp;"));
 
         infoTable.setText(row++, 0, "IA:");
         infoTable.setText(row++, 0, "1=A, 2=B, 3=C .. 26=Z. Also known as Simple English Gematria.");
-        infoTable.setWidget(row++, 0, new Anchor("http://wmjas.wikidot.com/simple-english-gematria",
-                "http://wmjas.wikidot.com/simple-english-gematria"));
+        final String segWikiUrl = "http://wmjas.wikidot.com/simple-english-gematria";
+        infoTable.setWidget(row++, 0, new Anchor(segWikiUrl, segWikiUrl));
         infoTable.setWidget(row++, 0, new HTML("&nbsp;"));
 
         infoTable.setText(row++, 0, "NAEQ:");
         infoTable.setText(row++, 0, "New Aeon English Qabalah");
-        infoTable.setWidget(row++, 0, new Anchor("http://en.wikipedia.org/wiki/English_Qabalah#ALW_Cipher",
-                "http://en.wikipedia.org/wiki/English_Qabalah#ALW_Cipher"));
+        final String naeqWikiUrl = "http://en.wikipedia.org/wiki/English_Qabalah#ALW_Cipher";
+        infoTable.setWidget(row++, 0, new Anchor(naeqWikiUrl, naeqWikiUrl));
         infoTable.setWidget(row++, 0, new HTML("&nbsp;"));
 
         infoTable.setText(row++, 0, "TQ:");
         infoTable.setText(row++, 0, "Trigrammaton Qabalah");
-        infoTable.setWidget(row++, 0, new Anchor("http://en.wikipedia.org/wiki/English_Qabalah#Trigrammaton_Qabalah_.28TQ.29",
-                "http://en.wikipedia.org/wiki/English_Qabalah#Trigrammaton_Qabalah_.28TQ.29"));
+        final String tqWikiUrl = "http://en.wikipedia.org/wiki/English_Qabalah#Trigrammaton_Qabalah_.28TQ.29";
+        infoTable.setWidget(row++, 0, new Anchor(tqWikiUrl, tqWikiUrl));
         infoTable.setWidget(row++, 0, new HTML("&nbsp;"));
 
         infoTable.setText(row++, 0, "German:");
         infoTable.setText(row++, 0, "A cipher specific to the german language, that was discovered by Rolf Keppler.");
-        infoTable.setWidget(row++, 0, new Anchor("http://www.rolf-keppler.de/schluessel.htm", "http://www.rolf-keppler.de/schluessel.htm"));
+        final String gerUrl = "http://www.rolf-keppler.de/schluessel.htm";
+        infoTable.setWidget(row++, 0, new Anchor(gerUrl, gerUrl));
         infoTable.setWidget(row++, 0, new HTML("&nbsp;"));
 
         infoTable.setText(row++, 0, "EQ:");
-        infoTable.setText(row++, 0,
-                "English Qabalah method that uses the same sequence as NAEQ, but without reducing the Values (thanks to Alien696).");
+        infoTable.setText(row++, 0, "English Qabalah method that uses the same sequence as NAEQ, but without reducing the Values (thanks to Alien696).");
         infoTable.setWidget(row++, 0, new HTML("&nbsp;"));
         infoTable.setWidget(row++, 0, new HTML("&nbsp;"));
         infoTable.setWidget(row++, 0, new HTML("&nbsp;"));
-
-        infoTable.setText(row++, 0, "You can find the source-code of this application at:");
-        infoTable.setWidget(row++, 0, new Anchor("http://github.com/Tok/ArithmeA-2000", "http://github.com/Tok/ArithmeA-2000"));
-        infoTable.setWidget(row++, 0, new HTML("&nbsp;"));
+        
+        infoTable.setText(row++, 0, "Project page and source-code for ArithmeA 2000:");
+        final String projectUrl = "http://tok.github.com/ArithmeA-2000/";
+        infoTable.setWidget(row++, 0, new Anchor(projectUrl, projectUrl));
 
         contentTable.setWidget(1, 0, infoTable);
         contentTable.getCellFormatter().setAlignment(1, 0, HasHorizontalAlignment.ALIGN_LEFT, HasVerticalAlignment.ALIGN_TOP);

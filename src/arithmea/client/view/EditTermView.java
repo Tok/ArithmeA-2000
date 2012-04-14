@@ -74,9 +74,9 @@ public class EditTermView extends Composite implements
         final VerticalPanel contentDetailsPanel = new VerticalPanel();
 
         final FlexTable menuTable = new FlexTable();
-        menuTable.setWidth("790");
+        menuTable.setWidth("778px");
         final HorizontalPanel hPanel = new HorizontalPanel();
-        hPanel.setWidth("100%");
+        hPanel.setWidth("778px");
 
         final FlowPanel buttonFlow = new FlowPanel();
         cancelButton = new Button("Cancel Input");
@@ -86,7 +86,7 @@ public class EditTermView extends Composite implements
 
         hPanel.add(buttonFlow);
         inputTextBox = new ExtendedTextBox();
-        inputTextBox.setWidth("100%");
+        inputTextBox.setWidth("580px");
         inputTextBox.addValueChangeHandler(new ValueChangeHandler<String>() {
             @Override
             public void onValueChange(final ValueChangeEvent<String> event) {
@@ -106,9 +106,9 @@ public class EditTermView extends Composite implements
         contentDetailsPanel.add(menuTable);
 
         detailsTable = new FlexTable();
-        detailsTable.setWidth("100%");
+        detailsTable.setWidth("790px");
         latinString = new Label();
-        latinString.setWidth("400px");
+        latinString.setWidth("280px");
         latinString.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_LEFT);
         latinString.setStyleName("latin-label");
         hebrewString = new Label();
