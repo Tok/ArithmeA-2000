@@ -34,154 +34,148 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HasWidgets;
 
 public class AppController implements Presenter, ValueChangeHandler<String> {
-	private final HandlerManager eventBus;
-	private final ArithmeaServiceAsync rpcService;
-	private HasWidgets container;
+    private final HandlerManager eventBus;
+    private final ArithmeaServiceAsync rpcService;
+    private HasWidgets container;
 
-	public AppController(final ArithmeaServiceAsync rpcService,
-			final HandlerManager eventBus) {
-		this.eventBus = eventBus;
-		this.rpcService = rpcService;
-		bind();
-	}
+    public AppController(final ArithmeaServiceAsync rpcService,
+            final HandlerManager eventBus) {
+        this.eventBus = eventBus;
+        this.rpcService = rpcService;
+        bind();
+    }
 
-	private void bind() {
-		History.addValueChangeHandler(this);
+    private void bind() {
+        History.addValueChangeHandler(this);
+        eventBus.addHandler(AddTermEvent.TYPE, new AddTermEventHandler() {
+            public void onAddTerm(final AddTermEvent event) {
+                doAddNewTerm(event.getWord());
+            }
+        });
+        eventBus.addHandler(EditTermEvent.TYPE, new EditTermEventHandler() {
+            public void onEditTerm(final EditTermEvent event) {
+                doEditTerm(event.getId());
+            }
+        });
+        eventBus.addHandler(ShowListEvent.TYPE,
+                new ShowListEventHandler() {
+                    public void onShowList(final ShowListEvent event) {
+                        doShowList(event.getLetter(), event.getOffset());
+                    }
+                });
+        eventBus.addHandler(ShowNumberEvent.TYPE,
+                new ShowNumberEventHandler() {
+                    public void onShowNumber(final ShowNumberEvent event) {
+                        doShowNumber(event.getMethod(), event.getNumber());
+                    }
+                });
+        eventBus.addHandler(ParseTextEvent.TYPE,
+                new ParseTextEventHandler() {
+                    public void onParseText(final ParseTextEvent event) {
+                        doParseText();
+                    }
+                });
+        eventBus.addHandler(ShowInfoEvent.TYPE, new ShowInfoEventHandler() {
+            @Override
+            public void onShowInfo(final ShowInfoEvent event) {
+                doShowInfo();
+            }
+        });
+    }
 
-		eventBus.addHandler(AddTermEvent.TYPE, new AddTermEventHandler() {
-			public void onAddTerm(AddTermEvent event) {
-				doAddNewTerm(event.getWord());
-			}
-		});
+    private void doAddNewTerm(final String word) {
+        History.newItem("add/" + word);
+    }
 
-		eventBus.addHandler(EditTermEvent.TYPE, new EditTermEventHandler() {
-			public void onEditTerm(EditTermEvent event) {
-				doEditTerm(event.getId());
-			}
-		});
+    private void doEditTerm(final String id) {
+        History.newItem("edit/", false);
+        Presenter presenter = new EditTermPresenter(rpcService, eventBus, new EditTermView(eventBus, ""), id);
+        presenter.go(container);
+    }
 
-		eventBus.addHandler(ShowListEvent.TYPE,
-				new ShowListEventHandler() {
-					public void onShowList(ShowListEvent event) {
-						doShowList(event.getLetter(), event.getOffset());
-					}
-				});
-		
-		eventBus.addHandler(ShowNumberEvent.TYPE,
-				new ShowNumberEventHandler() {
-					public void onShowNumber(ShowNumberEvent event) {
-						doShowNumber(event.getMethod(), event.getNumber());
-					}
-				});
-		
-		eventBus.addHandler(ParseTextEvent.TYPE,
-				new ParseTextEventHandler() {
-					public void onParseText(ParseTextEvent event) {
-						doParseText();
-					}
-				});
-		eventBus.addHandler(ShowInfoEvent.TYPE, new ShowInfoEventHandler() {
-			@Override
-			public void onShowInfo(ShowInfoEvent event) {
-				doShowInfo();
-			}
-		});
-	}
+    private void doShowList(final String letter, final int offset) {
+        if (letter.equals("All") && offset == 0) {
+            History.newItem("list/");
+        } else {
+            History.newItem("list/" + letter + "/" + offset);
+        }
+    }
 
-	private void doAddNewTerm(String word) {
-		History.newItem("add/" + word);
-	}
+    private void doShowNumber(final String method, final String number) {
+        if (method != null && method.length() > 0 && number != null && number.length() > 0) {
+            History.newItem("show/" + method + "/" + number);
+        } else {
+            History.newItem("show/");
+        }
+    }
 
-	private void doEditTerm(final String id) {
-		History.newItem("edit/", false);
-		Presenter presenter = new EditTermPresenter(rpcService, eventBus, new EditTermView(eventBus, ""), id);
-		presenter.go(container);
-	}
-	
-	private void doShowList(String letter, int offset) {
-		if (letter.equals("All") && offset == 0) {			
-			History.newItem("list/");
-		} else {
-			History.newItem("list/" + letter + "/" + offset);
-		}
-	}
-	
-	private void doShowNumber(String method, String number) {
-		if (method != null && method.length() > 0 && number != null && number.length() > 0) {
-			History.newItem("show/" + method + "/" + number);
-		} else {
-			History.newItem("show/");
-		}
-	}
-	
-	private void doShowInfo() {
-		History.newItem("info/");
-	}
-	
-	private void doParseText() {
-		History.newItem("parse/");
-	}
+    private void doShowInfo() {
+        History.newItem("info/");
+    }
 
-	public void go(final HasWidgets container) {
-		this.container = container;
-		if ("".equals(History.getToken())) {
-			History.newItem("list/");
-		} else {
-			History.fireCurrentHistoryState();
-		}
-	}
+    private void doParseText() {
+        History.newItem("parse/");
+    }
 
-	public void onValueChange(final ValueChangeEvent<String> event) {
-		final String token = event.getValue();
-		if (token != null) {
-			Presenter presenter = null;
-			if (token.startsWith("list/")) {
-				String letterString = "All";
-				if (token.split("/").length > 1) {
-					letterString = token.split("/")[1];
-				}
-				String offsetString = "0";
-				if (token.split("/").length > 2) {
-					offsetString = token.split("/")[2];
-				}
+    public final void go(final HasWidgets container) {
+        this.container = container;
+        if ("".equals(History.getToken())) {
+            History.newItem("list/");
+        } else {
+            History.fireCurrentHistoryState();
+        }
+    }
 
-				presenter = new TermsPresenter(rpcService, eventBus,
-						new TermsView(eventBus, letterString, Integer.valueOf(offsetString)));
-			} else if (token.startsWith("add") || token.startsWith("edit")) {
-				String wordString = "";
-				if (token.split("/").length > 1) {
-					wordString = token.split("/")[1];
-				}
-				presenter = new EditTermPresenter(rpcService, eventBus,
-						new EditTermView(eventBus, wordString));
-			} else if (token.startsWith("show/")) {
-				String methodString = "All";
-				if (token.split("/").length > 1) {
-					methodString = token.split("/")[1];
-				}
-				String numberString = "0";
-				if (token.split("/").length > 2) {
-					numberString = token.split("/")[2];
-				}
-				presenter = new NumberPresenter(rpcService, eventBus,
-						new NumberView(methodString, numberString));
-			} else if (token.equals("parse/")) {
-				presenter = new ParseTextPresenter(rpcService, eventBus,
-						new ParseTextView());
-			} else if (token.equals("info/")) {
-				presenter = new InfoPresenter(rpcService, eventBus,
-						new InfoView());
-			} else if (token.equals("deleteAll/")) {
-				rpcService.deleteAllTerms(new AsyncCallback<String>() {
-					public void onSuccess(String result) {
-						Window.alert("deleted " + result + " terms.");
-					}
-					public void onFailure(Throwable caught) {
-						Window.alert("Fail deleting terms: " + caught);
-					}
-				});
-			}
-			presenter.go(container);
-		}
-	}
+    public final void onValueChange(final ValueChangeEvent<String> event) {
+        final String token = event.getValue();
+        if (token != null) {
+            Presenter presenter = null;
+            if (token.startsWith("list/")) {
+                String letterString = "All";
+                if (token.split("/").length > 1) {
+                    letterString = token.split("/")[1];
+                }
+                String offsetString = "0";
+                if (token.split("/").length > 2) {
+                    offsetString = token.split("/")[2];
+                }
+                presenter = new TermsPresenter(rpcService, eventBus,
+                        new TermsView(eventBus, letterString, Integer.valueOf(offsetString)));
+            } else if (token.startsWith("add") || token.startsWith("edit")) {
+                String wordString = "";
+                if (token.split("/").length > 1) {
+                    wordString = token.split("/")[1];
+                }
+                presenter = new EditTermPresenter(rpcService, eventBus,
+                        new EditTermView(eventBus, wordString));
+            } else if (token.startsWith("show/")) {
+                String methodString = "All";
+                if (token.split("/").length > 1) {
+                    methodString = token.split("/")[1];
+                }
+                String numberString = "0";
+                if (token.split("/").length > 2) {
+                    numberString = token.split("/")[2];
+                }
+                presenter = new NumberPresenter(rpcService, eventBus,
+                        new NumberView(methodString, numberString));
+            } else if (token.equals("parse/")) {
+                presenter = new ParseTextPresenter(rpcService, eventBus,
+                        new ParseTextView());
+            } else if (token.equals("info/")) {
+                presenter = new InfoPresenter(rpcService, eventBus,
+                        new InfoView());
+            } else if (token.equals("deleteAll/")) {
+                rpcService.deleteAllTerms(new AsyncCallback<String>() {
+                    public void onSuccess(final String result) {
+                        Window.alert("deleted " + result + " terms.");
+                    }
+                    public void onFailure(final Throwable caught) {
+                        Window.alert("Fail deleting terms: " + caught);
+                    }
+                });
+            }
+            presenter.go(container);
+        }
+    }
 }

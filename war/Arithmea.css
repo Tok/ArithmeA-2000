@@ -9,14 +9,12 @@ table {
 	border-collapse: collapse;
 	margin: 0px;
 	padding: 0px;
-	spacing: 0px;
 }
 
 td {
 	border-collapse: collapse;
 	margin: 0px;
 	padding: 0px;
-	spacing: 0px;
 }
 
 th,td {
@@ -74,46 +72,46 @@ th,td {
 	width: 100%;
 }
 
-.Black {
+.black {
 	color: black;
 }
 
-.White {
+.white {
 	color: white;
 }
 
-.WhiteBg {
+.whiteBg {
 	background-color: white;
 }
 
-.BlackBg {
+.blackBg {
 	background-color: black;
 }
 
-.Grey {
-	color: grey;
+.gray {
+	color: gray;
 }
 
-a.Red, a:visited.Red {
+a.red, a:visited.red {
 	color: #ED1C24;
 }
 
-a.Green, a:visited.Green {
+a.green, a:visited.green {
 	color: #22B14C;
 }
 
-a.Blue, a:visited.Blue {
+a.blue, a:visited.blue {
 	color: #3F48CC;
 }
 
-a.Orange, a:visited.Orange {
+a.orange, a:visited.orange {
 	color: #FF7F27;
 }
 
-a.Purple, a:visited.Purple {
+a.purple, a:visited.purple {
 	color: #A349A4;
 }
 
-a.Yellow, a:visited.Yellow {
+a.yellow, a:visited.yellow {
 	color: #FFF200;
 }

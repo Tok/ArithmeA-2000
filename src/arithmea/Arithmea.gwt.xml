@@ -2,9 +2,7 @@
 <module rename-to='arithmea'>
   <inherits name='com.google.gwt.user.User'/>
   <inherits name='com.google.gwt.user.theme.dark.Dark'/>
- 
   <entry-point class='arithmea.client.Arithmea'/>
-
   <source path='client'/>
   <source path='shared'/>
   <source path='test'/>

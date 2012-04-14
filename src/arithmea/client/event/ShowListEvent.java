@@ -3,36 +3,36 @@ package arithmea.client.event;
 import com.google.gwt.event.shared.GwtEvent;
 
 public class ShowListEvent extends GwtEvent<ShowListEventHandler> {
-	public static Type<ShowListEventHandler> TYPE = new Type<ShowListEventHandler>();
-	private String letter;
-	private int offset;
+    public static final Type<ShowListEventHandler> TYPE = new Type<ShowListEventHandler>();
+    private String letter;
+    private int offset;
 
-	public ShowListEvent() {
-		this.letter = "All";
-		this.offset = 0;
-	}
-	
-	public ShowListEvent(String letter, int offset) {
-		this.letter = letter;
-		this.offset = offset;
-	}
+    public ShowListEvent() {
+        this.letter = "All";
+        this.offset = 0;
+    }
 
-	@Override
-	public Type<ShowListEventHandler> getAssociatedType() {
-		return TYPE;
-	}
+    public ShowListEvent(final String letter, final int offset) {
+        this.letter = letter;
+        this.offset = offset;
+    }
 
-	@Override
-	protected void dispatch(final ShowListEventHandler handler) {
-		handler.onShowList(this);
-	}
+    @Override
+    public final Type<ShowListEventHandler> getAssociatedType() {
+        return TYPE;
+    }
 
-	public int getOffset() {
-		return offset;
-	}
+    @Override
+    protected final void dispatch(final ShowListEventHandler handler) {
+        handler.onShowList(this);
+    }
 
-	public String getLetter() {
-		return letter;
-	}
+    public final int getOffset() {
+        return offset;
+    }
+
+    public final String getLetter() {
+        return letter;
+    }
 
 }
