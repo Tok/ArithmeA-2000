@@ -1,0 +1,13 @@
+arithmea.client
+arithmea.client.event
+arithmea.client.presenter
+arithmea.client.service
+arithmea.client.sort
+arithmea.client.view
+arithmea.client.widgets
+arithmea.client.widgets.tree
+arithmea.server.serivce
+arithmea.shared.data
+arithmea.shared.gematria
+arithmea.shared.qabalah
+arithmea.test
