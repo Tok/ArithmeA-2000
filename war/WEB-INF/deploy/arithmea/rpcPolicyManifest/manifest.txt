@@ -1,2 +1,3 @@
 # Module arithmea
 # RPC service class, partial path of RPC policy file
+arithmea.client.service.ArithmeaService, DD524171AE04647EF62CB78E745F8C59.gwt.rpc
