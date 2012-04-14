@@ -14,7 +14,10 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.junit.client.GWTTestCase;
 
-public class ExampleGWTTest extends GWTTestCase {
+/**
+ * Arithmea test cases.
+ */
+public class ArithmeaGWTTest extends GWTTestCase {
     private static final String ABC = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
     private static final String DER_SCHLUESSEL = "Der Schluessel";
 
@@ -34,6 +37,9 @@ public class ExampleGWTTest extends GWTTestCase {
         termsPresenter = new TermsPresenter(rpcService, eventBus, display);
     }
 
+    /**
+     * Tests sorting by latin String.
+     */
     public final void testTermSortByLatinString() {
         ArrayList<Term> terms = new ArrayList<Term>();
         terms.add(new Term("ccc"));
@@ -46,6 +52,9 @@ public class ExampleGWTTest extends GWTTestCase {
         assertTrue(termsPresenter.getTermDetail(2).getLatinString().equals("CCC"));
     }
 
+    /**
+     * Tests sorting by chaldean values.
+     */
     public final void testTermSortByChaldean() {
         ArrayList<Term> terms = new ArrayList<Term>();
         terms.add(new Term("B"));
@@ -62,6 +71,9 @@ public class ExampleGWTTest extends GWTTestCase {
         assertTrue(termsPresenter.getTermDetail(4).getLatinString().equals("E"));
     }
 
+    /**
+     * Tests sorting by pythagorean values.
+     */
     public final void testTermSortByPythagorean() {
         ArrayList<Term> terms = new ArrayList<Term>();
         terms.add(new Term("C"));
@@ -78,6 +90,9 @@ public class ExampleGWTTest extends GWTTestCase {
         assertTrue(termsPresenter.getTermDetail(4).getLatinString().equals("W"));
     }
 
+    /**
+     * Tests sorting by simple english gematria values.
+     */
     public final void testTermSortByIa() {
         ArrayList<Term> terms = new ArrayList<Term>();
         terms.add(new Term("A"));
@@ -92,6 +107,9 @@ public class ExampleGWTTest extends GWTTestCase {
         assertTrue(termsPresenter.getTermDetail(3).getLatinString().equals("Z"));
     }
 
+    /**
+     * Tests sorting by naeq values.
+     */
     public final void testTermSortByNaeq() {
         ArrayList<Term> terms = new ArrayList<Term>();
         terms.add(new Term("A"));
@@ -108,6 +126,9 @@ public class ExampleGWTTest extends GWTTestCase {
         assertTrue(termsPresenter.getTermDetail(4).getLatinString().equals("E"));
     }
 
+    /**
+     * Tests sorting by trigrammaton qabalah values.
+     */
     public final void testTermSortByTq() {
         ArrayList<Term> terms = new ArrayList<Term>();
         terms.add(new Term("A"));
@@ -124,48 +145,75 @@ public class ExampleGWTTest extends GWTTestCase {
         assertTrue(termsPresenter.getTermDetail(4).getLatinString().equals("D"));
     }
 
+    /**
+     * Tests results for the chaldean method.
+     */
     public final void testChaldean() {
         assertTrue(new Term(ABC).get(LatinMethod.Chaldean).equals(new Integer(103)));
         assertTrue(new Term("ARITHMEA").get(LatinMethod.Chaldean).equals(new Integer(23)));
         assertTrue(new Term(DER_SCHLUESSEL).get(LatinMethod.Chaldean).equals(new Integer(50)));
     }
 
+    /**
+     * Tests results for the pythagorean method.
+     */
     public final void testPythagorean() {
         assertTrue(new Term(ABC).get(LatinMethod.Pythagorean).equals(new Integer(126)));
         assertTrue(new Term("ARITHMEA").get(LatinMethod.Pythagorean).equals(new Integer(39)));
         assertTrue(new Term(DER_SCHLUESSEL).get(LatinMethod.Pythagorean).equals(new Integer(51)));
     }
 
+    /**
+     * Tests results for simple english gematria.
+     */
     public final void testIa() {
         assertTrue(new Term(ABC).get(LatinMethod.IA).equals(new Integer(351)));
         assertTrue(new Term("ARITHMEA").get(LatinMethod.IA).equals(new Integer(75)));
         assertTrue(new Term(DER_SCHLUESSEL).get(LatinMethod.IA).equals(new Integer(150)));
     }
 
+    /**
+     * Tests results for new aeon english qabalah.
+     */
     public final void testNaeq() {
         assertTrue(new Term(ABC).get(LatinMethod.NAEQ).equals(new Integer(361)));
         assertTrue(new Term("ARITHMEA").get(LatinMethod.NAEQ).equals(new Integer(111)));
         assertTrue(new Term(DER_SCHLUESSEL).get(LatinMethod.NAEQ).equals(new Integer(146)));
     }
-
+    
+    /**
+     * Tests results for trigrammaton qabalah.
+     */
     public final void testTq() {
         assertTrue(new Term(ABC).get(LatinMethod.TQ).equals(new Integer(351)));
         assertTrue(new Term("ARITHMEA").get(LatinMethod.TQ).equals(new Integer(96)));
         assertTrue(new Term(DER_SCHLUESSEL).get(LatinMethod.TQ).equals(new Integer(153)));
     }
 
+    /**
+     * Tests results for the german method.
+     */
     public final void testGerman() {
         assertTrue(new Term(DER_SCHLUESSEL).get(LatinMethod.German).equals(new Integer(55)));
     }
 
+    /**
+     * Tests results for full values.
+     */
     public final void testFull() {
         assertTrue(new Term(DER_SCHLUESSEL).get(HebrewMethod.Full).equals(new Integer(577)));
     }
 
+    /**
+     * Tests results for ordinal values.
+     */
     public final void testOrdinal() {
         assertTrue(new Term(DER_SCHLUESSEL).get(HebrewMethod.Ordinal).equals(new Integer(82)));
     }
 
+    /**
+     * Tests results for katan values.
+     */
     public final void testKatan() {
         assertTrue(new Term(DER_SCHLUESSEL).get(HebrewMethod.Katan).equals(new Integer(28)));
     }

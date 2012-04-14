@@ -1,6 +1,9 @@
 package arithmea.shared.qabalah;
 
-
+/**
+ * Enum to represent the 26 paths on the tree of life
+ * associated with the 26 letters in the latin alphabet. 
+ */
 public enum LatinPath {
     A(1, Sephira.Kether, Sephira.Chokmah),
     B(2, Sephira.Kether, Sephira.Chesed),
@@ -33,20 +36,40 @@ public enum LatinPath {
     private Sephira from;
     private Sephira to;
 
+    /**
+     * Default constructor.
+     * @param number
+     * @param from
+     * @param to
+     */
     private LatinPath(final int number, final Sephira from, final Sephira to) {
         this.number = number;
         this.from = from;
         this.to = to;
     }
 
+    /**
+     * Returns the number of the path.
+     * The path numbers were determined by the same logic of order
+     * as the 22 paths on the classical tree of life.
+     * @return number
+     */
     public final int getNumber() {
         return number;
     }
 
+    /**
+     * Returns the sephira at the top of the path.
+     * @return from sephira
+     */
     public final Sephira getFrom() {
         return from;
     }
-
+    
+    /**
+     * Returns the sephira at the bottom of the path.
+     * @return to sephira
+     */
     public final Sephira getTo() {
         return to;
     }

@@ -33,6 +33,9 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HasWidgets;
 
+/**
+ * Controls the views and the presenters in relation to history.
+ */
 public class AppController implements Presenter, ValueChangeHandler<String> {
     private final HandlerManager eventBus;
     private final ArithmeaServiceAsync rpcService;
@@ -45,6 +48,9 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
         bind();
     }
 
+    /**
+     * Binds and handles the global events.
+     */
     private void bind() {
         History.addValueChangeHandler(this);
         eventBus.addHandler(AddTermEvent.TYPE, new AddTermEventHandler() {
@@ -83,16 +89,29 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
         });
     }
 
+    /**
+     * Fires history event to show the page that adds new words.
+     * @param word
+     */
     private void doAddNewTerm(final String word) {
         History.newItem("add/" + word);
     }
 
+    /**
+     * Prepares and runs the presenter to edit words.
+     * @param id
+     */
     private void doEditTerm(final String id) {
         History.newItem("edit/", false);
         Presenter presenter = new EditTermPresenter(rpcService, eventBus, new EditTermView(eventBus, ""), id);
         presenter.go(container);
     }
 
+    /**
+     * Fires history event to show the list for the provided letter at the provided offset.
+     * @param letter
+     * @param offset
+     */
     private void doShowList(final String letter, final int offset) {
         if (letter.equals("All") && offset == 0) {
             History.newItem("list/");
@@ -101,6 +120,11 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
         }
     }
 
+    /**
+     * Fires history event to show word for the provided number and method.
+     * @param method
+     * @param number
+     */
     private void doShowNumber(final String method, final String number) {
         if (method != null && method.length() > 0 && number != null && number.length() > 0) {
             History.newItem("show/" + method + "/" + number);
@@ -109,14 +133,23 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
         }
     }
 
+    /**
+     * Fires history event to show the info page.
+     */
     private void doShowInfo() {
         History.newItem("info/");
     }
 
+    /**
+     * Fires history event to show the page to parse texts.
+     */
     private void doParseText() {
         History.newItem("parse/");
     }
 
+    /**
+     * Evaluates the history token and fires the related state.
+     */
     public final void go(final HasWidgets container) {
         this.container = container;
         if ("".equals(History.getToken())) {
@@ -126,6 +159,9 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
         }
     }
 
+    /**
+     * Maps changed tokens to the related presenters and creates them.
+     */
     public final void onValueChange(final ValueChangeEvent<String> event) {
         final String token = event.getValue();
         if (token != null) {

@@ -1,5 +1,8 @@
 package arithmea.shared.gematria;
 
+/**
+ * Enum for current and ancient greek letters.
+ */
 public enum GreekLetter {
     Alpha('\u0391', false, 1, 1, 1),
     Beta('\u0392', false, 2, 2, 2),
@@ -48,6 +51,10 @@ public enum GreekLetter {
         return greek;
     }
 
+    /**
+     * Returns true if the letter is obsolete.
+     * @return isObsolete
+     */
     public final boolean isObsolete() {
         return isObsolete;
     }

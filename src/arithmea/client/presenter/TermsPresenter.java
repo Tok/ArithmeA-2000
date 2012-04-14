@@ -31,6 +31,9 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.Widget;
 
+/**
+ * Presenter for the list view.
+ */
 public class TermsPresenter implements Presenter {
     private List<Term> terms;
 
@@ -58,12 +61,21 @@ public class TermsPresenter implements Presenter {
     private final HandlerManager eventBus;
     private final Display display;
 
+    /**
+     * Default constructor.
+     * @param rpcService
+     * @param eventBus
+     * @param view
+     */
     public TermsPresenter(final ArithmeaServiceAsync rpcService, final HandlerManager eventBus, final Display view) {
         this.rpcService = rpcService;
         this.eventBus = eventBus;
         this.display = view;
     }
 
+    /**
+     * Binds the handlers to the elements from the view.
+     */
     public final void bind() {
         display.getAddButton().addClickHandler(new ClickHandler() {
             public void onClick(final ClickEvent event) {
@@ -122,6 +134,9 @@ public class TermsPresenter implements Presenter {
         }
     }
 
+    /**
+     * Initializes the container and fetches the details for the term if there is any.
+     */
     public final void go(final HasWidgets container) {
         bind();
         container.clear();
@@ -129,14 +144,26 @@ public class TermsPresenter implements Presenter {
         fetchTermDetails();
     }
 
+    /**
+     * Sets the details for the Term.
+     * @param termDetails
+     */
     public final void setTermDetails(final List<Term> termDetails) {
         this.terms = termDetails;
     }
 
+    /**
+     * Returns the term for the provided index.
+     * @param index
+     * @return the term
+     */
     public final Term getTermDetail(final int index) {
         return terms.get(index);
     }
 
+    /**
+     * Fetches the terms for the selected letter at the selected offset.
+     */
     private void fetchTermDetails() {
         String letter = display.getLetterBox().getValue(display.getLetterBox().getSelectedIndex());
         display.setLetter(letter);
@@ -171,6 +198,9 @@ public class TermsPresenter implements Presenter {
         }
     }
 
+    /**
+     * Deletes the selected terms.
+     */
     private void deleteSelectedTerms() {
         final List<Integer> selectedRows = display.getSelectedRows();
         final ArrayList<String> ids = new ArrayList<String>();
@@ -189,16 +219,26 @@ public class TermsPresenter implements Presenter {
         });
     }
 
+    /**
+     * Sorts the terms alphabetically.
+     */
     public final void sortTermsByLatinString() {
         Collections.sort(terms, new TermSortByLatinString());
         display.setData(terms);
     }
 
+    /**
+     * Sorts the terms aleph-bethically by the hebrew String.
+     */
     public final void sortTermsByHebrewString() {
         Collections.sort(terms, new TermSortByHebrewString());
         display.setData(terms);
     }
 
+    /**
+     * Sorts the terms by the value of the provided GematriaMethod.
+     * @param gematria method
+     */
     public final void sortTermsBy(final GematriaMethod gm) {
         Collections.sort(terms, new TermSortByGematriaMethod(gm));
         display.setData(terms);

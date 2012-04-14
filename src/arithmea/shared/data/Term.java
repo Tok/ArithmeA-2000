@@ -11,6 +11,9 @@ import arithmea.shared.gematria.HebrewMethod;
 import arithmea.shared.gematria.LatinMethod;
 import arithmea.shared.gematria.ValidationUtil;
 
+/**
+ * Persistent term class.
+ */
 @PersistenceCapable(detachable = "true")
 public class Term implements Serializable {
     private static final long serialVersionUID = -1672673901417871681L;
@@ -43,9 +46,16 @@ public class Term implements Serializable {
     @Persistent
     private Integer katan;
 
+    /**
+     * Empty constructor.
+     */
     public Term() {
     }
 
+    /**
+     * Default constructor accepting a latin String.
+     * @param latinString
+     */
     public Term(final String latinString) {
         ValidationUtil vu = new ValidationUtil();
         String tmp = vu.getLetterString(latinString);
@@ -70,6 +80,11 @@ public class Term implements Serializable {
         this.katan = values.get(HebrewMethod.Katan);
     }
 
+    /**
+     * Returns the number of this term for the provided gematria method.
+     * @param method
+     * @return number
+     */
     public final Integer get(final GematriaMethod method) {
         if (LatinMethod.Chaldean.equals(method)) {
             return chaldean;

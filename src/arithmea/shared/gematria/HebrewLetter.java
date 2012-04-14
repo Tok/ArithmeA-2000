@@ -1,5 +1,8 @@
 package arithmea.shared.gematria;
 
+/**
+ * Enum for hebrew letters.
+ */
 public enum HebrewLetter {
     Aleph('\u05D0', false, 1, 1, 1),
     Beth('\u05D1', false, 2, 2, 2),
@@ -48,6 +51,10 @@ public enum HebrewLetter {
         return hebrew;
     }
 
+    /**
+     * Returns true if the letter is final.
+     * @return isFinal
+     */
     public final boolean isFinal() {
         return isFinal;
     }

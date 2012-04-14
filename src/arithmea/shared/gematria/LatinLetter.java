@@ -1,6 +1,7 @@
 package arithmea.shared.gematria;
 
 /**
+ * Enum for latin letters with their values in different methods.
  * Thanks to Alien696 for the EQ cipher and the corresponding signs.
  */
 public enum LatinLetter {
@@ -41,6 +42,18 @@ public enum LatinLetter {
     private int eqValue;
     private String eqSign;
 
+    /**
+     * Default constructor.
+     * @param character
+     * @param chaldeanValue
+     * @param pythagoreanValue
+     * @param iaValue
+     * @param naeqValue
+     * @param tqValue
+     * @param germanValue
+     * @param eqValue
+     * @param eqSign
+     */
     private LatinLetter(final char character, final int chaldeanValue, final int pythagoreanValue,
             final int iaValue, final int naeqValue, final int tqValue,
             final int germanValue, final int eqValue, final String eqSign) {
@@ -55,38 +68,84 @@ public enum LatinLetter {
         this.eqSign = eqSign;
     }
 
+    /**
+     * Returns the letter as char.
+     * @return character
+     */
     public final char getCharacter() {
         return character;
     }
 
+    /**
+     * Returns the value of the letter in chaldean numerology.
+     * http://en.wikipedia.org/wiki/Arithmancy#The_Chaldean_Method
+     * @return chaldeanValue
+     */
     public final int getChaldeanValue() {
         return chaldeanValue;
     }
 
+    /**
+     * Returns the value of the letter in pythagorean numerology.
+     * http://en.wikipedia.org/wiki/Arithmancy#The_Agrippan_Method
+     * @return pythagoreanValue
+     */
     public final int getPythagoreanValue() {
         return pythagoreanValue;
     }
 
+    /**
+     * Returns the value of the letter in Simple English Gematria.
+     * 1=A, 2=B, 3=C .. 26=Z.
+     * http://wmjas.wikidot.com/simple-english-gematria
+     * @return iaValue
+     */
     public final int getIaValue() {
         return iaValue;
     }
 
+    /**
+     * Returns the value of the letter in New Aeon English Qabalah
+     * http://en.wikipedia.org/wiki/English_Qabalah#ALW_Cipher
+     * @return naeqValue
+     */
     public final int getNaeqValue() {
         return naeqValue;
     }
-
+    
+    /**
+     * Returns the value of the letter in Trigrammaton Qabalah
+     * http://en.wikipedia.org/wiki/English_Qabalah#Trigrammaton_Qabalah_.28TQ.29
+     * @return tqValue
+     */
     public final int getTqValue() {
         return tqValue;
     }
 
+    /**
+     * Returns the value of the letter for a cipher specific to 
+     * the german language, that was discovered by Rolf Keppler.
+     * http://www.rolf-keppler.de/schluessel.htm
+     * Most letters have a value of 0.
+     * @return germanValue
+     */
     public final int getGermanValue() {
         return germanValue;
     }
 
+    /**
+     * Returns the value of the letter in an English Qabalah method that uses the same sequence as NAEQ, 
+     * but without reducing the Values (thanks to Alien696).
+     * @return eqValue
+     */
     public final int getEqValue() {
         return eqValue;
     }
 
+    /**
+     * Returns the String of the sign for the letter associated with the EQ method.
+     * @return eqSign
+     */
     public final String getEqSign() {
         return eqSign;
     }

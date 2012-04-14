@@ -13,10 +13,16 @@ import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
+/**
+ * View for the info page.
+ */
 public class InfoView extends Composite implements InfoPresenter.Display {
     private final Button cancelButton;
     private final FlexTable contentTable;
 
+    /**
+     * Default constructor.
+     */
     public InfoView() {
         final DecoratorPanel contentTableDecorator = new DecoratorPanel();
         initWidget(contentTableDecorator);

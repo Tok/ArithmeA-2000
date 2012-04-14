@@ -14,6 +14,9 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.Widget;
 
+/**
+ * View to parse text input.
+ */
 public class ParseTextView extends Composite implements ParseTextPresenter.Display {
     private final Button cancelButton;
     private final Button parseButton;
@@ -21,6 +24,9 @@ public class ParseTextView extends Composite implements ParseTextPresenter.Displ
     private final TextArea textArea;
     private final FlexTable contentTable;
 
+    /**
+     * Default constructor.
+     */
     public ParseTextView() {
         final DecoratorPanel contentTableDecorator = new DecoratorPanel();
         initWidget(contentTableDecorator);

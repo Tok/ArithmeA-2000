@@ -19,6 +19,9 @@ import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
 
+/**
+ * Presenter to control the view for editing words.
+ */
 public class EditTermPresenter implements Presenter {
 
     public interface Display {
@@ -39,6 +42,12 @@ public class EditTermPresenter implements Presenter {
     private final HandlerManager eventBus;
     private final Display display;
 
+    /**
+     * Default constructor that doesn't accept and id.
+     * @param rpcService
+     * @param eventBus
+     * @param display
+     */
     public EditTermPresenter(final ArithmeaServiceAsync rpcService, final HandlerManager eventBus, final Display display) {
         this.rpcService = rpcService;
         this.eventBus = eventBus;
@@ -47,6 +56,13 @@ public class EditTermPresenter implements Presenter {
         bind();
     }
 
+    /**
+     * Constructor that accepts an id and retrieves the corresponding term.
+     * @param rpcService
+     * @param eventBus
+     * @param display
+     * @param id
+     */
     public EditTermPresenter(final ArithmeaServiceAsync rpcService, final HandlerManager eventBus, final Display display, final String id) {
         this.rpcService = rpcService;
         this.eventBus = eventBus;
@@ -64,13 +80,15 @@ public class EditTermPresenter implements Presenter {
                     EditTermPresenter.this.display.get(gm).setValue(term.get(gm).toString());
                 }
             }
-
             public void onFailure(final Throwable caught) {
                 Window.alert("Fail retrieving term");
             }
         });
     }
 
+    /**
+     * Defines the bindings for the buttons from the view.
+     */
     public final void bind() {
         this.display.getSaveButton().addClickHandler(new ClickHandler() {
             public void onClick(final ClickEvent event) {
@@ -84,12 +102,18 @@ public class EditTermPresenter implements Presenter {
         });
     }
 
+    /**
+     * Initializes the container and sets the initial focus.
+     */
     public final void go(final HasWidgets container) {
         container.clear();
         container.add(display.asWidget());
         display.getInputTextBox().setFocus(true);
     }
 
+    /**
+     * Creates and saves a term from the TextBox with the latin String.
+     */
     private void doSave() {
         try {
             String latinString = display.getLatinString().getValue();

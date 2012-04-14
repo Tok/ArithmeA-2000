@@ -11,6 +11,9 @@ import com.google.gwt.canvas.dom.client.CssColor;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
+/**
+ * Widget that draws the alphabet on a circle and connects the provided letters.
+ */
 public class LetterStarWidget extends Composite {
     private static final double DEGREES_IN_CIRCLE = 360.0D;
     private static final double INNER_RATIO = 0.40D;
@@ -22,6 +25,11 @@ public class LetterStarWidget extends Composite {
     private Map<LatinLetter, Double> xLetterPos = new HashMap<LatinLetter, Double>(LatinLetter.values().length);
     private Map<LatinLetter, Double> yLetterPos = new HashMap<LatinLetter, Double>(LatinLetter.values().length);
 
+    /**
+     * Default constructor.
+     * @param width in pixels
+     * @param height in pixels
+     */
     public LetterStarWidget(final int width, final int height) {
         canvas = Canvas.createIfSupported();
         canvas.setCoordinateSpaceHeight(height);
@@ -33,10 +41,17 @@ public class LetterStarWidget extends Composite {
         setStyleName("tree-of-life");
     }
 
+    /**
+     * Returns the canvas element of this widget.
+     * @return canvas
+     */
     public final Canvas getCanvas() {
         return canvas;
     }
 
+    /**
+     * Initializes the alphabet circle.
+     */
     private void initPositions() {
         for (LatinLetter ll : LatinLetter.values()) {
             double angle = (ll.getIaValue() - 1) * (DEGREES_IN_CIRCLE / (LatinLetter.values().length));
@@ -54,7 +69,9 @@ public class LetterStarWidget extends Composite {
         }
     }
 
-
+    /**
+     * Draws the circle.
+     */
     private void drawStar() {
         Context2d ctx = canvas.getContext2d();
         // reset content
@@ -78,6 +95,10 @@ public class LetterStarWidget extends Composite {
         ctx.stroke();
     }
 
+    /**
+     * Sets the word in order to connect its letters.
+     * @param word
+     */
     public final void setWord(final String word) {
         drawStar();
         if (word.length() <= 1) {
@@ -94,6 +115,13 @@ public class LetterStarWidget extends Composite {
         }
     }
 
+    /**
+     * Draws a line on the canvas.
+     * @param startX
+     * @param startY
+     * @param endX
+     * @param endY
+     */
     private void drawLine(final double startX, final double startY, final double endX, final double endY) {
         canvas.getContext2d().setStrokeStyle(CssColor.make("#FFFFFF"));
         canvas.getContext2d().setLineWidth(3);

@@ -2,6 +2,9 @@ package arithmea.client.event;
 
 import com.google.gwt.event.shared.GwtEvent;
 
+/**
+ * Event to show the page to add new words.
+ */
 public class AddTermEvent extends GwtEvent<AddTermEventHandler> {
     public static final Type<AddTermEventHandler> TYPE = new Type<AddTermEventHandler>();
     private String word;
@@ -20,6 +23,10 @@ public class AddTermEvent extends GwtEvent<AddTermEventHandler> {
         handler.onAddTerm(this);
     }
 
+    /**
+     * Returns the word that should be added.
+     * @return word
+     */
     public final String getWord() {
         return word;
     }

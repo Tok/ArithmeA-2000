@@ -1,5 +1,8 @@
 package arithmea.shared.data;
 
+/**
+ * Enum with numbers that have a special meaning to highlight with a certain color.
+ */
 public enum Highlight {
     eleven(11, "master-number", "red"),
     thirteen(13, "fibonacci-number", "green"),

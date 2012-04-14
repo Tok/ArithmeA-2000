@@ -2,6 +2,9 @@ package arithmea.shared.qabalah;
 
 import com.google.gwt.canvas.dom.client.CssColor;
 
+/**
+ * Class representing the positions of the sephiroth.
+ */
 public class SephirothData {
     public static final int UNIT = 30;
     private static final int INITIAL = 86;
@@ -10,6 +13,9 @@ public class SephirothData {
     public static final int WIDTH = 24 * UNIT;
     public static final int HEIGHT = 5 * UNIT;
 
+    /**
+     * Enum calculating the relative sephiroth positions.
+     */
     public enum SephiraPosition {
         Kether(Sephira.Kether, CssColor.make("#FFFFFF"), UNIT * 3, UNIT),
         Chokmah(Sephira.Chokmah, CssColor.make("#AAAAAA"), (UNIT * 3) + (HEIGHT * FACTOR) / HEIGHT, UNIT * 2),
@@ -28,6 +34,13 @@ public class SephirothData {
         private int x;
         private int y;
 
+        /**
+         * Default constructor.
+         * @param sephira
+         * @param color
+         * @param x position
+         * @param y position
+         */
         private SephiraPosition(final Sephira sephira, final CssColor color, final int x, final int y) {
             this.sephira = sephira;
             this.color = color;
@@ -52,6 +65,11 @@ public class SephirothData {
         }
     }
 
+    /**
+     * Returns the relativ position that was calculated for the provided sephira.
+     * @param sephira
+     * @return SephiraPosition
+     */
     public final SephiraPosition getPosition(final Sephira sephira) {
         if (Sephira.Kether.equals(sephira)) {
             return SephiraPosition.Kether;

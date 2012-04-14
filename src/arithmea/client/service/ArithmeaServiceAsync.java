@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import arithmea.shared.data.Term;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
+/**
+ * Asynchronous interface for the service to store and retrieve Terms.
+ */
 public interface ArithmeaServiceAsync {
     void addTerm(final Term term, final AsyncCallback<Term> callback);
     void getTerm(final String id, final AsyncCallback<Term> callback);

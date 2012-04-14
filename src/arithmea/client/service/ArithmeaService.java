@@ -7,6 +7,9 @@ import arithmea.shared.data.Term;
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 
+/**
+ * Service interface to store and retrieve Terms.
+ */
 @RemoteServiceRelativePath("arithmeaService")
 public interface ArithmeaService extends RemoteService {
   Term addTerm(final Term term); //Create

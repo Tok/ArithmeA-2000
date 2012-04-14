@@ -14,6 +14,9 @@ import arithmea.shared.data.Term;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
+/**
+ * Implementation of the service to store, delete and retrieve Terms.
+ */
 @SuppressWarnings("serial")
 public class ArithmeaServiceImpl extends RemoteServiceServlet implements
         ArithmeaService {
@@ -22,13 +25,23 @@ public class ArithmeaServiceImpl extends RemoteServiceServlet implements
     private static final PersistenceManagerFactory PMF = JDOHelper
             .getPersistenceManagerFactory("transactions-optional");
 
+    /**
+     * Default constructor.
+     */
     public ArithmeaServiceImpl() {
     }
 
+    /**
+     * Stores a new Term.
+     */
     public final Term addTerm(final Term term) {
         return updateTerm(term);
     }
 
+    /**
+     * Updates and returns an existing term.
+     * @return term
+     */
     public final Term updateTerm(final Term term) {
         if (term.getFirstLetter().equals(" ")) {
             return term;
@@ -42,6 +55,10 @@ public class ArithmeaServiceImpl extends RemoteServiceServlet implements
         return term;
     }
 
+    /**
+     * Deletes a term and returns true.
+     * @return boolean
+     */
     public final Boolean deleteTerm(final String id) {
         final PersistenceManager pm = PMF.getPersistenceManager();
         try {
@@ -52,6 +69,10 @@ public class ArithmeaServiceImpl extends RemoteServiceServlet implements
         return true;
     }
 
+    /**
+     * Deletes the terms with the provided ids.
+     * @return message
+     */
     public final String deleteTerms(final ArrayList<String> ids) {
         int i;
         for (i = 0; i < ids.size(); ++i) {
@@ -60,6 +81,10 @@ public class ArithmeaServiceImpl extends RemoteServiceServlet implements
         return "Deleted " + i + " words.";
     }
 
+    /**
+     * Deletes all terms and returns their count.
+     * @return count as String
+     */
     @Override
     public final String deleteAllTerms() {
         PersistenceManager pm = PMF.getPersistenceManager();
@@ -72,6 +97,10 @@ public class ArithmeaServiceImpl extends RemoteServiceServlet implements
         return String.valueOf(count);
     }
 
+    /**
+     * Returns all terms that match the provided number for the provided method.
+     * @return terms list
+     */
     @Override
     public final ArrayList<Term> getTermsFor(final String method, final Integer number) {
         final PersistenceManager pm = PMF.getPersistenceManager();
@@ -89,6 +118,10 @@ public class ArithmeaServiceImpl extends RemoteServiceServlet implements
         return result;
     }
 
+    /**
+     * Returns some terms that start with the provided letter from the provided offset.
+     * @return terms list
+     */
     @Override
     public final ArrayList<Term> getTermsFromOffset(final String letter, final int from) {
         final PersistenceManager pm = PMF.getPersistenceManager();
@@ -107,6 +140,10 @@ public class ArithmeaServiceImpl extends RemoteServiceServlet implements
         return result;
     }
 
+    /**
+     * Returns all terms from the provided offset.
+     * @return terms list
+     */
     public final ArrayList<Term> getAllTermsFromOffset(final Integer offset) {
         final PersistenceManager pm = PMF.getPersistenceManager();
         ArrayList<Term> result = new ArrayList<Term>();
@@ -122,6 +159,10 @@ public class ArithmeaServiceImpl extends RemoteServiceServlet implements
         return result;
     }
 
+    /**
+     * Returns the term with the provided id.
+     * @return term
+     */
     public final Term getTerm(final String id) {
         final PersistenceManager pm = PMF.getPersistenceManager();
         Term result = null;
@@ -137,6 +178,10 @@ public class ArithmeaServiceImpl extends RemoteServiceServlet implements
         return result;
     }
 
+    /**
+     * Parses the provided text and stores the resulting terms.
+     * @return report with count
+     */
     @Override
     public final String parseTerms(final String input) {
         String[] words = input.split("\\s+");

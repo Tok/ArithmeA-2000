@@ -18,6 +18,9 @@ import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
 
+/**
+ * View to compare terms by gematria values.
+ */
 public class NumberView extends Composite implements NumberPresenter.Display {
     private final Button cancelButton;
     private final ExtendedTextBox numberBox;
@@ -26,6 +29,11 @@ public class NumberView extends Composite implements NumberPresenter.Display {
     private final FlowPanel similarWords = new FlowPanel();
     private final FlexTable contentTable;
 
+    /**
+     * Default construtor.
+     * @param method
+     * @param number
+     */
     public NumberView(final String method, final String number) {
         final DecoratorPanel contentTableDecorator = new DecoratorPanel();
         initWidget(contentTableDecorator);

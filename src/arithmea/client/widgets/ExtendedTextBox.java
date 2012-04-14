@@ -5,6 +5,9 @@ import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.TextBox;
 
+/**
+ * TextBox that responds to a value change on a paste event.
+ */
 public class ExtendedTextBox extends TextBox {
     public ExtendedTextBox() {
         super();

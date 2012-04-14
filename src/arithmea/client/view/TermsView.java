@@ -34,6 +34,9 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.Widget;
 
+/**
+ * View for the terms list.
+ */
 public class TermsView extends Composite implements TermsPresenter.Display {
     private static final int NUMBER_OF_ROWS = 30;
     private final Button addButton;
@@ -51,6 +54,12 @@ public class TermsView extends Composite implements TermsPresenter.Display {
     private String letter;
     private int offset;
 
+    /**
+     * Default constructor.
+     * @param eventBus
+     * @param letter
+     * @param offset
+     */
     public TermsView(final HandlerManager eventBus, final String letter, final int offset) {
         this.eventBus = eventBus;
         this.letter = letter;
@@ -146,6 +155,9 @@ public class TermsView extends Composite implements TermsPresenter.Display {
         return termsTable;
     }
 
+    /**
+     * Sets the data from the provided terms.
+     */
     public final void setData(final List<Term> terms) {
         termsTable.removeAllRows();
 
@@ -234,6 +246,11 @@ public class TermsView extends Composite implements TermsPresenter.Display {
         addWidgetToTable(row + 1, 1, pagerPanel, false);
     }
 
+    /**
+     * Highlights the special gematria values with the corresponding css colors.
+     * @param anchor
+     * @param value
+     */
     private void doHighlight(final Anchor anchor, final int value) {
         for (Highlight hl : Highlight.values()) {
             if (hl.getNumber() == value) {
@@ -248,6 +265,13 @@ public class TermsView extends Composite implements TermsPresenter.Display {
         }
     }
 
+    /**
+     * Adds a Widget to the table.
+     * @param row
+     * @param column
+     * @param widget
+     * @param alignRight
+     */
     private void addWidgetToTable(final int row, final int column,
             final Widget widget, final boolean alignRight) {
         termsTable.setWidget(row, column, widget);
@@ -259,6 +283,12 @@ public class TermsView extends Composite implements TermsPresenter.Display {
         }
     }
 
+    /**
+     * Prepares an Achor for the provided method and number.
+     * @param methodName
+     * @param number
+     * @return the prepared Anchor
+     */
     private Anchor prepareContentAnchor(final String methodName, final int number) {
         Anchor anchor = new Anchor(String.valueOf(number));
         anchor.addClickHandler(new ClickHandler() {
@@ -271,6 +301,9 @@ public class TermsView extends Composite implements TermsPresenter.Display {
         return anchor;
     }
 
+    /**
+     * Returns a list with the selected rows.
+     */
     public final List<Integer> getSelectedRows() {
         final List<Integer> selectedRows = new ArrayList<Integer>();
         for (int i = 0; i < termsTable.getRowCount(); i++) {

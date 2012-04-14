@@ -1,5 +1,8 @@
 package arithmea.shared.gematria;
 
+/**
+ * Enum for current and ancient cyrillic letters.
+ */
 public enum CyrillicLetter {
     А('\u0410', true, 1, 1, 1), //А
     Б('\u0411', false, 0, 0, 0), //Be
@@ -58,6 +61,10 @@ public enum CyrillicLetter {
         return cyrillic;
     }
 
+    /**
+     * Returns true if the letter is obsolete.
+     * @return isAncient
+     */
     public boolean isAncient() {
         return isAncient;
     }

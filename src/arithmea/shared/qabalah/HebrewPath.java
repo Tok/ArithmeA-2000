@@ -2,6 +2,9 @@ package arithmea.shared.qabalah;
 
 import arithmea.shared.gematria.HebrewLetter;
 
+/**
+ * Enum to represent the classical 22 paths on the tree of life.
+ */
 public enum HebrewPath {
     Aleph(HebrewLetter.Aleph, 11, Sephira.Kether, Sephira.Chokmah),
     Beth(HebrewLetter.Beth, 12, Sephira.Kether, Sephira.Binah),
@@ -36,6 +39,13 @@ public enum HebrewPath {
     private Sephira from;
     private Sephira to;
 
+    /**
+     * Default constructor.
+     * @param letter
+     * @param number
+     * @param from
+     * @param to
+     */
     private HebrewPath(final HebrewLetter letter, final int number, final Sephira from, final Sephira to) {
         this.letter = letter;
         this.number = number;
@@ -43,18 +53,34 @@ public enum HebrewPath {
         this.to = to;
     }
 
+    /**
+     * Returns the HebrewLetter associated with the path.
+     * @return the hebrew letter
+     */
     public final HebrewLetter getLetter() {
         return letter;
     }
 
+    /**
+     * Returns the number of the path.
+     * @return number
+     */
     public final int getNumber() {
         return number;
     }
 
+    /**
+     * Returns the sephira at the top of the path.
+     * @return from sephira
+     */
     public final Sephira getFrom() {
         return from;
     }
 
+    /**
+     * Returns the sephira at the bottom of the path.
+     * @return to sephira
+     */
     public final Sephira getTo() {
         return to;
     }

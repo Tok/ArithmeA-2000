@@ -39,6 +39,9 @@ import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
+/**
+ * View to edit and add new terms.
+ */
 public class EditTermView extends Composite implements
         EditTermPresenter.Display {
     private final HorizontalPanel treePanel = new HorizontalPanel();
@@ -57,6 +60,11 @@ public class EditTermView extends Composite implements
 
     private final HandlerManager eventBus;
 
+    /**
+     * Default constructor
+     * @param eventBus
+     * @param word
+     */
     public EditTermView(final HandlerManager eventBus, final String word) {
         this.eventBus = eventBus;
         final DecoratorPanel contentDetailsDecorator = new DecoratorPanel();
@@ -144,6 +152,9 @@ public class EditTermView extends Composite implements
         contentDetailsDecorator.add(contentDetailsPanel);
     }
 
+    /**
+     * Processes changes in the input TextBox.
+     */
     private void doChange() {
         try {
             final Term term = new Term(inputTextBox.getText());
@@ -170,6 +181,11 @@ public class EditTermView extends Composite implements
         }
     }
 
+    /**
+     * Prepares the anchors for the provided tern and gematria method.
+     * @param term
+     * @param method
+     */
     private void prepareMethodAnchor(final Term term, final GematriaMethod method) {
         final String methodName = method.name();
         final int value = term.get(method);
@@ -195,6 +211,9 @@ public class EditTermView extends Composite implements
         anchors.get(method).setHref("#show/" + methodName.toLowerCase() + "/" + String.valueOf(value));
     }
 
+    /**
+     * Initializes the details table.
+     */
     private void initDetailsTable() {
         detailsTable.setWidget(0, 1, latinString);
         detailsTable.getCellFormatter().addStyleName(0, 1, "text-table");
@@ -212,6 +231,13 @@ public class EditTermView extends Composite implements
         }
     }
 
+    /**
+     * Adds a row to the table.
+     * @param table
+     * @param row
+     * @param description
+     * @param anchor
+     */
     private void addRow(final FlexTable table, final int row,
             final String description, final Anchor anchor) {
         table.setWidget(row, 0, new Label(description));

@@ -28,6 +28,9 @@ import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
 
+/**
+ * Presenter for the view to compare words by numbers and gematria methods.
+ */
 public class NumberPresenter implements Presenter {
 
     public interface Display {
@@ -43,6 +46,12 @@ public class NumberPresenter implements Presenter {
     private final HandlerManager eventBus;
     private final Display display;
 
+    /**
+     * Default constructor.
+     * @param rpcService
+     * @param eventBus
+     * @param view
+     */
     public NumberPresenter(final ArithmeaServiceAsync rpcService,
             final HandlerManager eventBus, final Display view) {
         this.rpcService = rpcService;
@@ -50,6 +59,9 @@ public class NumberPresenter implements Presenter {
         this.display = view;
     }
 
+    /**
+     * Binds the handlers to the elements from the view.
+     */
     public final void bind() {
         this.display.getCancelButton().addClickHandler(new ClickHandler() {
             public void onClick(final ClickEvent event) {
@@ -80,6 +92,9 @@ public class NumberPresenter implements Presenter {
         });
     }
 
+    /**
+     * Tries to show the comparison for a number from the TextBox.
+     */
     private void tryShow() {
         Integer number = null;
         try {
@@ -100,6 +115,10 @@ public class NumberPresenter implements Presenter {
         }
     }
 
+    /**
+     * Gets the terms and shows the comparison for the provided numbers.
+     * @param number
+     */
     private void doShow(final int number) {
         display.getSimilarWords().clear();
         display.getSimilarWords().add(new Label("Loading.."));
@@ -136,6 +155,9 @@ public class NumberPresenter implements Presenter {
         );
     }
 
+    /**
+     * Initializes the container.
+     */
     public final void go(final HasWidgets container) {
         bind();
         container.clear();

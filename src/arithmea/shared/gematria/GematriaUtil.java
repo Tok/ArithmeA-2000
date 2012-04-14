@@ -2,15 +2,22 @@ package arithmea.shared.gematria;
 
 import java.util.HashMap;
 
-
+/**
+ * Utility class for gematria.
+ */
 public class GematriaUtil {
     private boolean skipNext = false;
     private boolean skipAfterNext = false;
 
-    public final HashMap<GematriaMethod, Integer> getAllValues(final String id) {
+    /**
+     * Calculates the numbers for the provided String using all known gematria methods.
+     * @param input
+     * @return HashMap with the result
+     */
+    public final HashMap<GematriaMethod, Integer> getAllValues(final String input) {
         HashMap<GematriaMethod, Integer> result = new HashMap<GematriaMethod, Integer>(LatinMethod.values().length + HebrewMethod.values().length);
 
-        final char[] latinChars = id.toUpperCase().toCharArray();
+        final char[] latinChars = input.toUpperCase().toCharArray();
         int chaldeanResult = 0;
         int pythagoreanResult = 0;
         int iaResult = 0;
@@ -41,7 +48,7 @@ public class GematriaUtil {
         result.put(LatinMethod.German, germanResult);
         result.put(LatinMethod.EQ, eqResult);
 
-        String hebrew = getHebrew(id);
+        String hebrew = getHebrew(input);
         final char[] hebrewChars = hebrew.toCharArray();
         int fullResult = 0;
         int ordinalResult = 0;
@@ -62,8 +69,13 @@ public class GematriaUtil {
         return result;
     }
 
-    public final String getHebrew(final String id) {
-        final char[] chars = id.toCharArray();
+    /**
+     * Transliterates the provided String to hebrew.
+     * @param input
+     * @return the transliterated hebrew String.
+     */
+    public final String getHebrew(final String input) {
+        final char[] chars = input.toCharArray();
         StringBuilder result = new StringBuilder();
         for (int i = 0; i < chars.length; i++) {
             if (skipNext) {
@@ -91,6 +103,14 @@ public class GematriaUtil {
         return result.toString();
     }
 
+    /**
+     * Returns the hebrew letter for the next one to three latin letters.
+     * @param isFirst mist be true if the current letter is at the beginning of the word
+     * @param the current letter
+     * @param the next letter if there is one
+     * @param the letter after the next letter if there is one
+     * @return the corresponding hebrew letter
+     */
     private char getHebrewCharacter(final boolean isFirst, final char current, final char next, final char afterNext) {
         if (current == 'A') {
             return HebrewLetter.Aleph.getHebrew();
