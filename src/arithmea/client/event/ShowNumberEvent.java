@@ -12,8 +12,8 @@ public class ShowNumberEvent extends GwtEvent<ShowNumberEventHandler> {
 
     /**
      * Accepts a the name of a gematria method and a number to compare.
-     * @param name of the gematria method
-     * @param the number as String.
+     * @param method name of the gematria method
+     * @param number as String.
      */
     public ShowNumberEvent(final String method, final String number) {
         this.method = method;

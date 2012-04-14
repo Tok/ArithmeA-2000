@@ -12,7 +12,7 @@ public class TermSortByGematriaMethod implements Comparator<Term> {
 
     /**
      * Default constructor.
-     * @param gematria method
+     * @param gm gematria method
      */
     public TermSortByGematriaMethod(final GematriaMethod gm) {
         this.gm = gm;
@@ -28,6 +28,8 @@ public class TermSortByGematriaMethod implements Comparator<Term> {
 
     /**
      * Compares two terms.
+     * @param first term
+     * @param second term
      * @return positive or negative number or 0.
      */
     public final int compare(final Term first, final Term second) {

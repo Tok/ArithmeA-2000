@@ -237,7 +237,7 @@ public class TermsPresenter implements Presenter {
 
     /**
      * Sorts the terms by the value of the provided GematriaMethod.
-     * @param gematria method
+     * @param gm gematria method
      */
     public final void sortTermsBy(final GematriaMethod gm) {
         Collections.sort(terms, new TermSortByGematriaMethod(gm));
