@@ -175,15 +175,13 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
                 if (token.split("/").length > 2) {
                     offsetString = token.split("/")[2];
                 }
-                presenter = new TermsPresenter(rpcService, eventBus,
-                        new TermsView(eventBus, letterString, Integer.valueOf(offsetString)));
+                presenter = new TermsPresenter(rpcService, eventBus, new TermsView(eventBus, letterString, Integer.valueOf(offsetString)));
             } else if (token.startsWith("add") || token.startsWith("edit")) {
                 String wordString = "";
                 if (token.split("/").length > 1) {
                     wordString = token.split("/")[1];
                 }
-                presenter = new EditTermPresenter(rpcService, eventBus,
-                        new EditTermView(eventBus, wordString));
+                presenter = new EditTermPresenter(rpcService, eventBus, new EditTermView(eventBus, wordString));
             } else if (token.startsWith("show/")) {
                 String methodString = "All";
                 if (token.split("/").length > 1) {
@@ -193,14 +191,11 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
                 if (token.split("/").length > 2) {
                     numberString = token.split("/")[2];
                 }
-                presenter = new NumberPresenter(rpcService, eventBus,
-                        new NumberView(methodString, numberString));
+                presenter = new NumberPresenter(rpcService, eventBus, new NumberView(methodString, numberString));
             } else if (token.equals("parse/")) {
-                presenter = new ParseTextPresenter(rpcService, eventBus,
-                        new ParseTextView());
+                presenter = new ParseTextPresenter(rpcService, eventBus, new ParseTextView());
             } else if (token.equals("info/")) {
-                presenter = new InfoPresenter(rpcService, eventBus,
-                        new InfoView());
+                presenter = new InfoPresenter(rpcService, eventBus, new InfoView());
             } else if (token.equals("deleteAll/")) {
                 rpcService.deleteAllTerms(new AsyncCallback<String>() {
                     public void onSuccess(final String result) {
@@ -210,8 +205,12 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
                         Window.alert("Fail deleting terms: " + caught);
                     }
                 });
+            } else { //default case
+                presenter = new TermsPresenter(rpcService, eventBus, new TermsView(eventBus, "All", 0));
             }
-            presenter.go(container);
+            if (presenter != null) {
+                presenter.go(container);
+            }
         }
     }
 }
