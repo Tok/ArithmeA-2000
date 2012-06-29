@@ -2,8 +2,8 @@
 	border-bottom: 1px solid #E2E2E2;
 }
 
-div#title, div#content {
-	width: 1024px;
+div#page {
+	width: 800px;
 	margin: 0 auto; 
 }
 
