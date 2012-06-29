@@ -44,13 +44,13 @@ public class InfoView extends Composite implements InfoPresenter.Display {
         infoTable.setWidget(row++, 0, new HTML("&nbsp;"));
         infoTable.setText(row++, 0, "Chaldean:");
         infoTable.setText(row++, 0, "Shows the value of the word in chaldean numerology. The result is not reduced in order to preserve the full information.");
-        final String chaldeanWikiUrl = "http://en.wikipedia.org/wiki/Arithmancy#The_Chaldean_Method";
+        final String chaldeanWikiUrl = "http://en.wikipedia.org/wiki/Arithmancy#The_Chaldean_method";
         infoTable.setWidget(row++, 0, new Anchor(chaldeanWikiUrl, chaldeanWikiUrl));
         infoTable.setWidget(row++, 0, new HTML("&nbsp;"));
 
         infoTable.setText(row++, 0, "Pythagorean:");
         infoTable.setText(row++, 0, "Shows the value of the word in pythagorean (or agrippan) numerology. The result is not reduced in order to preserve the full information.");
-        final String pythWikiUrl = "http://en.wikipedia.org/wiki/Arithmancy#The_Agrippan_Method";
+        final String pythWikiUrl = "http://en.wikipedia.org/wiki/Arithmancy#The_Agrippan_method";
         infoTable.setWidget(row++, 0, new Anchor(pythWikiUrl, pythWikiUrl));
         infoTable.setWidget(row++, 0, new HTML("&nbsp;"));
 
@@ -73,7 +73,7 @@ public class InfoView extends Composite implements InfoPresenter.Display {
         infoTable.setWidget(row++, 0, new HTML("&nbsp;"));
 
         infoTable.setText(row++, 0, "German:");
-        infoTable.setText(row++, 0, "A cipher specific to the german language, that was discovered by Rolf Keppler.");
+        infoTable.setText(row++, 0, "A cipher specific to the german language, that was discovered by Heinz Borchardt.");
         final String gerUrl = "http://www.rolf-keppler.de/schluessel.htm";
         infoTable.setWidget(row++, 0, new Anchor(gerUrl, gerUrl));
         infoTable.setWidget(row++, 0, new HTML("&nbsp;"));
