@@ -2,7 +2,7 @@ package arithmea.shared.qabalah;
 
 /**
  * Enum to represent the 26 paths on the tree of life
- * associated with the 26 letters in the latin alphabet. 
+ * associated with the 26 letters in the latin alphabet.
  */
 public enum LatinPath {
     A(1, Sephira.Kether, Sephira.Chokmah),
@@ -65,7 +65,7 @@ public enum LatinPath {
     public final Sephira getFrom() {
         return from;
     }
-    
+
     /**
      * Returns the sephira at the bottom of the path.
      * @return to sephira

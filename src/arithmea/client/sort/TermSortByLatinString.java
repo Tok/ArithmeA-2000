@@ -7,7 +7,7 @@ import arithmea.shared.data.Term;
  * Sorter to sort terms by their latin String.
  */
 public class TermSortByLatinString implements Comparator<Term> {
-    
+
     /**
      * Compares two terms by their latin String.
      * @return positive or negative number or 0.

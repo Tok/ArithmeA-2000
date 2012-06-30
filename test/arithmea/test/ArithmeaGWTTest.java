@@ -180,7 +180,7 @@ public class ArithmeaGWTTest extends GWTTestCase {
         assertTrue(new Term("ARITHMEA").get(LatinMethod.NAEQ).equals(new Integer(111)));
         assertTrue(new Term(DER_SCHLUESSEL).get(LatinMethod.NAEQ).equals(new Integer(146)));
     }
-    
+
     /**
      * Tests results for trigrammaton qabalah.
      */

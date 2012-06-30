@@ -83,7 +83,7 @@ public class InfoView extends Composite implements InfoPresenter.Display {
         infoTable.setWidget(row++, 0, new HTML("&nbsp;"));
         infoTable.setWidget(row++, 0, new HTML("&nbsp;"));
         infoTable.setWidget(row++, 0, new HTML("&nbsp;"));
-        
+
         infoTable.setText(row++, 0, "Project page and source-code for ArithmeA 2000:");
         final String projectUrl = "http://tok.github.com/ArithmeA-2000/";
         infoTable.setWidget(row++, 0, new Anchor(projectUrl, projectUrl));

@@ -55,7 +55,7 @@ public class LetterStarWidget extends Composite {
     private void initPositions() {
         for (LatinLetter ll : LatinLetter.values()) {
             double angle = (ll.getIaValue() - 1) * (DEGREES_IN_CIRCLE / (LatinLetter.values().length));
-            angle = angle * Math.PI / 180; //radians to degree
+            angle = Math.toRadians(angle);
 
             double x = canvas.getCoordinateSpaceWidth() / 2 + ((Math.sin(angle) * canvas.getCoordinateSpaceWidth() * INNER_RATIO));
             double y = canvas.getCoordinateSpaceHeight() / 2 - ((Math.cos(angle) * canvas.getCoordinateSpaceHeight() * INNER_RATIO));

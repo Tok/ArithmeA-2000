@@ -42,7 +42,7 @@ public class ParseTextPresenter implements Presenter {
         this.eventBus = eventBus;
         this.display = view;
     }
-    
+
     /**
      * Binds the handlers to the elements from the view.
      */
@@ -74,7 +74,7 @@ public class ParseTextPresenter implements Presenter {
             }
         );
     }
-    
+
     /**
      * Initializes the container.
      */

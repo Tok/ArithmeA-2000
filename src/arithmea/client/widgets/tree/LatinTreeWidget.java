@@ -19,7 +19,7 @@ public class LatinTreeWidget extends AbstractTreeWidget {
         super(width, height);
         drawAllPaths();
     }
-    
+
     /**
      * Sets a word and highlights the corresponding paths.
      * @param latin String
