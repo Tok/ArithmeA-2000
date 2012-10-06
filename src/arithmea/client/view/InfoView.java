@@ -42,6 +42,11 @@ public class InfoView extends Composite implements InfoPresenter.Display {
         FlexTable infoTable = new FlexTable();
         int row = 0;
         infoTable.setWidget(row++, 0, new HTML("&nbsp;"));
+        
+        infoTable.setText(row++, 0, "== Methods working on the latin alphabet ==");
+        infoTable.setText(row++, 0, "The following methods work on the 26 letters that are used in the latin (or english) alphabet.");
+        infoTable.setWidget(row++, 0, new HTML("&nbsp;"));
+        
         infoTable.setText(row++, 0, "Chaldean:");
         infoTable.setText(row++, 0, "Shows the value of the word in chaldean numerology. The result is not reduced in order to preserve the full information.");
         final String chaldeanWikiUrl = "http://en.wikipedia.org/wiki/Arithmancy#The_Chaldean_method";
@@ -79,8 +84,35 @@ public class InfoView extends Composite implements InfoPresenter.Display {
         infoTable.setWidget(row++, 0, new HTML("&nbsp;"));
 
         infoTable.setText(row++, 0, "EQ:");
-        infoTable.setText(row++, 0, "English Qabalah method that uses the same sequence as NAEQ, but without reducing the Values (thanks to Alien696).");
+        infoTable.setText(row++, 0, "English Qabalah method that uses the same sequence as NAEQ, but without reducing the Values. This method is also known as EQ26 (thanks to Alien696).");
         infoTable.setWidget(row++, 0, new HTML("&nbsp;"));
+
+        infoTable.setWidget(row++, 0, new HTML("&nbsp;"));
+        infoTable.setWidget(row++, 0, new HTML("&nbsp;"));
+
+        infoTable.setText(row++, 0, "== Methods working on the hebrew transliteration ==");
+        infoTable.setText(row++, 0, "In a first step, the words are transliterated into a representation with hebrew letters according to a predefined method. The method of transliteration is misusing hebrew consonants as if they were vowels.");
+        infoTable.setText(row++, 0, "Transliteration is different from translation and results in words and accumulations of letters, that most likey don't have any meaning in hebrew. There are different possibilities on how the transliteration may be performed.");
+        final String transliterationdUrl = "http://en.wikipedia.org/wiki/Romanization_of_Hebrew#How_to_transliterate";
+        infoTable.setWidget(row++, 0, new Anchor(transliterationdUrl, transliterationdUrl));
+        infoTable.setWidget(row++, 0, new HTML("&nbsp;"));
+        infoTable.setText(row++, 0, "If you want to know the exact method, you may have a look at the sourcecode of the class arithmea.shared.gematria.GematriaUtil in the repository that is referenced at the bottom of this page.");
+        infoTable.setWidget(row++, 0, new HTML("&nbsp;"));
+
+        infoTable.setText(row++, 0, "Full:");
+        infoTable.setText(row++, 0, "Uses absolute or normative numerical value of the twenty-two hebrew letters. This method may be refered to as Mispar Hechrachi or Mispar ha-Panim.");
+        infoTable.setWidget(row++, 0, new HTML("&nbsp;"));
+        
+        infoTable.setText(row++, 0, "Ordinal:");
+        infoTable.setText(row++, 0, "Each of the 22 hebrew letters are given a value from one to twenty-two. Also known as Mispar Siduri.");
+        infoTable.setWidget(row++, 0, new HTML("&nbsp;"));
+        
+        infoTable.setText(row++, 0, "Katan:");
+        infoTable.setText(row++, 0, "Calculates the value of each hebrew letter, but truncates all of the zeros. It is also sometimes called Mispar Me'ugal.");
+        infoTable.setWidget(row++, 0, new HTML("&nbsp;"));
+        final String methodUrl = "http://en.wikipedia.org/wiki/Gematria#Methods";
+        infoTable.setWidget(row++, 0, new Anchor(methodUrl, methodUrl));
+
         infoTable.setWidget(row++, 0, new HTML("&nbsp;"));
         infoTable.setWidget(row++, 0, new HTML("&nbsp;"));
 
