@@ -23,7 +23,7 @@ public enum LatinLetter {
     O('O', new int[] {7, 6, 15, 19, 10, 4,   7}, "Aries"),
     P('P', new int[] {8, 7, 16, 26,  4, 0, 800}, "Spirit"),
     Q('Q', new int[] {1, 8, 17, 17, 16, 0, 100}, "Luna"),
-    R('R', new int[] {2, 9, 18, 12, 14, 0,  20}, "Pisces"),
+    R('R', new int[] {2, 9, 18, 12, 14, 0,  30}, "Pisces"),
     S('S', new int[] {3, 1, 19,  5, 15, 6,   5}, "Scorpio"),
     T('T', new int[] {4, 2, 20, 24,  9, 0, 600}, "Water"),
     U('U', new int[] {6, 3, 21, 17, 25, 5,  80}, "Mars"),

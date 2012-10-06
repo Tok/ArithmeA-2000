@@ -56,6 +56,18 @@ public class ArithmeaServiceImpl extends RemoteServiceServlet implements
     }
 
     /**
+     * Deletes the terms with the provided ids.
+     * @return message
+     */
+    public final String deleteTerms(final ArrayList<String> ids) {
+        int i;
+        for (i = 0; i < ids.size(); ++i) {
+            deleteTerm(ids.get(i));
+        }
+        return "Deleted " + i + " words.";
+    }
+
+    /**
      * Deletes a term and returns true.
      * @return boolean
      */
@@ -70,17 +82,26 @@ public class ArithmeaServiceImpl extends RemoteServiceServlet implements
     }
 
     /**
-     * Deletes the terms with the provided ids.
+     * Recalculates and updates the values terms with the provided ids.
      * @return message
      */
-    public final String deleteTerms(final ArrayList<String> ids) {
+    @Override
+    public String fixTerms(ArrayList<String> ids) {
         int i;
         for (i = 0; i < ids.size(); ++i) {
-            deleteTerm(ids.get(i));
+            fixTerm(ids.get(i));
         }
-        return "Deleted " + i + " words.";
+        return "Fixed " + i + " words.";
     }
 
+    /**
+     * Recalculates and updates the values for a term.
+     */
+    public final void fixTerm(final String id) {
+        final Term newTerm = new Term(id);
+        updateTerm(newTerm);
+    }
+    
     /**
      * Deletes all terms and returns their count.
      * @return count as String

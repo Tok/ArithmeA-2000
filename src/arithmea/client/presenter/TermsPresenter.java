@@ -43,6 +43,7 @@ public class TermsPresenter implements Presenter {
         HasClickHandlers getParseTextButton();
         HasClickHandlers getDeleteButton();
         HasClickHandlers getShowInfoButton();
+        HasClickHandlers getFixButton();
         HasClickHandlers getList();
         HasClickHandlers getLatinHeader();
         HasClickHandlers getHebrewHeader();
@@ -100,6 +101,20 @@ public class TermsPresenter implements Presenter {
         display.getShowInfoButton().addClickHandler(new ClickHandler() {
             public void onClick(final ClickEvent event) {
                 eventBus.fireEvent(new ShowInfoEvent());
+            }
+        });
+        display.getFixButton().addClickHandler(new ClickHandler() {
+            public void onClick(final ClickEvent event) {
+                final ArrayList<String> ids = getSelectedIds();
+                rpcService.fixTerms(ids, new AsyncCallback<String>() {
+                    public void onSuccess(final String result) {
+                        Window.alert(result);
+                        fetchTermDetails();
+                    }
+                    public void onFailure(final Throwable caught) {
+                        Window.alert("Fail fixing selected terms.");
+                    }
+                });
             }
         });
         display.getLetterBox().addChangeHandler(new ChangeHandler() {
@@ -202,11 +217,7 @@ public class TermsPresenter implements Presenter {
      * Deletes the selected terms.
      */
     private void deleteSelectedTerms() {
-        final List<Integer> selectedRows = display.getSelectedRows();
-        final ArrayList<String> ids = new ArrayList<String>();
-        for (int i = 0; i < selectedRows.size(); ++i) {
-            ids.add(terms.get(selectedRows.get(i)).getLatinString());
-        }
+        final ArrayList<String> ids = getSelectedIds();
         rpcService.deleteTerms(ids, new AsyncCallback<String>() {
             public void onSuccess(final String result) {
                 Window.alert(result);
@@ -242,5 +253,18 @@ public class TermsPresenter implements Presenter {
     public final void sortTermsBy(final GematriaMethod gm) {
         Collections.sort(terms, new TermSortByGematriaMethod(gm));
         display.setData(terms);
+    }
+    
+    /**
+     * Returns the a List of the selected ids
+     * @return ids the selected ids
+     */
+    private final ArrayList<String> getSelectedIds() {
+        final List<Integer> selectedRows = display.getSelectedRows();
+        final ArrayList<String> ids = new ArrayList<String>();
+        for (int i = 0; i < selectedRows.size(); ++i) {
+            ids.add(terms.get(selectedRows.get(i)).getLatinString());
+        }
+        return ids;
     }
 }

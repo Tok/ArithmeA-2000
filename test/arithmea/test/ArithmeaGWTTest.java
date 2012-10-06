@@ -198,6 +198,13 @@ public class ArithmeaGWTTest extends GWTTestCase {
     }
 
     /**
+     * Tests results for EQ values.
+     */
+    public final void testEq() {
+        assertTrue(new Term("AADHAAR").get(LatinMethod.EQ).equals(new Integer(44)));
+    }
+
+    /**
      * Tests results for full values.
      */
     public final void testFull() {

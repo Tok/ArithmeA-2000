@@ -44,6 +44,7 @@ public class TermsView extends Composite implements TermsPresenter.Display {
     private final Button parseTextButton;
     private final Button deleteButton;
     private final Button showInfoButton;
+    private final Button fixButton;
     private final ListBox letterBox;
     private final Anchor latinHeader = new Anchor("Latin");
     private final Anchor hebrewHeader = new Anchor("Hebrew");
@@ -85,6 +86,8 @@ public class TermsView extends Composite implements TermsPresenter.Display {
         hPanel.add(addButton);
         showInfoButton = new Button("Show Info");
         hPanel.add(showInfoButton);
+        fixButton = new Button("Fix Selected");
+        //hPanel.add(fixButton); //XXX uncomment to allow fixing
         letterBox = new ListBox();
         letterBox.addItem("All");
         int index = 1;
@@ -147,6 +150,10 @@ public class TermsView extends Composite implements TermsPresenter.Display {
         return parseTextButton;
     }
 
+    public final HasClickHandlers getFixButton() {
+        return fixButton;
+    }
+    
     public final HasClickHandlers getHeader(final LatinMethod gm) {
         return headers.get(gm);
     }
