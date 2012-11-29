@@ -61,7 +61,7 @@ public class EditTermPresenter implements Presenter {
         Widget asWidget();
     }
 
-    private final int MATCHES_LIMIT = 20;
+    private final int MATCHES_LIMIT = 15;
     private boolean isDirty = false; //denotes if input has changed since the last update of matches
     private Term term;
     private final ArithmeaServiceAsync rpcService;
@@ -290,7 +290,7 @@ public class EditTermPresenter implements Presenter {
         final int number = term.get(method);
         final FlowPanel matchFlow = display.getMatchPanel(method);
         matchFlow.clear();
-        rpcService.getTermsFor(method.name(), number, new AsyncCallback<ArrayList<Term>>() {
+        rpcService.getTermsWithLimit(method.name(), number, MATCHES_LIMIT, new AsyncCallback<ArrayList<Term>>() {
             @Override
             public synchronized void onSuccess(final ArrayList<Term> result) {
                 matchFlow.clear(); //clear again for concurrent updates
@@ -298,13 +298,8 @@ public class EditTermPresenter implements Presenter {
                 if (!it.hasNext()) {
                     matchFlow.add(new Label("No matching words found."));
                 } else {
-                    if (result.size() <= MATCHES_LIMIT) {
-                        matchFlow.add(new InlineLabel("Found " + result.size() + " matches: "));                            
-                    } else {
-                        matchFlow.add(new InlineLabel("Showing " + MATCHES_LIMIT + " of " + result.size() + " matches: "));
-                    }
                     int count = 0;
-                    while (it.hasNext() && count < MATCHES_LIMIT) {
+                    while (it.hasNext()) {
                         final Term term = it.next();
                         Anchor anchor = new Anchor(term.getLatinString() + " ");
                         anchor.addClickHandler(new ClickHandler() {
@@ -317,6 +312,9 @@ public class EditTermPresenter implements Presenter {
                         anchor.setStyleName("padding-right");
                         matchFlow.add(anchor);
                         count++;
+                    }
+                    if (count == MATCHES_LIMIT) {
+                        matchFlow.add(new InlineLabel("..."));                        
                     }
                 }
             }

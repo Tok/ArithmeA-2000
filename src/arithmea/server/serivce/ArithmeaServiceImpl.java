@@ -124,11 +124,23 @@ public class ArithmeaServiceImpl extends RemoteServiceServlet implements
      */
     @Override
     public final ArrayList<Term> getTermsFor(final String method, final Integer number) {
+        return getTermsWithLimit(method, number, 0);
+    }
+
+    /**
+     * Returns a limited number of terms that match the provided number for the provided method.
+     * @return terms list
+     */
+    @Override
+    public ArrayList<Term> getTermsWithLimit(String method, Integer number, int limit) {
         final PersistenceManager pm = PMF.getPersistenceManager();
         ArrayList<Term> result = new ArrayList<Term>();
         try {
             Query query = pm.newQuery(Term.class);
             query.setFilter(method.toLowerCase() + " == n");
+            if (limit > 0) {
+                query.setRange(0, limit);
+            }
             query.declareParameters("Integer n");
             @SuppressWarnings("unchecked")
             List<Term> tmp = (List<Term>) query.execute(number);
@@ -138,7 +150,7 @@ public class ArithmeaServiceImpl extends RemoteServiceServlet implements
         }
         return result;
     }
-
+    
     /**
      * Returns some terms that start with the provided letter from the provided offset.
      * @return terms list

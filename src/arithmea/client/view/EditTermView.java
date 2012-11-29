@@ -34,8 +34,8 @@ import com.google.gwt.user.client.ui.Widget;
  */
 public class EditTermView extends Composite implements EditTermPresenter.Display {
     private final String METHOD = "Method";
-    private final String MATCHES = "Matches";
     private final String VALUE = "Value";
+    private final String MATCHES = "Matches";
     private final HorizontalPanel treePanel = new HorizontalPanel();
     private final HebrewTreeWidget hebrewTree = new HebrewTreeWidget(SephirothData.WIDTH, SephirothData.HEIGHT);
     private final LatinTreeWidget latinTree = new LatinTreeWidget(SephirothData.WIDTH, SephirothData.HEIGHT);
@@ -91,8 +91,8 @@ public class EditTermView extends Composite implements EditTermPresenter.Display
         detailsTable = new FlexTable();
         detailsTable.setWidth("790px");
         detailsTable.getColumnFormatter().setWidth(0, "89px");
-        detailsTable.getColumnFormatter().setWidth(1, "641px");
-        detailsTable.getColumnFormatter().setWidth(2, "55px");
+        detailsTable.getColumnFormatter().setWidth(1, "55px");
+        detailsTable.getColumnFormatter().setWidth(2, "641px");
         
         latinLabel = new Label();
         latinLabel.setWidth("280px");
@@ -159,7 +159,7 @@ public class EditTermView extends Composite implements EditTermPresenter.Display
     private void addLabel(int row, final Label label) {
         detailsTable.setWidget(row, 0, label);
         detailsTable.getFlexCellFormatter().setColSpan(row, 0, 3);
-        detailsTable.getCellFormatter().addStyleName(row, 2, "text-table");
+        detailsTable.getCellFormatter().addStyleName(row, 1, "text-table");
     }
     
     /**
@@ -171,12 +171,12 @@ public class EditTermView extends Composite implements EditTermPresenter.Display
      */
     private void addRow(final FlexTable table, final int row, final GematriaMethod method) {
         table.setWidget(row, 0, methodLabels.get(method));
-        table.setWidget(row, 1, matchPanels.get(method));
-        table.setWidget(row, 2, anchors.get(method));
-        addCellFormats(table, row);
-        table.getCellFormatter().setAlignment(row, 2,
+        table.setWidget(row, 1, anchors.get(method));
+        table.getCellFormatter().setAlignment(row, 1,
                 HasHorizontalAlignment.ALIGN_RIGHT,
                 HasVerticalAlignment.ALIGN_MIDDLE);
+        table.setWidget(row, 2, matchPanels.get(method));
+        addCellFormats(table, row);
     }
 
     /**
@@ -186,8 +186,8 @@ public class EditTermView extends Composite implements EditTermPresenter.Display
      */
     private void addHeading(final FlexTable table, final int row) {
         table.setText(row, 0, METHOD);
-        table.setText(row, 1, MATCHES);
-        table.setText(row, 2, VALUE);
+        table.setText(row, 1, VALUE);
+        table.setText(row, 2, MATCHES);
         addCellFormats(table, row);
     }
     
