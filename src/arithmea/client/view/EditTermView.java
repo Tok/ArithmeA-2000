@@ -170,6 +170,7 @@ public class EditTermView extends Composite implements EditTermPresenter.Display
      * @param anchor
      */
     private void addRow(final FlexTable table, final int row, final GematriaMethod method) {
+        table.getCellFormatter().setHeight(row, 0, "30px");
         table.setWidget(row, 0, methodLabels.get(method));
         table.setWidget(row, 1, anchors.get(method));
         table.getCellFormatter().setAlignment(row, 1,
