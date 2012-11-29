@@ -31,7 +31,6 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HasValue;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.gwt.user.client.ui.Image;
-import com.google.gwt.user.client.ui.InlineLabel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.TextBox;
@@ -202,7 +201,6 @@ public class EditTermPresenter implements Presenter {
      * @param method
      */
     private void prepareMethodAnchor(final Term term, final GematriaMethod method) {
-        final String methodName = method.name();
         final int value = term.get(method);
         final Map<GematriaMethod, TextBox> valueBoxes = display.getValueBoxes();
         valueBoxes.get(method).setText(String.valueOf(value));
@@ -216,14 +214,23 @@ public class EditTermPresenter implements Presenter {
                 break;
             }
         }
-        display.getAnchor(method).setText(String.valueOf(value));
-        display.getAnchor(method).addClickHandler(new ClickHandler() {
+        prepareNumberAnchor(display.getAnchor(method), String.valueOf(value), method, value);
+    }
+    
+    /**
+     * Prepares anchor to show matches for a number and method.
+     */
+    private Anchor prepareNumberAnchor(final Anchor anchor, final String text, final GematriaMethod method, final int value) {
+        final String methodName = method.name();
+        anchor.setText(text);
+        anchor.addClickHandler(new ClickHandler() {
             @Override
             public void onClick(final ClickEvent event) {
                 eventBus.fireEvent(new ShowNumberEvent(methodName, String.valueOf(value)));
             }
         });
-        display.getAnchor(method).setHref("#show/" + methodName.toLowerCase() + "/" + String.valueOf(value));
+        anchor.setHref("#show/" + methodName.toLowerCase() + "/" + String.valueOf(value));        
+        return anchor;
     }
 
     /**
@@ -314,7 +321,8 @@ public class EditTermPresenter implements Presenter {
                         count++;
                     }
                     if (count == MATCHES_LIMIT) {
-                        matchFlow.add(new InlineLabel("..."));                        
+                        final Anchor moreAnchor = prepareNumberAnchor(new Anchor(), "...", method, term.get(method));
+                        matchFlow.add(moreAnchor);
                     }
                 }
             }
