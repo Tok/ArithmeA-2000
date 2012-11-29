@@ -52,6 +52,7 @@ public class ArithmeaServiceImpl extends RemoteServiceServlet implements
         } finally {
             pm.close();
         }
+        syncCache.clearAll();
         return term;
     }
 
@@ -78,6 +79,7 @@ public class ArithmeaServiceImpl extends RemoteServiceServlet implements
         } finally {
             pm.close();
         }
+        syncCache.clearAll();
         return true;
     }
 
@@ -115,6 +117,7 @@ public class ArithmeaServiceImpl extends RemoteServiceServlet implements
             pm.deletePersistent(term);
             count++;
         }
+        syncCache.clearAll();
         return String.valueOf(count);
     }
 
