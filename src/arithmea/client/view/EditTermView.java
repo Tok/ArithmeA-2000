@@ -80,7 +80,7 @@ public class EditTermView extends Composite implements EditTermPresenter.Display
 
         hPanel.add(buttonFlow);
         inputTextBox = new ExtendedTextBox();
-        inputTextBox.setWidth("580px");
+        inputTextBox.setWidth("570px");
         inputTextBox.setMaxLength(30);
         hPanel.add(inputTextBox);
         hPanel.add(busyPanel);
