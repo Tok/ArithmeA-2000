@@ -33,9 +33,9 @@ import com.google.gwt.user.client.ui.Widget;
  * View to edit and add new terms.
  */
 public class EditTermView extends Composite implements EditTermPresenter.Display {
-    private final String METHOD = "Method";
-    private final String VALUE = "Value";
-    private final String MATCHES = "Matches";
+    private static final String METHOD = "Method";
+    private static final String VALUE = "Value";
+    private static final String MATCHES = "Matches";
     private final HorizontalPanel treePanel = new HorizontalPanel();
     private final HebrewTreeWidget hebrewTree = new HebrewTreeWidget(SephirothData.WIDTH, SephirothData.HEIGHT);
     private final LatinTreeWidget latinTree = new LatinTreeWidget(SephirothData.WIDTH, SephirothData.HEIGHT);
@@ -170,14 +170,13 @@ public class EditTermView extends Composite implements EditTermPresenter.Display
      * @param anchor
      */
     private void addRow(final FlexTable table, final int row, final GematriaMethod method) {
-        table.getCellFormatter().setHeight(row, 0, "30px");
         table.setWidget(row, 0, methodLabels.get(method));
         table.setWidget(row, 1, anchors.get(method));
+        table.setWidget(row, 2, matchPanels.get(method));
         table.getCellFormatter().setAlignment(row, 1,
                 HasHorizontalAlignment.ALIGN_RIGHT,
                 HasVerticalAlignment.ALIGN_MIDDLE);
-        table.setWidget(row, 2, matchPanels.get(method));
-        addCellFormats(table, row);
+        addCellFormats(table, row, false);
     }
 
     /**
@@ -189,7 +188,7 @@ public class EditTermView extends Composite implements EditTermPresenter.Display
         table.setText(row, 0, METHOD);
         table.setText(row, 1, VALUE);
         table.setText(row, 2, MATCHES);
-        addCellFormats(table, row);
+        addCellFormats(table, row, true);
     }
     
     /**
@@ -197,9 +196,13 @@ public class EditTermView extends Composite implements EditTermPresenter.Display
      * @param table
      * @param row
      */
-    private void addCellFormats(final FlexTable table, final int row) {
+    private void addCellFormats(final FlexTable table, final int row, final boolean isHeader) {
         for (int col = 0; col < table.getCellCount(row); col++) {
-            table.getCellFormatter().addStyleName(row, col, "border-cell");
+            if (isHeader) {
+                table.getCellFormatter().addStyleName(row, col, "edit-border-cell-header");                
+            } else {
+                table.getCellFormatter().addStyleName(row, col, "edit-border-cell");
+            }
         }
     }
     

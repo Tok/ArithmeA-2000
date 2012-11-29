@@ -60,7 +60,8 @@ public class EditTermPresenter implements Presenter {
         Widget asWidget();
     }
 
-    private final int MATCHES_LIMIT = 15;
+    private static final int TYPING_DELAY_MS = 1500;
+    private static final int MATCHES_LIMIT = 15;
     private boolean isDirty = false; //denotes if input has changed since the last update of matches
     private Term term;
     private final ArithmeaServiceAsync rpcService;
@@ -109,7 +110,7 @@ public class EditTermPresenter implements Presenter {
         this.display.getInputTextBox().addValueChangeHandler(new ValueChangeHandler<String>() {
             @Override
             public void onValueChange(final ValueChangeEvent<String> event) {
-                doDirtyChange();
+                doChange();
             }
         });
         this.display.getInputTextBox().addKeyUpHandler(new KeyUpHandler() {
@@ -127,7 +128,8 @@ public class EditTermPresenter implements Presenter {
         container.clear();
         container.add(display.asWidget());
         display.getInputTextBox().setFocus(true);
-        doDirtyChange();
+        doChange();
+        updateAll();
     }
 
     /**
@@ -173,7 +175,7 @@ public class EditTermPresenter implements Presenter {
                         updateAllIfStillDirty();
                     }
                 };
-                timer.schedule(1500);                
+                timer.schedule(TYPING_DELAY_MS);                
             } else { //update immediately
                 updateAllIfStillDirty();
             }

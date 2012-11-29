@@ -15,7 +15,6 @@ table {
 	border-collapse: collapse;
 	margin: 0px;
 	padding: 0px;
-	text-indent: 3px;
 }
 
 td {
@@ -30,6 +29,19 @@ th,td {
 
 .border-cell {
 	border: 1px solid #777777;
+	padding: 0px;
+}
+
+.edit-border-cell {
+	border: 1px solid #777777;
+    height: 33px;
+	padding: 3px;
+}
+
+.edit-border-cell-header {
+	border: 1px solid #777777;
+    font-weight: bold;
+    padding: 3px;
 }
 
 .menu-table {
@@ -67,10 +79,12 @@ th,td {
 }
 
 .hebrew-label {
+	padding-right: 6px;
 	font-size:300%
 }
 
 .latin-label {
+	padding-left: 6px;
 	font-size:300%
 }
 
