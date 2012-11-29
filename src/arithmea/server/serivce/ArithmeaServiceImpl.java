@@ -2,16 +2,15 @@ package arithmea.server.serivce;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.jdo.Extent;
 import javax.jdo.JDOHelper;
 import javax.jdo.PersistenceManager;
 import javax.jdo.PersistenceManagerFactory;
 import javax.jdo.Query;
-
 import arithmea.client.service.ArithmeaService;
 import arithmea.shared.data.Term;
-
+import com.google.appengine.api.memcache.MemcacheService;
+import com.google.appengine.api.memcache.MemcacheServiceFactory;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 /**
@@ -20,6 +19,7 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 @SuppressWarnings("serial")
 public class ArithmeaServiceImpl extends RemoteServiceServlet implements
         ArithmeaService {
+    private final MemcacheService syncCache = MemcacheServiceFactory.getMemcacheService();
     private static final int ROWS_TO_FETCH = 30;
     private static final int MAX_WORD_LENGTH = 30;
     private static final PersistenceManagerFactory PMF = JDOHelper
@@ -133,21 +133,27 @@ public class ArithmeaServiceImpl extends RemoteServiceServlet implements
      */
     @Override
     public ArrayList<Term> getTermsWithLimit(String method, Integer number, int limit) {
-        final PersistenceManager pm = PMF.getPersistenceManager();
-        ArrayList<Term> result = new ArrayList<Term>();
-        try {
-            Query query = pm.newQuery(Term.class);
-            query.setFilter(method.toLowerCase() + " == n");
-            if (limit > 0) {
-                query.setRange(0, limit);
+        final String key = method + ":" + number + ":" + limit;
+        @SuppressWarnings("unchecked")
+        ArrayList<Term> result = (ArrayList<Term>) syncCache.get(key); // read from cache
+        if (result == null) { // result not cached
+            result = new ArrayList<Term>();
+            final PersistenceManager pm = PMF.getPersistenceManager();
+            try {
+                Query query = pm.newQuery(Term.class);
+                query.setFilter(method.toLowerCase() + " == n");
+                if (limit > 0) {
+                    query.setRange(0, limit);
+                }
+                query.declareParameters("Integer n");
+                @SuppressWarnings("unchecked")
+                List<Term> tmp = (List<Term>) query.execute(number);
+                result.addAll(tmp);
+                syncCache.put(key, result); // populate cache
+            } finally {
+                pm.close();
             }
-            query.declareParameters("Integer n");
-            @SuppressWarnings("unchecked")
-            List<Term> tmp = (List<Term>) query.execute(number);
-            result.addAll(tmp);
-        } finally {
-            pm.close();
-        }
+        }        
         return result;
     }
     
@@ -157,18 +163,24 @@ public class ArithmeaServiceImpl extends RemoteServiceServlet implements
      */
     @Override
     public final ArrayList<Term> getTermsFromOffset(final String letter, final int from) {
-        final PersistenceManager pm = PMF.getPersistenceManager();
-        ArrayList<Term> result = new ArrayList<Term>();
-        try {
-            Query query = pm.newQuery(Term.class);
-            query.setFilter("firstLetter == l");
-            query.declareParameters("String l");
-            query.setRange(from, from + ROWS_TO_FETCH);
-            @SuppressWarnings("unchecked")
-            List<Term> tmp = (List<Term>) query.execute(letter);
-            result.addAll(tmp);
-        } finally {
-            pm.close();
+        final String key = letter + ":" + from;
+        @SuppressWarnings("unchecked")
+        ArrayList<Term> result = (ArrayList<Term>) syncCache.get(key); // read from cache
+        if (result == null) { // result not cached
+            final PersistenceManager pm = PMF.getPersistenceManager();
+            result = new ArrayList<Term>();
+            try {
+                Query query = pm.newQuery(Term.class);
+                query.setFilter("firstLetter == l");
+                query.declareParameters("String l");
+                query.setRange(from, from + ROWS_TO_FETCH);
+                @SuppressWarnings("unchecked")
+                List<Term> tmp = (List<Term>) query.execute(letter);
+                result.addAll(tmp);
+                syncCache.put(key, result); // populate cache
+            } finally {
+                pm.close();
+            }
         }
         return result;
     }
@@ -178,16 +190,22 @@ public class ArithmeaServiceImpl extends RemoteServiceServlet implements
      * @return terms list
      */
     public final ArrayList<Term> getAllTermsFromOffset(final Integer offset) {
-        final PersistenceManager pm = PMF.getPersistenceManager();
-        ArrayList<Term> result = new ArrayList<Term>();
-        try {
-            Query query = pm.newQuery(Term.class);
-            query.setRange(offset, offset + ROWS_TO_FETCH);
-            @SuppressWarnings("unchecked")
-            List<Term> tmp = (List<Term>) query.execute();
-            result.addAll(tmp);
-        } finally {
-            pm.close();
+        final String key = String.valueOf(offset);
+        @SuppressWarnings("unchecked")
+        ArrayList<Term> result = (ArrayList<Term>) syncCache.get(key); // read from cache
+        if (result == null) { // result not cached
+            final PersistenceManager pm = PMF.getPersistenceManager();
+            result = new ArrayList<Term>();
+            try {
+                Query query = pm.newQuery(Term.class);
+                query.setRange(offset, offset + ROWS_TO_FETCH);
+                @SuppressWarnings("unchecked")
+                List<Term> tmp = (List<Term>) query.execute();
+                result.addAll(tmp);
+                syncCache.put(key, result); // populate cache
+            } finally {
+                pm.close();
+            }
         }
         return result;
     }
