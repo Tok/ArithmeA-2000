@@ -27,7 +27,6 @@ import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Anchor;
-import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HasValue;
 import com.google.gwt.user.client.ui.HasWidgets;
@@ -58,13 +57,11 @@ public class EditTermPresenter implements Presenter {
         FlowPanel getMatchPanel(GematriaMethod gm);
         Label getMethodLabel(GematriaMethod gm);
         Anchor getAnchor(GematriaMethod gm);
-        CheckBox getExpandBox(GematriaMethod gm);
-        Map<GematriaMethod, CheckBox> getExpandBoxes();
         Map<GematriaMethod, TextBox> getValueBoxes();
         Widget asWidget();
     }
 
-    private final int MATCHES_LIMIT = 10;
+    private final int MATCHES_LIMIT = 20;
     private boolean isDirty = false; //denotes if input has changed since the last update of matches
     private Term term;
     private final ArithmeaServiceAsync rpcService;
@@ -122,22 +119,6 @@ public class EditTermPresenter implements Presenter {
                 doDirtyChange();
             }
         });
-        for (final LatinMethod method : LatinMethod.values()) {
-            display.getExpandBox(method).addValueChangeHandler(new ValueChangeHandler<Boolean>() {
-                @Override
-                public void onValueChange(ValueChangeEvent<Boolean> event) {
-                    updateMatches(method);
-                }
-            });
-        }
-        for (final HebrewMethod method : HebrewMethod.values()) {
-            display.getExpandBox(method).addValueChangeHandler(new ValueChangeHandler<Boolean>() {
-                @Override
-                public void onValueChange(ValueChangeEvent<Boolean> event) {
-                    updateMatches(method);
-                }
-            });
-        }
     }
 
     /**
@@ -254,8 +235,6 @@ public class EditTermPresenter implements Presenter {
     private void colorContents(final GematriaMethod method, final String style, final String title) {
         display.getAnchor(method).setStyleName(style);
         display.getAnchor(method).setTitle(title);
-        display.getMatchPanel(method).setStyleName(style);
-        display.getMatchPanel(method).setTitle(title);
         display.getMethodLabel(method).setStyleName(style);
         display.getMethodLabel(method).setTitle(title);        
     }
@@ -311,42 +290,40 @@ public class EditTermPresenter implements Presenter {
         final int number = term.get(method);
         final FlowPanel matchFlow = display.getMatchPanel(method);
         matchFlow.clear();
-        final CheckBox expandBox = display.getExpandBox(method);
-        if (expandBox.getValue()) {
-            rpcService.getTermsFor(method.name(), number, new AsyncCallback<ArrayList<Term>>() {
-                @Override
-                public synchronized void onSuccess(final ArrayList<Term> result) {
-                    matchFlow.clear(); //clear again for concurrent updates
-                    Iterator<Term> it = result.iterator();
-                    if (!it.hasNext()) {
-                        matchFlow.add(new Label("No matching words found."));
+        rpcService.getTermsFor(method.name(), number, new AsyncCallback<ArrayList<Term>>() {
+            @Override
+            public synchronized void onSuccess(final ArrayList<Term> result) {
+                matchFlow.clear(); //clear again for concurrent updates
+                Iterator<Term> it = result.iterator();
+                if (!it.hasNext()) {
+                    matchFlow.add(new Label("No matching words found."));
+                } else {
+                    if (result.size() <= MATCHES_LIMIT) {
+                        matchFlow.add(new InlineLabel("Found " + result.size() + " matches: "));                            
                     } else {
-                        if (result.size() <= MATCHES_LIMIT) {
-                            matchFlow.add(new InlineLabel("Found " + result.size() + " matches: "));                            
-                        } else {
-                            matchFlow.add(new InlineLabel("Showing " + MATCHES_LIMIT + " of " + result.size() + " matches: "));
-                        }
-                        int count = 0;
-                        while (it.hasNext() && count < MATCHES_LIMIT) {
-                            final Term term = it.next();
-                            Anchor anchor = new Anchor(term.getLatinString() + " ");
-                            anchor.addClickHandler(new ClickHandler() {
-                                @Override
-                                public void onClick(final ClickEvent event) {
-                                    eventBus.fireEvent(new AddTermEvent(term.getLatinString()));
-                                }
-                            });
-                            anchor.setHref("#add/" + term.getLatinString());
-                            anchor.setStyleName("padding-right");
-                            matchFlow.add(anchor);
-                            count++;
-                        }
+                        matchFlow.add(new InlineLabel("Showing " + MATCHES_LIMIT + " of " + result.size() + " matches: "));
+                    }
+                    int count = 0;
+                    while (it.hasNext() && count < MATCHES_LIMIT) {
+                        final Term term = it.next();
+                        Anchor anchor = new Anchor(term.getLatinString() + " ");
+                        anchor.addClickHandler(new ClickHandler() {
+                            @Override
+                            public void onClick(final ClickEvent event) {
+                                eventBus.fireEvent(new AddTermEvent(term.getLatinString()));
+                            }
+                        });
+                        anchor.setHref("#add/" + term.getLatinString());
+                        anchor.setStyleName("padding-right");
+                        matchFlow.add(anchor);
+                        count++;
                     }
                 }
-                public void onFailure(final Throwable caught) {
-                    Window.alert("Fail loading terms.");
-                }
-            });
-        }
+            }
+            public void onFailure(final Throwable caught) {
+                Window.alert("Fail loading terms.");
+            }
+        });
     }
+
 }

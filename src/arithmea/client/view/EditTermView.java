@@ -14,7 +14,6 @@ import arithmea.shared.qabalah.SephirothData;
 import com.google.gwt.event.dom.client.HasClickHandlers;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.DecoratorPanel;
 import com.google.gwt.user.client.ui.FlexTable;
@@ -35,7 +34,6 @@ import com.google.gwt.user.client.ui.Widget;
  */
 public class EditTermView extends Composite implements EditTermPresenter.Display {
     private final String METHOD = "Method";
-    private final String UPDATE = "Update";
     private final String MATCHES = "Matches";
     private final String VALUE = "Value";
     private final HorizontalPanel treePanel = new HorizontalPanel();
@@ -50,7 +48,6 @@ public class EditTermView extends Composite implements EditTermPresenter.Display
     private final Label hebrewLabel;
     private final Map<GematriaMethod, Label> methodLabels = new HashMap<GematriaMethod, Label>();
     private final Map<GematriaMethod, Anchor> anchors = new HashMap<GematriaMethod, Anchor>();
-    private final Map<GematriaMethod, CheckBox> expandBoxes = new HashMap<GematriaMethod, CheckBox>();
     private final Map<GematriaMethod, FlowPanel> matchPanels = new HashMap<GematriaMethod, FlowPanel>();
     private final Map<GematriaMethod, TextBox> valueBoxes = new HashMap<GematriaMethod, TextBox>();
     private final FlexTable detailsTable;
@@ -94,9 +91,8 @@ public class EditTermView extends Composite implements EditTermPresenter.Display
         detailsTable = new FlexTable();
         detailsTable.setWidth("790px");
         detailsTable.getColumnFormatter().setWidth(0, "89px");
-        detailsTable.getColumnFormatter().setWidth(1, "55px");
-        detailsTable.getColumnFormatter().setWidth(2, "591px");
-        detailsTable.getColumnFormatter().setWidth(3, "55px");
+        detailsTable.getColumnFormatter().setWidth(1, "641px");
+        detailsTable.getColumnFormatter().setWidth(2, "55px");
         
         latinLabel = new Label();
         latinLabel.setWidth("280px");
@@ -132,15 +128,10 @@ public class EditTermView extends Composite implements EditTermPresenter.Display
      */
     private void prepareRow(final GematriaMethod method) {
         final Anchor anchor = new Anchor();
-        final CheckBox expandBox = new CheckBox();
-        if (method.showMatchesbyDefault()) {
-            expandBox.setValue(true);
-        }
         final FlowPanel matches = new FlowPanel();
         final TextBox valueBox = new TextBox();
         methodLabels.put(method, new Label(method.name()));
         anchors.put(method, anchor);
-        expandBoxes.put(method, expandBox);
         matchPanels.put(method, matches);
         valueBoxes.put(method, valueBox);
     }
@@ -167,7 +158,7 @@ public class EditTermView extends Composite implements EditTermPresenter.Display
      */
     private void addLabel(int row, final Label label) {
         detailsTable.setWidget(row, 0, label);
-        detailsTable.getFlexCellFormatter().setColSpan(row, 0, 4);
+        detailsTable.getFlexCellFormatter().setColSpan(row, 0, 3);
         detailsTable.getCellFormatter().addStyleName(row, 2, "text-table");
     }
     
@@ -180,11 +171,10 @@ public class EditTermView extends Composite implements EditTermPresenter.Display
      */
     private void addRow(final FlexTable table, final int row, final GematriaMethod method) {
         table.setWidget(row, 0, methodLabels.get(method));
-        table.setWidget(row, 1, expandBoxes.get(method));
-        table.setWidget(row, 2, matchPanels.get(method));
-        table.setWidget(row, 3, anchors.get(method));
+        table.setWidget(row, 1, matchPanels.get(method));
+        table.setWidget(row, 2, anchors.get(method));
         addCellFormats(table, row);
-        table.getCellFormatter().setAlignment(row, 3,
+        table.getCellFormatter().setAlignment(row, 2,
                 HasHorizontalAlignment.ALIGN_RIGHT,
                 HasVerticalAlignment.ALIGN_MIDDLE);
     }
@@ -196,9 +186,8 @@ public class EditTermView extends Composite implements EditTermPresenter.Display
      */
     private void addHeading(final FlexTable table, final int row) {
         table.setText(row, 0, METHOD);
-        table.setText(row, 1, UPDATE);
-        table.setText(row, 2, MATCHES);
-        table.setText(row, 3, VALUE);
+        table.setText(row, 1, MATCHES);
+        table.setText(row, 2, VALUE);
         addCellFormats(table, row);
     }
     
@@ -274,11 +263,6 @@ public class EditTermView extends Composite implements EditTermPresenter.Display
     }
 
     @Override
-    public CheckBox getExpandBox(final GematriaMethod gm) {
-        return expandBoxes.get(gm);
-    }
-
-    @Override
     public Label getMethodLabel(GematriaMethod gm) {
         return methodLabels.get(gm);
     }
@@ -291,11 +275,6 @@ public class EditTermView extends Composite implements EditTermPresenter.Display
     @Override
     public final Map<GematriaMethod, TextBox> getValueBoxes() {
         return valueBoxes;
-    }
-
-    @Override
-    public final Map<GematriaMethod, CheckBox> getExpandBoxes() {
-        return expandBoxes;
     }
 
     @Override
