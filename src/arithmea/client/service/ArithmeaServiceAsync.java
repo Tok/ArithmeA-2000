@@ -9,7 +9,6 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
  */
 public interface ArithmeaServiceAsync {
     void addTerm(final Term term, final AsyncCallback<Term> callback);
-    void getTerm(final String id, final AsyncCallback<Term> callback);
     void updateTerm(final Term term, final AsyncCallback<Term> callback);
     void deleteTerm(final String id, final AsyncCallback<Boolean> callback);
     void parseTerms(String input, AsyncCallback<String> callback);

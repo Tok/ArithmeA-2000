@@ -13,7 +13,6 @@ import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 @RemoteServiceRelativePath("arithmeaService")
 public interface ArithmeaService extends RemoteService {
   Term addTerm(final Term term); //Create
-  Term getTerm(final String id); //Update
   String deleteTerms(final ArrayList<String> ids);
   String fixTerms(final ArrayList<String> ids);
   ArrayList<Term> getTermsFromOffset(final String letter, int from);

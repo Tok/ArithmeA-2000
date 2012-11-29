@@ -2,30 +2,19 @@ package arithmea.client.view;
 
 import java.util.HashMap;
 import java.util.Map;
-
-import arithmea.client.event.ShowNumberEvent;
 import arithmea.client.presenter.EditTermPresenter;
 import arithmea.client.widgets.ExtendedTextBox;
 import arithmea.client.widgets.LetterStarWidget;
 import arithmea.client.widgets.tree.HebrewTreeWidget;
 import arithmea.client.widgets.tree.LatinTreeWidget;
-import arithmea.shared.data.Highlight;
-import arithmea.shared.data.Term;
 import arithmea.shared.gematria.GematriaMethod;
 import arithmea.shared.gematria.HebrewMethod;
 import arithmea.shared.gematria.LatinMethod;
 import arithmea.shared.qabalah.SephirothData;
-
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.HasClickHandlers;
-import com.google.gwt.event.dom.client.KeyUpEvent;
-import com.google.gwt.event.dom.client.KeyUpHandler;
-import com.google.gwt.event.logical.shared.ValueChangeEvent;
-import com.google.gwt.event.logical.shared.ValueChangeHandler;
-import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.DecoratorPanel;
 import com.google.gwt.user.client.ui.FlexTable;
@@ -34,7 +23,9 @@ import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HasValue;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
@@ -42,31 +33,36 @@ import com.google.gwt.user.client.ui.Widget;
 /**
  * View to edit and add new terms.
  */
-public class EditTermView extends Composite implements
-        EditTermPresenter.Display {
+public class EditTermView extends Composite implements EditTermPresenter.Display {
+    private final String METHOD = "Method";
+    private final String UPDATE = "Update";
+    private final String MATCHES = "Matches";
+    private final String VALUE = "Value";
     private final HorizontalPanel treePanel = new HorizontalPanel();
     private final HebrewTreeWidget hebrewTree = new HebrewTreeWidget(SephirothData.WIDTH, SephirothData.HEIGHT);
     private final LatinTreeWidget latinTree = new LatinTreeWidget(SephirothData.WIDTH, SephirothData.HEIGHT);
     private final LetterStarWidget letterStar = new LetterStarWidget(300, 300);
 
     private final ExtendedTextBox inputTextBox;
-    private final Label latinString;
-    private final Label hebrewString;
+    private final Panel busyPanel = new HorizontalPanel();
+    private final Image busyImage = new Image("/images/busy.gif");
+    private final Label latinLabel;
+    private final Label hebrewLabel;
+    private final Map<GematriaMethod, Label> methodLabels = new HashMap<GematriaMethod, Label>();
     private final Map<GematriaMethod, Anchor> anchors = new HashMap<GematriaMethod, Anchor>();
-    private final Map<GematriaMethod, TextBox> textBoxes = new HashMap<GematriaMethod, TextBox>();
+    private final Map<GematriaMethod, CheckBox> expandBoxes = new HashMap<GematriaMethod, CheckBox>();
+    private final Map<GematriaMethod, FlowPanel> matchPanels = new HashMap<GematriaMethod, FlowPanel>();
+    private final Map<GematriaMethod, TextBox> valueBoxes = new HashMap<GematriaMethod, TextBox>();
     private final FlexTable detailsTable;
     private final Button saveButton;
     private final Button cancelButton;
-
-    private final HandlerManager eventBus;
 
     /**
      * Default constructor
      * @param eventBus
      * @param word
      */
-    public EditTermView(final HandlerManager eventBus, final String word) {
-        this.eventBus = eventBus;
+    public EditTermView(final String word) {
         final DecoratorPanel contentDetailsDecorator = new DecoratorPanel();
         contentDetailsDecorator.setWidth("800px");
         initWidget(contentDetailsDecorator);
@@ -87,19 +83,9 @@ public class EditTermView extends Composite implements
         hPanel.add(buttonFlow);
         inputTextBox = new ExtendedTextBox();
         inputTextBox.setWidth("580px");
-        inputTextBox.addValueChangeHandler(new ValueChangeHandler<String>() {
-            @Override
-            public void onValueChange(final ValueChangeEvent<String> event) {
-                doChange();
-            }
-        });
-        inputTextBox.addKeyUpHandler(new KeyUpHandler() {
-            @Override
-            public void onKeyUp(final KeyUpEvent event) {
-                doChange();
-            }
-        });
+        inputTextBox.setMaxLength(30);
         hPanel.add(inputTextBox);
+        hPanel.add(busyPanel);
 
         menuTable.getCellFormatter().addStyleName(0, 0, "menu-table");
         menuTable.setWidget(0, 0, hPanel);
@@ -107,36 +93,23 @@ public class EditTermView extends Composite implements
 
         detailsTable = new FlexTable();
         detailsTable.setWidth("790px");
-        latinString = new Label();
-        latinString.setWidth("280px");
-        latinString.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_LEFT);
-        latinString.setStyleName("latin-label");
-        hebrewString = new Label();
-        hebrewString.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
-        hebrewString.setStyleName("hebrew-label");
+        detailsTable.getColumnFormatter().setWidth(0, "89px");
+        detailsTable.getColumnFormatter().setWidth(1, "55px");
+        detailsTable.getColumnFormatter().setWidth(2, "591px");
+        detailsTable.getColumnFormatter().setWidth(3, "55px");
+        
+        latinLabel = new Label();
+        latinLabel.setWidth("280px");
+        latinLabel.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_LEFT);
+        latinLabel.setStyleName("latin-label");
+        hebrewLabel = new Label();
+        hebrewLabel.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
+        hebrewLabel.setStyleName("hebrew-label");
         for (final LatinMethod method : LatinMethod.values()) {
-            final TextBox textBox = new TextBox();
-            final Anchor anchor = new Anchor();
-            textBox.addValueChangeHandler(new ValueChangeHandler<String>() {
-                @Override
-                public void onValueChange(final ValueChangeEvent<String> event) {
-                    doChange();
-                }
-            });
-            textBoxes.put(method, textBox);
-            anchors.put(method, anchor);
+            prepareRow(method);
         }
         for (final HebrewMethod method : HebrewMethod.values()) {
-            final TextBox textBox = new TextBox();
-            final Anchor anchor = new Anchor();
-            textBox.addValueChangeHandler(new ValueChangeHandler<String>() {
-                @Override
-                public void onValueChange(final ValueChangeEvent<String> event) {
-                    doChange();
-                }
-            });
-            textBoxes.put(method, textBox);
-            anchors.put(method, anchor);
+            prepareRow(method);
         }
         initDetailsTable();
         contentDetailsPanel.add(detailsTable);
@@ -144,93 +117,60 @@ public class EditTermView extends Composite implements
         treePanel.add(latinTree);
         treePanel.add(letterStar);
         contentDetailsPanel.add(treePanel);
+        
         if (word != null && !word.equals("")) {
             inputTextBox.setText(word);
-            doChange();
         }
+
         contentDetailsPanel.setHeight("671px");
         contentDetailsDecorator.add(contentDetailsPanel);
     }
 
     /**
-     * Processes changes in the input TextBox.
-     */
-    private void doChange() {
-        try {
-            final Term term = new Term(inputTextBox.getText());
-            latinString.setText(term.getLatinString());
-            hebrewString.setText(term.getHebrewString());
-            // create new term and update view
-            for (LatinMethod method : LatinMethod.values()) {
-                prepareMethodAnchor(term, method);
-            }
-            for (HebrewMethod method : HebrewMethod.values()) {
-                prepareMethodAnchor(term, method);
-            }
-            // update tree widgets
-            hebrewTree.setWord(term.getHebrewString());
-            latinTree.setWord(term.getLatinString());
-            // and the star widget
-            letterStar.setWord(term.getLatinString());
-        } catch (IllegalArgumentException iae) {
-            latinString.setText("");
-            hebrewString.setText("");
-            hebrewTree.setWord("");
-            latinTree.setWord("");
-            letterStar.setWord("");
-        }
-    }
-
-    /**
-     * Prepares the anchors for the provided tern and gematria method.
-     * @param term
+     * Prepares a row for the provided GematriaMethod.
      * @param method
      */
-    private void prepareMethodAnchor(final Term term, final GematriaMethod method) {
-        final String methodName = method.name();
-        final int value = term.get(method);
-        textBoxes.get(method).setText(String.valueOf(value));
-        for (Highlight hl : Highlight.values()) {
-            if (hl.getNumber() == value) {
-                anchors.get(method).setStyleName(hl.getColor());
-                anchors.get(method).setTitle(hl.getNumberQuality());
-                break;
-            }
-            if (hl.getNumber() > value) {
-                anchors.get(method).setStyleName("");
-                break;
-            }
+    private void prepareRow(final GematriaMethod method) {
+        final Anchor anchor = new Anchor();
+        final CheckBox expandBox = new CheckBox();
+        if (method.showMatchesbyDefault()) {
+            expandBox.setValue(true);
         }
-        anchors.get(method).setText(String.valueOf(value));
-        anchors.get(method).addClickHandler(new ClickHandler() {
-            @Override
-            public void onClick(final ClickEvent event) {
-                eventBus.fireEvent(new ShowNumberEvent(methodName, String.valueOf(value)));
-            }
-        });
-        anchors.get(method).setHref("#show/" + methodName.toLowerCase() + "/" + String.valueOf(value));
+        final FlowPanel matches = new FlowPanel();
+        final TextBox valueBox = new TextBox();
+        methodLabels.put(method, new Label(method.name()));
+        anchors.put(method, anchor);
+        expandBoxes.put(method, expandBox);
+        matchPanels.put(method, matches);
+        valueBoxes.put(method, valueBox);
     }
 
     /**
      * Initializes the details table.
      */
     private void initDetailsTable() {
-        detailsTable.setWidget(0, 1, latinString);
-        detailsTable.getCellFormatter().addStyleName(0, 1, "text-table");
-        int row = 1;
+        int row = 0;
+        addLabel(row++, latinLabel);
+        addHeading(detailsTable, row++);
         for (LatinMethod gm : LatinMethod.values()) {
-            addRow(detailsTable, row, gm.name(), anchors.get(gm));
-            row++;
+            addRow(detailsTable, row++, gm);
         }
-        detailsTable.setWidget(row, 1, hebrewString);
-        detailsTable.getCellFormatter().addStyleName(row, 1, "text-table");
-        row++;
+        addLabel(row++, hebrewLabel);
+        addHeading(detailsTable, row++);
         for (HebrewMethod method : HebrewMethod.values()) {
-            addRow(detailsTable, row, method.name(), anchors.get(method));
-            row++;
+            addRow(detailsTable, row++, method);
         }
     }
 
+    /**
+     * Adds the big Label to the table.
+     */
+    private void addLabel(int row, final Label label) {
+        detailsTable.setWidget(row, 0, label);
+        detailsTable.getFlexCellFormatter().setColSpan(row, 0, 4);
+        detailsTable.getCellFormatter().addStyleName(row, 2, "text-table");
+    }
+    
     /**
      * Adds a row to the table.
      * @param table
@@ -238,54 +178,124 @@ public class EditTermView extends Composite implements
      * @param description
      * @param anchor
      */
-    private void addRow(final FlexTable table, final int row,
-            final String description, final Anchor anchor) {
-        table.setWidget(row, 0, new Label(description));
-        table.getCellFormatter().addStyleName(row, 0, "border-cell");
-        table.setWidget(row, 1, anchor);
-        table.getCellFormatter().addStyleName(row, 1, "border-cell");
-        table.getCellFormatter().setAlignment(row, 1,
+    private void addRow(final FlexTable table, final int row, final GematriaMethod method) {
+        table.setWidget(row, 0, methodLabels.get(method));
+        table.setWidget(row, 1, expandBoxes.get(method));
+        table.setWidget(row, 2, matchPanels.get(method));
+        table.setWidget(row, 3, anchors.get(method));
+        addCellFormats(table, row);
+        table.getCellFormatter().setAlignment(row, 3,
                 HasHorizontalAlignment.ALIGN_RIGHT,
                 HasVerticalAlignment.ALIGN_MIDDLE);
     }
 
+    /**
+     * Adds headers to the table.
+     * @param table
+     * @param row
+     */
+    private void addHeading(final FlexTable table, final int row) {
+        table.setText(row, 0, METHOD);
+        table.setText(row, 1, UPDATE);
+        table.setText(row, 2, MATCHES);
+        table.setText(row, 3, VALUE);
+        addCellFormats(table, row);
+    }
+    
+    /**
+     * Formats all cells in the provided row.
+     * @param table
+     * @param row
+     */
+    private void addCellFormats(final FlexTable table, final int row) {
+        for (int col = 0; col < table.getCellCount(row); col++) {
+            table.getCellFormatter().addStyleName(row, col, "border-cell");
+        }
+    }
+    
+    @Override
     public final HasValue<String> getInputText() {
         return inputTextBox;
     }
 
+    @Override
     public final TextBox getInputTextBox() {
         return inputTextBox;
     }
-
-    public final HasValue<String> getHebrewString() {
-        //TODO remove textbox
-        TextBox textBox = new TextBox();
-        textBox.setValue(hebrewString.getText());
-        return textBox;
+    
+    @Override
+    public Panel getBusyPanel() {
+        return busyPanel;
     }
 
-    public final HasValue<String> getLatinString() {
-        //TODO remove textbox
-        TextBox textBox = new TextBox();
-        textBox.setValue(latinString.getText());
-        return textBox;
+    @Override
+    public Image getBusyImage() {
+        return busyImage;
     }
 
+    @Override
+    public final FlowPanel getMatchPanel(final GematriaMethod method) {
+        return matchPanels.get(method);
+    }
+
+    @Override
+    public final Label getHebrewLabel() {
+        return hebrewLabel;
+    }
+
+    @Override
+    public final Label getLatinLabel() {
+        return latinLabel;
+    }
+
+    @Override
+    public final LetterStarWidget getLetterStar() {
+        return letterStar;
+    }
+
+    @Override
     public final HasClickHandlers getSaveButton() {
         return saveButton;
     }
 
+    @Override
     public final HasClickHandlers getCancelButton() {
         return cancelButton;
     }
 
+    @Override
     public final Widget asWidget() {
         return this;
     }
 
     @Override
     public final HasValue<String> get(final GematriaMethod gm) {
-        return textBoxes.get(gm);
+        return valueBoxes.get(gm);
+    }
+
+    @Override
+    public CheckBox getExpandBox(final GematriaMethod gm) {
+        return expandBoxes.get(gm);
+    }
+
+    @Override
+    public Label getMethodLabel(GematriaMethod gm) {
+        return methodLabels.get(gm);
+    }
+
+    @Override
+    public Anchor getAnchor(GematriaMethod gm) {
+        return anchors.get(gm);
+    }
+
+    @Override
+    public final Map<GematriaMethod, TextBox> getValueBoxes() {
+        return valueBoxes;
+    }
+
+    @Override
+    public final Map<GematriaMethod, CheckBox> getExpandBoxes() {
+        return expandBoxes;
     }
 
     @Override

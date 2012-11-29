@@ -98,26 +98,26 @@ th,td {
 	color: gray;
 }
 
-a.red, a:visited.red {
+a.red, a:visited.red, .red {
 	color: #ED1C24;
 }
 
-a.green, a:visited.green {
+a.green, a:visited.green, .green {
 	color: #22B14C;
 }
 
-a.blue, a:visited.blue {
+a.blue, a:visited.blue, .blue {
 	color: #3F48CC;
 }
 
-a.orange, a:visited.orange {
+a.orange, a:visited.orange, .orange {
 	color: #FF7F27;
 }
 
-a.purple, a:visited.purple {
+a.purple, a:visited.purple, .purple {
 	color: #A349A4;
 }
 
-a.yellow, a:visited.yellow {
+a.yellow, a:visited.yellow, .yellow {
 	color: #FFF200;
 }

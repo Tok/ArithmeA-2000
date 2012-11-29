@@ -103,7 +103,7 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
      */
     private void doEditTerm(final String id) {
         History.newItem("edit/", false);
-        Presenter presenter = new EditTermPresenter(rpcService, eventBus, new EditTermView(eventBus, ""), id);
+        Presenter presenter = new EditTermPresenter(rpcService, eventBus, new EditTermView(""), id);
         presenter.go(container);
     }
 
@@ -181,7 +181,7 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
                 if (token.split("/").length > 1) {
                     wordString = token.split("/")[1];
                 }
-                presenter = new EditTermPresenter(rpcService, eventBus, new EditTermView(eventBus, wordString));
+                presenter = new EditTermPresenter(rpcService, eventBus, new EditTermView(wordString));
             } else if (token.startsWith("show/")) {
                 String methodString = "All";
                 if (token.split("/").length > 1) {

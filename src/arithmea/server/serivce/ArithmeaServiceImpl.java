@@ -184,14 +184,15 @@ public class ArithmeaServiceImpl extends RemoteServiceServlet implements
      * Returns the term with the provided id.
      * @return term
      */
+    @Deprecated
     public final Term getTerm(final String id) {
         final PersistenceManager pm = PMF.getPersistenceManager();
         Term result = null;
         try {
             Query query = pm.newQuery(Term.class);
-            query.setFilter("id == i");
+            query.setFilter("latinString == id");
             query.setUnique(true);
-            query.declareParameters("String i");
+            query.declareParameters("String id");
             result = (Term) query.execute(id);
         } finally {
             pm.close();
