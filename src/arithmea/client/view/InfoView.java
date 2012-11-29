@@ -120,6 +120,9 @@ public class InfoView extends Composite implements InfoPresenter.Display {
         final String projectUrl = "http://tok.github.com/ArithmeA-2000/";
         infoTable.setWidget(row++, 0, new Anchor(projectUrl, projectUrl));
 
+        for (int r = 0; r < row; r++) {
+            infoTable.getCellFormatter().setStyleName(r, 0, "padded");
+        }
         contentTable.setWidget(1, 0, infoTable);
         contentTable.getCellFormatter().setAlignment(1, 0, HasHorizontalAlignment.ALIGN_LEFT, HasVerticalAlignment.ALIGN_TOP);
         contentTable.getCellFormatter().setHeight(1, 0, "635px");

@@ -69,6 +69,7 @@ public class EditTermView extends Composite implements EditTermPresenter.Display
         final FlexTable menuTable = new FlexTable();
         menuTable.setWidth("778px");
         final HorizontalPanel hPanel = new HorizontalPanel();
+        hPanel.setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
         hPanel.setWidth("778px");
 
         final FlowPanel buttonFlow = new FlowPanel();

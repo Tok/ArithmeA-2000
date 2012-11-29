@@ -44,6 +44,7 @@ public class NumberView extends Composite implements NumberPresenter.Display {
         contentTable.setWidth("100%");
 
         final HorizontalPanel hPanel = new HorizontalPanel();
+        hPanel.setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
         cancelButton = new Button("Cancel");
         hPanel.add(cancelButton);
         numberBox = new ExtendedTextBox();

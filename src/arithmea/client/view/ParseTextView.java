@@ -37,6 +37,7 @@ public class ParseTextView extends Composite implements ParseTextPresenter.Displ
         contentTable.setWidth("100%");
 
         final HorizontalPanel menuPanel = new HorizontalPanel();
+        menuPanel.setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
         cancelButton = new Button("Cancel");
         menuPanel.add(cancelButton);
         parseButton = new Button("Parse Text");
@@ -50,7 +51,7 @@ public class ParseTextView extends Composite implements ParseTextPresenter.Displ
         contentTable.getCellFormatter().addStyleName(1, 0, "flow-panel");
 
         textArea = new TextArea();
-        textArea.setWidth("100%");
+        textArea.setWidth("772px");
         textArea.setHeight("400px");
 
         contentTable.setWidget(2, 0, textArea);

@@ -294,7 +294,11 @@ public class EditTermPresenter implements Presenter {
      */
     private void updateMatches(final GematriaMethod method) {
         if (term == null || term.get(method) == null) {
-            term = new Term(display.getInputText().getValue());
+            try {
+                 term = new Term(display.getInputText().getValue());
+            } catch (IllegalArgumentException iae){
+                 return; //ignore
+            }
         }
         final int number = term.get(method);
         final FlowPanel matchFlow = display.getMatchPanel(method);

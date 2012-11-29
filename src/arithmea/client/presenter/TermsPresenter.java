@@ -185,6 +185,7 @@ public class TermsPresenter implements Presenter {
         if (display.getTermsTable().getRowCount() == 0) {
             display.getTermsTable().setWidget(0, 0, new Label("Loading.."));
             display.getTermsTable().getCellFormatter().setAlignment(0, 0, HasHorizontalAlignment.ALIGN_LEFT, HasVerticalAlignment.ALIGN_TOP);
+            display.getTermsTable().getCellFormatter().setStyleName(0, 0, "padded");
         }
         if (letter.equalsIgnoreCase("All")) {
             rpcService.getAllTermsFromOffset(display.getOffset(), new AsyncCallback<ArrayList<Term>>() {
@@ -193,7 +194,6 @@ public class TermsPresenter implements Presenter {
                     sortTermsByLatinString();
                     display.setData(terms);
                 }
-
                 public void onFailure(final Throwable caught) {
                     Window.alert("Fail fetching term details");
                 }

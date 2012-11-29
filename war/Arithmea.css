@@ -44,6 +44,10 @@ th,td {
     padding: 3px;
 }
 
+.padded {
+    padding-left: 3px;
+}
+
 .menu-table {
 /*	border: 1px solid #777777;*/
 	background-color: #D0E4F6;

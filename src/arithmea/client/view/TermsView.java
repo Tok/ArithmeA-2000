@@ -76,6 +76,7 @@ public class TermsView extends Composite implements TermsPresenter.Display {
 
         // create the menu
         final HorizontalPanel hPanel = new HorizontalPanel();
+        hPanel.setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
         deleteButton = new Button("Delete");
         hPanel.add(deleteButton);
         showNumbersButton = new Button("Show by Numbers");
