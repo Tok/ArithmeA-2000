@@ -255,8 +255,8 @@ public class EditTermPresenter implements Presenter {
      */
     private void doSave() {
         try {
-            rpcService.updateTerm(term, new AsyncCallback<Term>() {
-                public void onSuccess(final Term result) {
+            rpcService.addOrUpdateTerm(term, new AsyncCallback<Void>() {
+                public void onSuccess(final Void result) {
                     eventBus.fireEvent(new ShowListEvent());
                 }
                 public void onFailure(final Throwable caught) {
