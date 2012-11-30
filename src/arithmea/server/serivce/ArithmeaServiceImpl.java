@@ -88,7 +88,7 @@ public class ArithmeaServiceImpl extends RemoteServiceServlet implements
      * @return message
      */
     @Override
-    public String fixTerms(ArrayList<String> ids) {
+    public final String fixTerms(final ArrayList<String> ids) {
         int i;
         for (i = 0; i < ids.size(); ++i) {
             fixTerm(ids.get(i));
@@ -103,7 +103,7 @@ public class ArithmeaServiceImpl extends RemoteServiceServlet implements
         final Term newTerm = new Term(id);
         updateTerm(newTerm);
     }
-    
+
     /**
      * Deletes all terms and returns their count.
      * @return count as String
@@ -135,7 +135,7 @@ public class ArithmeaServiceImpl extends RemoteServiceServlet implements
      * @return terms list
      */
     @Override
-    public ArrayList<Term> getTermsWithLimit(String method, Integer number, int limit) {
+    public final  ArrayList<Term> getTermsWithLimit(final String method, final Integer number, final int limit) {
         final String key = method + ":" + number + ":" + limit;
         @SuppressWarnings("unchecked")
         ArrayList<Term> result = (ArrayList<Term>) syncCache.get(key); // read from cache
@@ -156,10 +156,10 @@ public class ArithmeaServiceImpl extends RemoteServiceServlet implements
             } finally {
                 pm.close();
             }
-        }        
+        }
         return result;
     }
-    
+
     /**
      * Returns some terms that start with the provided letter from the provided offset.
      * @return terms list

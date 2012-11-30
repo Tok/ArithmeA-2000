@@ -254,12 +254,12 @@ public class TermsPresenter implements Presenter {
         Collections.sort(terms, new TermSortByGematriaMethod(gm));
         display.setData(terms);
     }
-    
+
     /**
      * Returns the a List of the selected ids
      * @return ids the selected ids
      */
-    private final ArrayList<String> getSelectedIds() {
+    private ArrayList<String> getSelectedIds() {
         final List<Integer> selectedRows = display.getSelectedRows();
         final ArrayList<String> ids = new ArrayList<String>();
         for (int i = 0; i < selectedRows.size(); ++i) {

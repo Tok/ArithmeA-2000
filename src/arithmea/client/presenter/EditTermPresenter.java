@@ -144,7 +144,7 @@ public class EditTermPresenter implements Presenter {
         isDirty = true;
         doChange();
     }
-    
+
     /**
      * Processes changes in the input TextBox.
      */
@@ -172,11 +172,11 @@ public class EditTermPresenter implements Presenter {
             if (isDirty) { //delay possible update
                 final Timer timer = new Timer() {
                     @Override
-                    public void run() {                                
+                    public void run() {
                         updateAllIfStillDirty();
                     }
                 };
-                timer.schedule(TYPING_DELAY_MS);                
+                timer.schedule(TYPING_DELAY_MS);
             } else { //update immediately
                 updateAllIfStillDirty();
             }
@@ -220,7 +220,7 @@ public class EditTermPresenter implements Presenter {
         }
         prepareNumberAnchor(display.getAnchor(method), String.valueOf(value), method, value);
     }
-    
+
     /**
      * Prepares anchor to show matches for a number and method.
      */
@@ -233,7 +233,7 @@ public class EditTermPresenter implements Presenter {
                 eventBus.fireEvent(new ShowNumberEvent(methodName, String.valueOf(value)));
             }
         });
-        anchor.setHref("#show/" + methodName.toLowerCase() + "/" + String.valueOf(value));        
+        anchor.setHref("#show/" + methodName.toLowerCase() + "/" + String.valueOf(value));
         return anchor;
     }
 
@@ -247,9 +247,9 @@ public class EditTermPresenter implements Presenter {
         display.getAnchor(method).setStyleName(style);
         display.getAnchor(method).setTitle(title);
         display.getMethodLabel(method).setStyleName(style);
-        display.getMethodLabel(method).setTitle(title);        
+        display.getMethodLabel(method).setTitle(title);
     }
-    
+
     /**
      * Creates and saves a term from the TextBox with the latin String.
      */
@@ -267,7 +267,7 @@ public class EditTermPresenter implements Presenter {
             Window.alert(iae.getMessage());
         }
     }
-    
+
     /**
      * Updates all matches if still dirty.
      */
@@ -291,7 +291,7 @@ public class EditTermPresenter implements Presenter {
         display.getBusyPanel().add(display.getTranspImage());
         isDirty = false;
     }
-    
+
     /**
      * Updates the matches for the provided method.
      */
@@ -299,7 +299,7 @@ public class EditTermPresenter implements Presenter {
         if (term == null || term.get(method) == null) {
             try {
                 term = new Term(display.getInputText().getValue());
-            } catch (IllegalArgumentException iae){
+            } catch (IllegalArgumentException iae) {
                 return; //ignore
             }
         }

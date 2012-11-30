@@ -33,6 +33,7 @@ import com.google.gwt.user.client.ui.Widget;
  * View to edit and add new terms.
  */
 public class EditTermView extends Composite implements EditTermPresenter.Display {
+    private static final int MAX_LETTERS = 30;
     private static final String METHOD = "Method";
     private static final String VALUE = "Value";
     private static final String MATCHES = "Matches";
@@ -82,7 +83,7 @@ public class EditTermView extends Composite implements EditTermPresenter.Display
         hPanel.add(buttonFlow);
         inputTextBox = new ExtendedTextBox();
         inputTextBox.setWidth("568px");
-        inputTextBox.setMaxLength(30);
+        inputTextBox.setMaxLength(MAX_LETTERS);
         hPanel.add(inputTextBox);
         hPanel.add(busyPanel);
 
@@ -95,7 +96,7 @@ public class EditTermView extends Composite implements EditTermPresenter.Display
         detailsTable.getColumnFormatter().setWidth(0, "89px");
         detailsTable.getColumnFormatter().setWidth(1, "55px");
         detailsTable.getColumnFormatter().setWidth(2, "641px");
-        
+
         latinLabel = new Label();
         latinLabel.setWidth("280px");
         latinLabel.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_LEFT);
@@ -115,7 +116,7 @@ public class EditTermView extends Composite implements EditTermPresenter.Display
         treePanel.add(latinTree);
         treePanel.add(letterStar);
         contentDetailsPanel.add(treePanel);
-        
+
         if (word != null && !word.equals("")) {
             inputTextBox.setText(word);
         }
@@ -158,12 +159,12 @@ public class EditTermView extends Composite implements EditTermPresenter.Display
     /**
      * Adds the big Label to the table.
      */
-    private void addLabel(int row, final Label label) {
+    private void addLabel(final int row, final Label label) {
         detailsTable.setWidget(row, 0, label);
         detailsTable.getFlexCellFormatter().setColSpan(row, 0, 3);
         detailsTable.getCellFormatter().addStyleName(row, 1, "text-table");
     }
-    
+
     /**
      * Adds a row to the table.
      * @param table
@@ -192,7 +193,7 @@ public class EditTermView extends Composite implements EditTermPresenter.Display
         table.setText(row, 2, MATCHES);
         addCellFormats(table, row, true);
     }
-    
+
     /**
      * Formats all cells in the provided row.
      * @param table
@@ -201,13 +202,13 @@ public class EditTermView extends Composite implements EditTermPresenter.Display
     private void addCellFormats(final FlexTable table, final int row, final boolean isHeader) {
         for (int col = 0; col < table.getCellCount(row); col++) {
             if (isHeader) {
-                table.getCellFormatter().addStyleName(row, col, "edit-border-cell-header");                
+                table.getCellFormatter().addStyleName(row, col, "edit-border-cell-header");
             } else {
                 table.getCellFormatter().addStyleName(row, col, "edit-border-cell");
             }
         }
     }
-    
+
     @Override
     public final HasValue<String> getInputText() {
         return inputTextBox;
@@ -217,19 +218,19 @@ public class EditTermView extends Composite implements EditTermPresenter.Display
     public final TextBox getInputTextBox() {
         return inputTextBox;
     }
-    
+
     @Override
-    public Panel getBusyPanel() {
+    public final Panel getBusyPanel() {
         return busyPanel;
     }
 
     @Override
-    public Image getBusyImage() {
+    public final Image getBusyImage() {
         return busyImage;
     }
 
     @Override
-    public Image getTranspImage() {
+    public final Image getTranspImage() {
         return transpImage;
     }
 
@@ -274,12 +275,12 @@ public class EditTermView extends Composite implements EditTermPresenter.Display
     }
 
     @Override
-    public Label getMethodLabel(GematriaMethod gm) {
+    public final Label getMethodLabel(final GematriaMethod gm) {
         return methodLabels.get(gm);
     }
 
     @Override
-    public Anchor getAnchor(GematriaMethod gm) {
+    public final Anchor getAnchor(final GematriaMethod gm) {
         return anchors.get(gm);
     }
 

@@ -149,79 +149,99 @@ public class ArithmeaGWTTest extends GWTTestCase {
      * Tests results for the chaldean method.
      */
     public final void testChaldean() {
-        assertTrue(new Term(ABC).get(LatinMethod.Chaldean).equals(new Integer(103)));
-        assertTrue(new Term("ARITHMEA").get(LatinMethod.Chaldean).equals(new Integer(23)));
-        assertTrue(new Term(DER_SCHLUESSEL).get(LatinMethod.Chaldean).equals(new Integer(50)));
+        final int chaldeanAbc = 103;
+        final int chaldeanArithmea = 23;
+        final int chaldeanDerSchluessel = 50;
+        assertTrue(new Term(ABC).get(LatinMethod.Chaldean).equals(new Integer(chaldeanAbc)));
+        assertTrue(new Term("ARITHMEA").get(LatinMethod.Chaldean).equals(new Integer(chaldeanArithmea)));
+        assertTrue(new Term(DER_SCHLUESSEL).get(LatinMethod.Chaldean).equals(new Integer(chaldeanDerSchluessel)));
     }
 
     /**
      * Tests results for the pythagorean method.
      */
     public final void testPythagorean() {
-        assertTrue(new Term(ABC).get(LatinMethod.Pythagorean).equals(new Integer(126)));
-        assertTrue(new Term("ARITHMEA").get(LatinMethod.Pythagorean).equals(new Integer(39)));
-        assertTrue(new Term(DER_SCHLUESSEL).get(LatinMethod.Pythagorean).equals(new Integer(51)));
+        final int pythagoreanAbc = 126;
+        final int pythagoreanArithmea = 39;
+        final int pythagoreanDerSchluessel = 51;
+        assertTrue(new Term(ABC).get(LatinMethod.Pythagorean).equals(new Integer(pythagoreanAbc)));
+        assertTrue(new Term("ARITHMEA").get(LatinMethod.Pythagorean).equals(new Integer(pythagoreanArithmea)));
+        assertTrue(new Term(DER_SCHLUESSEL).get(LatinMethod.Pythagorean).equals(new Integer(pythagoreanDerSchluessel)));
     }
 
     /**
      * Tests results for simple english gematria.
      */
     public final void testIa() {
-        assertTrue(new Term(ABC).get(LatinMethod.IA).equals(new Integer(351)));
-        assertTrue(new Term("ARITHMEA").get(LatinMethod.IA).equals(new Integer(75)));
-        assertTrue(new Term(DER_SCHLUESSEL).get(LatinMethod.IA).equals(new Integer(150)));
+        final int iaAbc = 351;
+        final int iaArithmea = 75;
+        final int iaDerSchluessel = 150;
+        assertTrue(new Term(ABC).get(LatinMethod.IA).equals(new Integer(iaAbc)));
+        assertTrue(new Term("ARITHMEA").get(LatinMethod.IA).equals(new Integer(iaArithmea)));
+        assertTrue(new Term(DER_SCHLUESSEL).get(LatinMethod.IA).equals(new Integer(iaDerSchluessel)));
     }
 
     /**
      * Tests results for new aeon english qabalah.
      */
     public final void testNaeq() {
-        assertTrue(new Term(ABC).get(LatinMethod.NAEQ).equals(new Integer(361)));
-        assertTrue(new Term("ARITHMEA").get(LatinMethod.NAEQ).equals(new Integer(111)));
-        assertTrue(new Term(DER_SCHLUESSEL).get(LatinMethod.NAEQ).equals(new Integer(146)));
+        final int naeqAbc = 361;
+        final int naeqArithmea = 111;
+        final int naeqDerSchluessel = 146;
+        assertTrue(new Term(ABC).get(LatinMethod.NAEQ).equals(new Integer(naeqAbc)));
+        assertTrue(new Term("ARITHMEA").get(LatinMethod.NAEQ).equals(new Integer(naeqArithmea)));
+        assertTrue(new Term(DER_SCHLUESSEL).get(LatinMethod.NAEQ).equals(new Integer(naeqDerSchluessel)));
     }
 
     /**
      * Tests results for trigrammaton qabalah.
      */
     public final void testTq() {
-        assertTrue(new Term(ABC).get(LatinMethod.TQ).equals(new Integer(351)));
-        assertTrue(new Term("ARITHMEA").get(LatinMethod.TQ).equals(new Integer(96)));
-        assertTrue(new Term(DER_SCHLUESSEL).get(LatinMethod.TQ).equals(new Integer(153)));
+        final int tqAbc = 351;
+        final int tqArithmea = 96;
+        final int tqDerSchluessel = 153;
+        assertTrue(new Term(ABC).get(LatinMethod.TQ).equals(new Integer(tqAbc)));
+        assertTrue(new Term("ARITHMEA").get(LatinMethod.TQ).equals(new Integer(tqArithmea)));
+        assertTrue(new Term(DER_SCHLUESSEL).get(LatinMethod.TQ).equals(new Integer(tqDerSchluessel)));
     }
 
     /**
      * Tests results for the german method.
      */
     public final void testGerman() {
-        assertTrue(new Term(DER_SCHLUESSEL).get(LatinMethod.German).equals(new Integer(55)));
+        final int germanDerSchluessel = 55;
+        assertTrue(new Term(DER_SCHLUESSEL).get(LatinMethod.German).equals(new Integer(germanDerSchluessel)));
     }
 
     /**
      * Tests results for EQ values.
      */
     public final void testEq() {
-        assertTrue(new Term("AADHAAR").get(LatinMethod.EQ).equals(new Integer(44)));
+        final int eqAdhaar = 44;
+        assertTrue(new Term("AADHAAR").get(LatinMethod.EQ).equals(new Integer(eqAdhaar)));
     }
 
     /**
      * Tests results for full values.
      */
     public final void testFull() {
-        assertTrue(new Term(DER_SCHLUESSEL).get(HebrewMethod.Full).equals(new Integer(577)));
+        final int fullDerSchluessel = 577;
+        assertTrue(new Term(DER_SCHLUESSEL).get(HebrewMethod.Full).equals(new Integer(fullDerSchluessel)));
     }
 
     /**
      * Tests results for ordinal values.
      */
     public final void testOrdinal() {
-        assertTrue(new Term(DER_SCHLUESSEL).get(HebrewMethod.Ordinal).equals(new Integer(82)));
+        final int ordinalDerSchluessel = 82;
+        assertTrue(new Term(DER_SCHLUESSEL).get(HebrewMethod.Ordinal).equals(new Integer(ordinalDerSchluessel)));
     }
 
     /**
      * Tests results for katan values.
      */
     public final void testKatan() {
-        assertTrue(new Term(DER_SCHLUESSEL).get(HebrewMethod.Katan).equals(new Integer(28)));
+        final int katanDerSchluessel = 28;
+        assertTrue(new Term(DER_SCHLUESSEL).get(HebrewMethod.Katan).equals(new Integer(katanDerSchluessel)));
     }
 }

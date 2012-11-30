@@ -154,7 +154,7 @@ public class TermsView extends Composite implements TermsPresenter.Display {
     public final HasClickHandlers getFixButton() {
         return fixButton;
     }
-    
+
     public final HasClickHandlers getHeader(final LatinMethod gm) {
         return headers.get(gm);
     }

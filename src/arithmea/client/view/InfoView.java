@@ -42,11 +42,11 @@ public class InfoView extends Composite implements InfoPresenter.Display {
         FlexTable infoTable = new FlexTable();
         int row = 0;
         infoTable.setWidget(row++, 0, new HTML("&nbsp;"));
-        
+
         infoTable.setText(row++, 0, "== Methods working on the latin alphabet ==");
         infoTable.setText(row++, 0, "The following methods work on the 26 letters that are used in the latin (or english) alphabet.");
         infoTable.setWidget(row++, 0, new HTML("&nbsp;"));
-        
+
         infoTable.setText(row++, 0, "Chaldean:");
         infoTable.setText(row++, 0, "Shows the value of the word in chaldean numerology. The result is not reduced in order to preserve the full information.");
         final String chaldeanWikiUrl = "http://en.wikipedia.org/wiki/Arithmancy#The_Chaldean_method";
@@ -105,11 +105,11 @@ public class InfoView extends Composite implements InfoPresenter.Display {
         infoTable.setText(row++, 0, "Full:");
         infoTable.setText(row++, 0, "Uses absolute or normative numerical value of the twenty-two hebrew letters. This method may be refered to as Mispar Hechrachi or Mispar ha-Panim.");
         infoTable.setWidget(row++, 0, new HTML("&nbsp;"));
-        
+
         infoTable.setText(row++, 0, "Ordinal:");
         infoTable.setText(row++, 0, "Each of the 22 hebrew letters are given a value from one to twenty-two. Also known as Mispar Siduri.");
         infoTable.setWidget(row++, 0, new HTML("&nbsp;"));
-        
+
         infoTable.setText(row++, 0, "Katan:");
         infoTable.setText(row++, 0, "Calculates the value of each hebrew letter, but truncates all of the zeros. It is also sometimes called Mispar Me'ugal.");
         infoTable.setWidget(row++, 0, new HTML("&nbsp;"));
