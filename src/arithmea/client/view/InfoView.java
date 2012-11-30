@@ -63,12 +63,14 @@ public class InfoView extends Composite implements InfoPresenter.Display {
         infoTable.setText(row++, 0, "1=A, 2=B, 3=C .. 26=Z. Also known as Simple English Gematria.");
         final String segWikiUrl = "http://wmjas.wikidot.com/simple-english-gematria";
         infoTable.setWidget(row++, 0, new Anchor(segWikiUrl, segWikiUrl));
+        infoTable.setText(row++, 0, "There is another system of english gematria, that uses the sixfold of every letter: A=6, B=12, C=18 .. Z=156. It matches the same words as simple gematria, but yields higher values. ArithmeA prefers simple english gematria, because it can output odd numbers and therefore preserves the original number qualities better.");
         infoTable.setWidget(row++, 0, new HTML("&nbsp;"));
 
         infoTable.setText(row++, 0, "NAEQ:");
         infoTable.setText(row++, 0, "New Aeon English Qabalah");
         final String naeqWikiUrl = "http://en.wikipedia.org/wiki/English_Qabalah#ALW_Cipher";
         infoTable.setWidget(row++, 0, new Anchor(naeqWikiUrl, naeqWikiUrl));
+        infoTable.setText(row++, 0, "The NAEQ Cipher can be obtained, by arranging the letters of the alphabet on an elevenfold star.");
         infoTable.setWidget(row++, 0, new HTML("&nbsp;"));
 
         infoTable.setText(row++, 0, "TQ:");
@@ -81,10 +83,11 @@ public class InfoView extends Composite implements InfoPresenter.Display {
         infoTable.setText(row++, 0, "A cipher specific to the german language, that was discovered by Heinz Borchardt.");
         final String gerUrl = "http://www.rolf-keppler.de/schluessel.htm";
         infoTable.setWidget(row++, 0, new Anchor(gerUrl, gerUrl));
+        infoTable.setText(row++, 0, "The interpretation of the results for this cipher is very different from the other methods and generally leads to low numbers and a lot of matches because most letters have a value of 0. The number obtained by applying this method is supposed to directly describe the quality of german words.");
         infoTable.setWidget(row++, 0, new HTML("&nbsp;"));
 
         infoTable.setText(row++, 0, "EQ:");
-        infoTable.setText(row++, 0, "English Qabalah method that uses the same sequence as NAEQ, but without reducing the Values. This method is also known as EQ26 (thanks to Alien696).");
+        infoTable.setText(row++, 0, "English Qabalah method that uses the same sequence as NAEQ, but without reducing the Values. This method is also known as EQ26 or Azure Lidded Woman Cipher (thanks to Alien696).");
         infoTable.setWidget(row++, 0, new HTML("&nbsp;"));
 
         infoTable.setWidget(row++, 0, new HTML("&nbsp;"));

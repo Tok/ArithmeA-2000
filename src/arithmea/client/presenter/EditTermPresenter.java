@@ -49,6 +49,7 @@ public class EditTermPresenter implements Presenter {
         TextBox getInputTextBox();
         Panel getBusyPanel();
         Image getBusyImage();
+        Image getTranspImage();
         Label getLatinLabel();
         Label getHebrewLabel();
         LetterStarWidget getLetterStar();
@@ -181,6 +182,7 @@ public class EditTermPresenter implements Presenter {
             }
         } catch (IllegalArgumentException iae) {
             display.getBusyPanel().clear();
+            display.getBusyPanel().add(display.getTranspImage());
             display.getLatinLabel().setText("");
             display.getHebrewLabel().setText("");
             display.getLatinTree().setWord("");
@@ -286,6 +288,7 @@ public class EditTermPresenter implements Presenter {
             updateMatches(method);
         }
         display.getBusyPanel().clear();
+        display.getBusyPanel().add(display.getTranspImage());
         isDirty = false;
     }
     
@@ -295,9 +298,9 @@ public class EditTermPresenter implements Presenter {
     private void updateMatches(final GematriaMethod method) {
         if (term == null || term.get(method) == null) {
             try {
-                 term = new Term(display.getInputText().getValue());
+                term = new Term(display.getInputText().getValue());
             } catch (IllegalArgumentException iae){
-                 return; //ignore
+                return; //ignore
             }
         }
         final int number = term.get(method);

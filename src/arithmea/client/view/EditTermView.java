@@ -44,6 +44,7 @@ public class EditTermView extends Composite implements EditTermPresenter.Display
     private final ExtendedTextBox inputTextBox;
     private final Panel busyPanel = new HorizontalPanel();
     private final Image busyImage = new Image("/images/busy.gif");
+    private final Image transpImage = new Image("/images/transp.gif");
     private final Label latinLabel;
     private final Label hebrewLabel;
     private final Map<GematriaMethod, Label> methodLabels = new HashMap<GematriaMethod, Label>();
@@ -80,7 +81,7 @@ public class EditTermView extends Composite implements EditTermPresenter.Display
 
         hPanel.add(buttonFlow);
         inputTextBox = new ExtendedTextBox();
-        inputTextBox.setWidth("565px");
+        inputTextBox.setWidth("568px");
         inputTextBox.setMaxLength(30);
         hPanel.add(inputTextBox);
         hPanel.add(busyPanel);
@@ -225,6 +226,11 @@ public class EditTermView extends Composite implements EditTermPresenter.Display
     @Override
     public Image getBusyImage() {
         return busyImage;
+    }
+
+    @Override
+    public Image getTranspImage() {
+        return transpImage;
     }
 
     @Override
