@@ -26,7 +26,7 @@ public class ShowListEvent extends GwtEvent<ShowListEventHandler> {
     }
 
     @Override
-    public final Type<ShowListEventHandler> getAssociatedType() {
+    public final com.google.gwt.event.shared.GwtEvent.Type<ShowListEventHandler> getAssociatedType() {
         return TYPE;
     }
 

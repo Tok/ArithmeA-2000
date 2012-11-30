@@ -9,7 +9,7 @@ public class TermDeletedEvent extends GwtEvent<TermDeletedEventHandler> {
     public static final Type<TermDeletedEventHandler> TYPE = new Type<TermDeletedEventHandler>();
 
     @Override
-    public final Type<TermDeletedEventHandler> getAssociatedType() {
+    public final com.google.gwt.event.shared.GwtEvent.Type<TermDeletedEventHandler> getAssociatedType() {
         return TYPE;
     }
 

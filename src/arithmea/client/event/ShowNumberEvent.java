@@ -21,7 +21,7 @@ public class ShowNumberEvent extends GwtEvent<ShowNumberEventHandler> {
     }
 
     @Override
-    public final Type<ShowNumberEventHandler> getAssociatedType() {
+    public final com.google.gwt.event.shared.GwtEvent.Type<ShowNumberEventHandler> getAssociatedType() {
         return TYPE;
     }
 

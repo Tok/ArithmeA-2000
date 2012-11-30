@@ -14,7 +14,7 @@ public class AddTermEvent extends GwtEvent<AddTermEventHandler> {
     }
 
     @Override
-    public final Type<AddTermEventHandler> getAssociatedType() {
+    public final com.google.gwt.event.shared.GwtEvent.Type<AddTermEventHandler> getAssociatedType() {
         return TYPE;
     }
 

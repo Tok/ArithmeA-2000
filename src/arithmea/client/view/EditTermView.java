@@ -58,7 +58,6 @@ public class EditTermView extends Composite implements EditTermPresenter.Display
 
     /**
      * Default constructor
-     * @param eventBus
      * @param word
      */
     public EditTermView(final String word) {

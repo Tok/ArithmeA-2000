@@ -9,7 +9,7 @@ public class ShowInfoEvent extends GwtEvent<ShowInfoEventHandler> {
     public static final Type<ShowInfoEventHandler> TYPE = new Type<ShowInfoEventHandler>();
 
     @Override
-    public final Type<ShowInfoEventHandler> getAssociatedType() {
+    public final com.google.gwt.event.shared.GwtEvent.Type<ShowInfoEventHandler> getAssociatedType() {
         return TYPE;
     }
 

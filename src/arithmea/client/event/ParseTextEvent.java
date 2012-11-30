@@ -9,7 +9,7 @@ public class ParseTextEvent extends GwtEvent<ParseTextEventHandler> {
     public static final Type<ParseTextEventHandler> TYPE = new Type<ParseTextEventHandler>();
 
     @Override
-    public final Type<ParseTextEventHandler> getAssociatedType() {
+    public final com.google.gwt.event.shared.GwtEvent.Type<ParseTextEventHandler> getAssociatedType() {
         return TYPE;
     }
 

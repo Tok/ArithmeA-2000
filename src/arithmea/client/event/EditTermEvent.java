@@ -18,7 +18,7 @@ public class EditTermEvent extends GwtEvent<EditTermEventHandler> {
     }
 
     @Override
-    public final Type<EditTermEventHandler> getAssociatedType() {
+    public final com.google.gwt.event.shared.GwtEvent.Type<EditTermEventHandler> getAssociatedType() {
         return TYPE;
     }
 

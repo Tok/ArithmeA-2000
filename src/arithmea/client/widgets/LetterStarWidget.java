@@ -97,7 +97,7 @@ public class LetterStarWidget extends Composite {
 
     /**
      * Sets the word in order to connect its letters.
-     * @param word
+     * @param input
      */
     public final void setWord(final String input) {
         final String word = input.replaceAll("[^A-Z]", "");
