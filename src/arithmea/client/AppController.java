@@ -24,7 +24,6 @@ import arithmea.client.view.InfoView;
 import arithmea.client.view.NumberView;
 import arithmea.client.view.ParseTextView;
 import arithmea.client.view.TermsView;
-
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.HandlerManager;
@@ -41,8 +40,7 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
     private final ArithmeaServiceAsync arithmeaService;
     private HasWidgets container;
 
-    public AppController(final ArithmeaServiceAsync arithmeaService,
-            final HandlerManager eventBus) {
+    public AppController(final ArithmeaServiceAsync arithmeaService, final HandlerManager eventBus) {
         this.eventBus = eventBus;
         this.arithmeaService = arithmeaService;
         bind();
@@ -63,24 +61,21 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
                 doEditTerm(event.getId());
             }
         });
-        eventBus.addHandler(ShowListEvent.TYPE,
-                new ShowListEventHandler() {
-                    public void onShowList(final ShowListEvent event) {
-                        doShowList(event.getLetter(), event.getOffset());
-                    }
-                });
-        eventBus.addHandler(ShowNumberEvent.TYPE,
-                new ShowNumberEventHandler() {
-                    public void onShowNumber(final ShowNumberEvent event) {
-                        doShowNumber(event.getMethod(), event.getNumber());
-                    }
-                });
-        eventBus.addHandler(ParseTextEvent.TYPE,
-                new ParseTextEventHandler() {
-                    public void onParseText(final ParseTextEvent event) {
-                        doParseText();
-                    }
-                });
+        eventBus.addHandler(ShowListEvent.TYPE, new ShowListEventHandler() {
+            public void onShowList(final ShowListEvent event) {
+                doShowList(event.getLetter(), event.getOffset());
+            }
+        });
+        eventBus.addHandler(ShowNumberEvent.TYPE, new ShowNumberEventHandler() {
+            public void onShowNumber(final ShowNumberEvent event) {
+                doShowNumber(event.getMethod(), event.getNumber());
+            }
+        });
+        eventBus.addHandler(ParseTextEvent.TYPE, new ParseTextEventHandler() {
+            public void onParseText(final ParseTextEvent event) {
+                doParseText();
+            }
+        });
         eventBus.addHandler(ShowInfoEvent.TYPE, new ShowInfoEventHandler() {
             @Override
             public void onShowInfo(final ShowInfoEvent event) {
@@ -103,12 +98,13 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
      */
     private void doEditTerm(final String id) {
         History.newItem("edit/", false);
-        Presenter presenter = new EditTermPresenter(arithmeaService, eventBus, new EditTermView(""), id);
+        final Presenter presenter = new EditTermPresenter(arithmeaService, eventBus, new EditTermView(""), id);
         presenter.go(container);
     }
 
     /**
-     * Fires history event to show the list for the provided letter at the provided offset.
+     * Fires history event to show the list for the provided letter at the
+     * provided offset.
      * @param letter
      * @param offset
      */
@@ -166,29 +162,30 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
         final String token = event.getValue();
         if (token != null) {
             Presenter presenter = null;
+            final int tokenCount = token.split("/").length;
             if (token.startsWith("list/")) {
                 String letterString = "All";
-                if (token.split("/").length > 1) {
+                if (tokenCount > 1) {
                     letterString = token.split("/")[1];
                 }
                 String offsetString = "0";
-                if (token.split("/").length > 2) {
+                if (tokenCount > 2) {
                     offsetString = token.split("/")[2];
                 }
                 presenter = new TermsPresenter(arithmeaService, eventBus, new TermsView(eventBus, letterString, Integer.valueOf(offsetString)));
             } else if (token.startsWith("add") || token.startsWith("edit")) {
                 String wordString = "";
-                if (token.split("/").length > 1) {
+                if (tokenCount > 1) {
                     wordString = token.split("/")[1];
                 }
                 presenter = new EditTermPresenter(arithmeaService, eventBus, new EditTermView(wordString));
             } else if (token.startsWith("show/")) {
                 String methodString = "All";
-                if (token.split("/").length > 1) {
+                if (tokenCount > 1) {
                     methodString = token.split("/")[1];
                 }
                 String numberString = "0";
-                if (token.split("/").length > 2) {
+                if (tokenCount > 2) {
                     numberString = token.split("/")[2];
                 }
                 presenter = new NumberPresenter(arithmeaService, eventBus, new NumberView(methodString, numberString));
@@ -205,7 +202,7 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
                         Window.alert("Fail deleting terms: " + caught);
                     }
                 });
-            } else { //default case
+            } else { // default case
                 presenter = new TermsPresenter(arithmeaService, eventBus, new TermsView(eventBus, "All", 0));
             }
             if (presenter != null) {

@@ -33,5 +33,4 @@ public class Arithmea implements EntryPoint {
         RootPanel.get("title").add(titleImage);
         appViewer.go(RootPanel.get("content"));
     }
-
 }

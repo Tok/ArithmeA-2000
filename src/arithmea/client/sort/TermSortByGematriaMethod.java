@@ -1,5 +1,6 @@
 package arithmea.client.sort;
 
+import java.io.Serializable;
 import java.util.Comparator;
 import arithmea.shared.data.Term;
 import arithmea.shared.gematria.GematriaMethod;
@@ -7,7 +8,8 @@ import arithmea.shared.gematria.GematriaMethod;
 /**
  * Sorter for Terms by GematriaMethod.
  */
-public class TermSortByGematriaMethod implements Comparator<Term> {
+public class TermSortByGematriaMethod implements Comparator<Term>, Serializable {
+    private static final long serialVersionUID = 1860067582182973301L;
     private final GematriaMethod gm;
 
     /**
