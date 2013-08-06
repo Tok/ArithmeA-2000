@@ -154,13 +154,11 @@ public class EditTermPresenter implements Presenter {
             display.getLatinLabel().setText(term.getLatinString());
             display.getHebrewLabel().setText(term.getHebrewString());
             // create new term and update view
-            for (LatinMethod method : LatinMethod.values()) {
-                prepareMethodAnchor(term, method);
-                display.getMatchPanel(method).clear();
+            for (final LatinMethod method : LatinMethod.values()) {
+                prepareMethod(term, method);
             }
-            for (HebrewMethod method : HebrewMethod.values()) {
-                prepareMethodAnchor(term, method);
-                display.getMatchPanel(method).clear();
+            for (final HebrewMethod method : HebrewMethod.values()) {
+                prepareMethod(term, method);
             }
             // update tree widgets
             display.getLatinTree().setWord(term.getLatinString());
@@ -180,23 +178,35 @@ public class EditTermPresenter implements Presenter {
             } else { //update immediately
                 updateAllIfStillDirty();
             }
-        } catch (IllegalArgumentException iae) {
-            display.getBusyPanel().clear();
-            display.getBusyPanel().add(display.getTranspImage());
-            display.getLatinLabel().setText("");
-            display.getHebrewLabel().setText("");
-            display.getLatinTree().setWord("");
-            display.getHebrewTree().setWord("");
-            display.getLetterStar().setWord("");
-            for (LatinMethod method : LatinMethod.values()) {
-                display.getAnchor(method).setText("");
-                display.getMatchPanel(method).clear();
-            }
-            for (HebrewMethod method : HebrewMethod.values()) {
-                display.getAnchor(method).setText("");
-                display.getMatchPanel(method).clear();
-            }
+        } catch (final IllegalArgumentException iae) {
+            reset();
         }
+    }
+
+    private void reset() {
+        display.getBusyPanel().clear();
+        display.getBusyPanel().add(display.getTranspImage());
+        display.getLatinLabel().setText("");
+        display.getHebrewLabel().setText("");
+        display.getLatinTree().setWord("");
+        display.getHebrewTree().setWord("");
+        display.getLetterStar().setWord("");
+        for (final LatinMethod method : LatinMethod.values()) {
+            addMethod(method);
+        }
+        for (final HebrewMethod method : HebrewMethod.values()) {
+            addMethod(method);
+        }
+    }
+
+    private void prepareMethod(final Term term, final GematriaMethod method) {
+        prepareMethodAnchor(term, method);
+        display.getMatchPanel(method).clear();
+    }
+
+    private void addMethod(final GematriaMethod method) {
+        display.getAnchor(method).setText("");
+        display.getMatchPanel(method).clear();
     }
 
     /**
@@ -263,7 +273,7 @@ public class EditTermPresenter implements Presenter {
                     Window.alert("Fail updating Term");
                 }
             });
-        } catch (IllegalArgumentException iae) {
+        } catch (final IllegalArgumentException iae) {
             Window.alert(iae.getMessage());
         }
     }
@@ -281,10 +291,10 @@ public class EditTermPresenter implements Presenter {
      * Updates all matches.
      */
     private void updateAll() {
-        for (LatinMethod method : LatinMethod.values()) {
+        for (final LatinMethod method : LatinMethod.values()) {
             updateMatches(method);
         }
-        for (HebrewMethod method : HebrewMethod.values()) {
+        for (final HebrewMethod method : HebrewMethod.values()) {
             updateMatches(method);
         }
         display.getBusyPanel().clear();

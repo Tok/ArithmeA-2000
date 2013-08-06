@@ -44,10 +44,10 @@ public abstract class AbstractTreeWidget extends Composite {
      * Draws the sephiroth on the tree and colors them.
      */
     public final void drawSephiroth() {
-        Context2d ctx = canvas.getContext2d();
+        final Context2d ctx = canvas.getContext2d();
         ctx.setStrokeStyle(CssColor.make("#FFFFFF"));
-        for (Sephira sephira : Sephira.values()) {
-            CssColor color = sd.getPosition(sephira).getColor();
+        for (final Sephira sephira : Sephira.values()) {
+            final CssColor color = sd.getPosition(sephira).getColor();
             if (!sephira.isImplicate()) {
                 ctx.setLineWidth(3);
             } else {
@@ -103,5 +103,4 @@ public abstract class AbstractTreeWidget extends Composite {
         canvas.getContext2d().closePath();
         canvas.getContext2d().stroke();
     }
-
 }

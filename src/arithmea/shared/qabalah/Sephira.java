@@ -45,5 +45,4 @@ public enum Sephira {
     public final int getNumber() {
         return number;
     }
-
 }

@@ -39,7 +39,7 @@ public class InfoView extends Composite implements InfoPresenter.Display {
         contentTable.getCellFormatter().addStyleName(0, 0, "menu-table");
         contentTable.setWidget(0, 0, menuPanel);
 
-        FlexTable infoTable = new FlexTable();
+        final FlexTable infoTable = new FlexTable();
         int row = 0;
         infoTable.setWidget(row++, 0, new HTML("&nbsp;"));
 

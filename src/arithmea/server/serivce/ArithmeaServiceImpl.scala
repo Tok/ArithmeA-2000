@@ -27,7 +27,7 @@ class ArithmeaServiceImpl extends RemoteServiceServlet with ArithmeaService {
    * Updates and returns an existing term.
    * @return term
    */
-  override def addOrUpdateTerm(term: Term) = {
+  override def addOrUpdateTerm(term: Term): Unit = {
     val pm = PMF.getPersistenceManager
     try {
       pm.makePersistent(term)
@@ -44,7 +44,7 @@ class ArithmeaServiceImpl extends RemoteServiceServlet with ArithmeaService {
   def deleteTerms(ids: java.util.ArrayList[String]): String = {
     val pm = PMF.getPersistenceManager
     try {
-      ids.asScala.map(x => pm.deletePersistent(pm.getObjectById(classOf[Term], x)))
+      ids.asScala.foreach(x => pm.deletePersistent(pm.getObjectById(classOf[Term], x)))
     } finally {
       pm.close
     }
@@ -72,7 +72,7 @@ class ArithmeaServiceImpl extends RemoteServiceServlet with ArithmeaService {
    * @return message
    */
   def fixTerms(ids: java.util.ArrayList[String]): String = {
-    ids.asScala.map(x => addOrUpdateTerm(new Term(x)))
+    ids.asScala.foreach(x => addOrUpdateTerm(new Term(x)))
     "Fixed " + ids.size + " words."
   }
 
@@ -100,7 +100,7 @@ class ArithmeaServiceImpl extends RemoteServiceServlet with ArithmeaService {
   def getTermsWithLimit(method: String, number: Int, limit: Int): java.util.ArrayList[Term] = {
     val key = method + ":" + number + ":" + limit
     val cached = CACHE.get(key).asInstanceOf[java.util.ArrayList[Term]]
-    if (cached != null) { cached
+    if (cached != None.orNull) { cached
     } else {
       val pm = PMF.getPersistenceManager
       try {
@@ -108,7 +108,7 @@ class ArithmeaServiceImpl extends RemoteServiceServlet with ArithmeaService {
         query.setFilter(method.toLowerCase + " == n")
         query.declareParameters("Integer n");
         if (limit > 0) {
-          query.setRange(0, limit)
+          query.setRange(0, Math.max(0, limit))
         }
         makeCachedArrayList(key, query.execute(number).asInstanceOf[java.util.List[Term]])
       } finally {
@@ -124,7 +124,7 @@ class ArithmeaServiceImpl extends RemoteServiceServlet with ArithmeaService {
   override def getTermsFromOffset(letter: String, from: Int): java.util.ArrayList[Term] = {
     val key = letter + ":" + from
     val cached: java.util.ArrayList[Term] = CACHE.get(key).asInstanceOf[java.util.ArrayList[Term]]
-    if (cached != null) { cached
+    if (cached != None.orNull) { cached
     } else {
       val pm = PMF.getPersistenceManager
       try {
@@ -146,7 +146,7 @@ class ArithmeaServiceImpl extends RemoteServiceServlet with ArithmeaService {
   override def getAllTermsFromOffset(offset: Int): java.util.ArrayList[Term] = {
     val key = String.valueOf(offset)
     val cached = CACHE.get(key).asInstanceOf[java.util.ArrayList[Term]]
-    if (cached != null) { cached
+    if (cached != None.orNull) { cached
     } else {
       val pm = PMF.getPersistenceManager
       try {
@@ -165,10 +165,10 @@ class ArithmeaServiceImpl extends RemoteServiceServlet with ArithmeaService {
    */
   def parseTerms(input: String): String = {
     val totalWords = input.split("\\s+")
-    val filtered = totalWords.filter(x => x.length() < MAX_WORD_LENGTH)
-    val wordsOnly = filtered.filter(x => x.matches("^[a-zA-Z-]+$")) //only letters and -
+    val filtered = totalWords.filter(_.length() < MAX_WORD_LENGTH)
+    val wordsOnly = filtered.filter(_.matches("^[a-zA-Z-]+$")) //only letters and -
     val terms = wordsOnly.map(w => new Term(w.toUpperCase))
-    terms.map(x => addOrUpdateTerm(x))
+    terms.foreach(addOrUpdateTerm(_))
     "Parsed " + totalWords.length + " words. (" + terms.size + " added)."
   }
 

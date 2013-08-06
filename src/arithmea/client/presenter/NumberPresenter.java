@@ -106,7 +106,7 @@ public class NumberPresenter implements Presenter {
                 display.getSimilarWords().clear();
                 display.getSimilarWords().add(new Label("Please enter a number and select a method."));
             }
-        } catch (NumberFormatException nfe) {
+        } catch (final NumberFormatException nfe) {
             display.getSimilarWords().clear();
             display.getSimilarWords().add(new Label("Only numbers allowed."));
             String assumedOldText = this.display.getNumber().getValue().substring(0, this.display.getNumber().getValue().length() - 1);
@@ -127,7 +127,7 @@ public class NumberPresenter implements Presenter {
         rpcService.getTermsFor(methodName, number, new AsyncCallback<ArrayList<Term>>() {
                 @Override
                 public void onSuccess(final ArrayList<Term> result) {
-                    Iterator<Term> it = result.iterator();
+                    final Iterator<Term> it = result.iterator();
                     display.getSimilarWords().clear();
                     if (!it.hasNext()) {
                         display.getSimilarWords().add(new Label("No matching words found."));
@@ -135,7 +135,7 @@ public class NumberPresenter implements Presenter {
                         display.getSimilarWords().add(new Label("Listing " + result.size() + " matches: "));
                         while (it.hasNext()) {
                             final Term term = it.next();
-                            Anchor anchor = new Anchor(term.getLatinString() + " ");
+                            final Anchor anchor = new Anchor(term.getLatinString() + " ");
                             anchor.addClickHandler(new ClickHandler() {
                                 @Override
                                 public void onClick(final ClickEvent event) {

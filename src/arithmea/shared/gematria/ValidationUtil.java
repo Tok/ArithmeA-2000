@@ -18,9 +18,8 @@ public class ValidationUtil {
      * @return result
      */
     public final String getLetterString(final String input) {
-        String temp = input.toUpperCase().trim();
-        String result = temp.replaceAll("[ ]", "-").replaceAll("[^A-Z-]", "");
-        return result;
+        final String temp = input.toUpperCase().trim();
+        return temp.replaceAll("[ ]", "-").replaceAll("[^A-Z-]", "");
     }
 
 }

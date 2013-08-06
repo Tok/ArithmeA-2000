@@ -29,8 +29,8 @@ public class HebrewTreeWidget extends AbstractTreeWidget {
         getCanvas().getContext2d().clearRect(0, 0, getCanvas().getCoordinateSpaceWidth(), getCanvas().getCoordinateSpaceHeight());
         getCanvas().getContext2d().setLineWidth(SephirothData.UNIT / 5);
         getCanvas().getContext2d().setStrokeStyle(CssColor.make("#FFFFFF"));
-        for (HebrewLetter letter : HebrewLetter.values()) {
-            CharSequence c = String.valueOf(letter.getHebrew());
+        for (final HebrewLetter letter : HebrewLetter.values()) {
+            final CharSequence c = String.valueOf(letter.getHebrew());
             if (hebrew.contains(c)) {
                 drawPath(HebrewPath.valueOf(letter.name()));
             }
@@ -45,7 +45,7 @@ public class HebrewTreeWidget extends AbstractTreeWidget {
     private void drawAllPaths() {
         getCanvas().getContext2d().setLineWidth(1);
         getCanvas().getContext2d().setStrokeStyle(CssColor.make("#FFFFFF"));
-        for (HebrewPath path : HebrewPath.values()) {
+        for (final HebrewPath path : HebrewPath.values()) {
             drawPath(path);
         }
     }
@@ -57,5 +57,4 @@ public class HebrewTreeWidget extends AbstractTreeWidget {
     public final void drawPath(final HebrewPath path) {
         drawPath(path.getFrom(), path.getTo());
     }
-
 }

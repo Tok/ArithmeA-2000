@@ -2,6 +2,7 @@ package arithmea.client.view;
 
 import arithmea.client.presenter.NumberPresenter;
 import arithmea.client.widgets.ExtendedTextBox;
+import arithmea.shared.gematria.GematriaMethod;
 import arithmea.shared.gematria.HebrewMethod;
 import arithmea.shared.gematria.LatinMethod;
 
@@ -53,19 +54,11 @@ public class NumberView extends Composite implements NumberPresenter.Display {
         hPanel.add(numberBox);
         methodBox = new ListBox();
         int index = 0;
-        for (LatinMethod lm : LatinMethod.values()) {
-            methodBox.addItem(lm.name());
-            if (lm.name().equalsIgnoreCase(method)) {
-                methodBox.setSelectedIndex(index);
-            }
-            index++;
+        for (final LatinMethod m : LatinMethod.values()) {
+            index = addMethod(m, method, index);
         }
-        for (HebrewMethod hm : HebrewMethod.values()) {
-            methodBox.addItem(hm.name());
-            if (hm.name().equalsIgnoreCase(method)) {
-                methodBox.setSelectedIndex(index);
-            }
-            index++;
+        for (final HebrewMethod m : HebrewMethod.values()) {
+            index = addMethod(m, method, index);
         }
         hPanel.add(methodBox);
         showButton = new Button("Show");
@@ -83,6 +76,14 @@ public class NumberView extends Composite implements NumberPresenter.Display {
         contentTable.getCellFormatter().setHeight(1, 0, "631px");
 
         contentTableDecorator.add(contentTable);
+    }
+
+    private int addMethod(final GematriaMethod m, final String methodName, final int index) {
+        methodBox.addItem(m.name());
+        if (m.name().equalsIgnoreCase(methodName)) {
+            methodBox.setSelectedIndex(index);
+        }
+        return index + 1;
     }
 
     @Override

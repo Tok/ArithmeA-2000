@@ -57,7 +57,7 @@ public enum CyrillicLetter {
         this.katanValue = katanValue;
     }
 
-    public char getCyrillic() {
+    public final char getCyrillic() {
         return cyrillic;
     }
 
@@ -65,19 +65,19 @@ public enum CyrillicLetter {
      * Returns true if the letter is obsolete.
      * @return isAncient
      */
-    public boolean isAncient() {
+    public final boolean isAncient() {
         return isAncient;
     }
 
-    public int getOrdinalValue() {
+    public final int getOrdinalValue() {
         return ordinalValue;
     }
 
-    public int getFullValue() {
+    public final int getFullValue() {
         return fullValue;
     }
 
-    public int getKatanValue() {
+    public final int getKatanValue() {
         return katanValue;
     }
 

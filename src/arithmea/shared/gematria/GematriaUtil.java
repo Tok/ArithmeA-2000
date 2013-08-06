@@ -15,7 +15,7 @@ public class GematriaUtil {
      * @return HashMap with the result
      */
     public final HashMap<GematriaMethod, Integer> getAllValues(final String input) {
-        HashMap<GematriaMethod, Integer> result = new HashMap<GematriaMethod, Integer>(LatinMethod.values().length + HebrewMethod.values().length);
+        final HashMap<GematriaMethod, Integer> result = new HashMap<GematriaMethod, Integer>(LatinMethod.values().length + HebrewMethod.values().length);
 
         final char[] latinChars = input.toUpperCase().toCharArray();
         int chaldeanResult = 0;
@@ -27,7 +27,7 @@ public class GematriaUtil {
         int eqResult = 0;
         for (int i = 0; i < latinChars.length; i++) {
             try {
-                LatinLetter letter = LatinLetter.valueOf(String.valueOf(latinChars[i]));
+                final LatinLetter letter = LatinLetter.valueOf(String.valueOf(latinChars[i]));
                 chaldeanResult += letter.getChaldeanValue();
                 pythagoreanResult += letter.getPythagoreanValue();
                 iaResult += letter.getIaValue();
@@ -48,13 +48,13 @@ public class GematriaUtil {
         result.put(LatinMethod.German, germanResult);
         result.put(LatinMethod.EQ, eqResult);
 
-        String hebrew = getHebrew(input);
+        final String hebrew = getHebrew(input);
         final char[] hebrewChars = hebrew.toCharArray();
         int fullResult = 0;
         int ordinalResult = 0;
         int katanResult = 0;
         for (int i = 0; i < hebrewChars.length; i++) {
-            for (HebrewLetter letter : HebrewLetter.values()) {
+            for (final HebrewLetter letter : HebrewLetter.values()) {
                 if (letter.getHebrew() == hebrewChars[i]) {
                     fullResult += letter.getFullValue();
                     ordinalResult += letter.getOrdinalValue();
@@ -76,7 +76,7 @@ public class GematriaUtil {
      */
     public final String getHebrew(final String input) {
         final char[] chars = input.toCharArray();
-        StringBuilder result = new StringBuilder();
+        final StringBuilder result = new StringBuilder();
         for (int i = 0; i < chars.length; i++) {
             if (skipNext) {
                 if (skipAfterNext) {
@@ -235,11 +235,7 @@ public class GematriaUtil {
             } else {
                 return HebrewLetter.Teth.getHebrew();
             }
-        } else if (current == 'U') {
-            return HebrewLetter.Vav.getHebrew();
-        } else if (current == 'V') {
-            return HebrewLetter.Vav.getHebrew();
-        } else if (current == 'W') {
+        } else if (current == 'U' || current == 'V' || current == 'W') {
             return HebrewLetter.Vav.getHebrew();
         } else if (current == 'X') {
             if (next == ' ' || next == '-' || (next == '\u0000' && afterNext == '\u0000')) {
@@ -252,7 +248,6 @@ public class GematriaUtil {
         } else if (current == 'Z') {
             return HebrewLetter.Zain.getHebrew();
         }
-
         return current;
     }
 }

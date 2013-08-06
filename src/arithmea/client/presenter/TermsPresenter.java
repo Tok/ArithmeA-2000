@@ -180,7 +180,7 @@ public class TermsPresenter implements Presenter {
      * Fetches the terms for the selected letter at the selected offset.
      */
     private void fetchTermDetails() {
-        String letter = display.getLetterBox().getValue(display.getLetterBox().getSelectedIndex());
+        final String letter = display.getLetterBox().getValue(display.getLetterBox().getSelectedIndex());
         display.setLetter(letter);
         if (display.getTermsTable().getRowCount() == 0) {
             display.getTermsTable().setWidget(0, 0, new Label("Loading.."));
@@ -205,7 +205,6 @@ public class TermsPresenter implements Presenter {
                     sortTermsByLatinString();
                     display.setData(terms);
                 }
-
                 public void onFailure(final Throwable caught) {
                     Window.alert("Fail fetching term details");
                 }
@@ -223,7 +222,6 @@ public class TermsPresenter implements Presenter {
                 Window.alert(result);
                 fetchTermDetails();
             }
-
             public void onFailure(final Throwable caught) {
                 Window.alert("Fail deleting selected terms.");
             }

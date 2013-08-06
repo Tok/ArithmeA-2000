@@ -20,9 +20,9 @@ public class Arithmea implements EntryPoint {
      * Creates AppController and sets it to the content div from the html.
      */
     public final void onModuleLoad() {
-        final ArithmeaServiceAsync rpcService = GWT.create(ArithmeaService.class);
+        final ArithmeaServiceAsync arithmeaService = GWT.create(ArithmeaService.class);
         final HandlerManager eventBus = new HandlerManager(null);
-        final AppController appViewer = new AppController(rpcService, eventBus);
+        final AppController appViewer = new AppController(arithmeaService, eventBus);
         final Image titleImage = new Image("/images/ArithmeaTitle.png");
         titleImage.addClickHandler(new ClickHandler() {
             @Override

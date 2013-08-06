@@ -53,17 +53,17 @@ public class LetterStarWidget extends Composite {
      * Initializes the alphabet circle.
      */
     private void initPositions() {
-        for (LatinLetter ll : LatinLetter.values()) {
-            double angle = (ll.getIaValue() - 1) * (DEGREES_IN_CIRCLE / (LatinLetter.values().length));
-            angle = Math.toRadians(angle);
+        for (final LatinLetter ll : LatinLetter.values()) {
+            final double angle = (ll.getIaValue() - 1) * (DEGREES_IN_CIRCLE / (LatinLetter.values().length));
+            final double radians = Math.toRadians(angle);
 
-            double x = canvas.getCoordinateSpaceWidth() / 2 + ((Math.sin(angle) * canvas.getCoordinateSpaceWidth() * INNER_RATIO));
-            double y = canvas.getCoordinateSpaceHeight() / 2 - ((Math.cos(angle) * canvas.getCoordinateSpaceHeight() * INNER_RATIO));
+            final double x = canvas.getCoordinateSpaceWidth() / 2 + ((Math.sin(radians) * canvas.getCoordinateSpaceWidth() * INNER_RATIO));
+            final double y = canvas.getCoordinateSpaceHeight() / 2 - ((Math.cos(radians) * canvas.getCoordinateSpaceHeight() * INNER_RATIO));
             xPoints.put(ll, x);
             yPoints.put(ll, y);
 
-            double xLetter = canvas.getCoordinateSpaceWidth() / 2 + ((Math.sin(angle) * canvas.getCoordinateSpaceWidth() * OUTER_RATIO) - 4);
-            double yLetter = canvas.getCoordinateSpaceHeight() / 2 - ((Math.cos(angle) * canvas.getCoordinateSpaceHeight() * OUTER_RATIO) - 4);
+            final double xLetter = canvas.getCoordinateSpaceWidth() / 2 + ((Math.sin(radians) * canvas.getCoordinateSpaceWidth() * OUTER_RATIO) - 4);
+            final double yLetter = canvas.getCoordinateSpaceHeight() / 2 - ((Math.cos(radians) * canvas.getCoordinateSpaceHeight() * OUTER_RATIO) - 4);
             xLetterPos.put(ll, xLetter);
             yLetterPos.put(ll, yLetter);
         }
@@ -73,7 +73,7 @@ public class LetterStarWidget extends Composite {
      * Draws the circle.
      */
     private void drawStar() {
-        Context2d ctx = canvas.getContext2d();
+        final Context2d ctx = canvas.getContext2d();
         // reset content
         ctx.clearRect(0, 0, canvas.getCoordinateSpaceWidth(), canvas.getCoordinateSpaceHeight());
         ctx.beginPath();
@@ -88,7 +88,7 @@ public class LetterStarWidget extends Composite {
                 0,
                 DEGREES_IN_CIRCLE * Math.PI / (DEGREES_IN_CIRCLE / 2));
         // draw letters
-        for (LatinLetter ll : LatinLetter.values()) {
+        for (final LatinLetter ll : LatinLetter.values()) {
             ctx.fillText(ll.name(), xLetterPos.get(ll), yLetterPos.get(ll));
         }
         ctx.closePath();
@@ -106,10 +106,10 @@ public class LetterStarWidget extends Composite {
             return;
         }
         for (int i = 0; i < word.length() - 1; i++) {
-            String letter = word.substring(i, i + 1);
-            String nextLetter = word.substring(i + 1, i + 2);
-            LatinLetter current = LatinLetter.valueOf(letter);
-            LatinLetter next = LatinLetter.valueOf(nextLetter);
+            final String letter = word.substring(i, i + 1);
+            final String nextLetter = word.substring(i + 1, i + 2);
+            final LatinLetter current = LatinLetter.valueOf(letter);
+            final LatinLetter next = LatinLetter.valueOf(nextLetter);
             if (next != null && current != null) {
                 drawLine(xPoints.get(current), yPoints.get(current), xPoints.get(next), yPoints.get(next));
             }

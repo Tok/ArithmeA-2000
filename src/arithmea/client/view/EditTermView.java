@@ -145,12 +145,12 @@ public class EditTermView extends Composite implements EditTermPresenter.Display
         int row = 0;
         addLabel(row++, latinLabel);
         addHeading(detailsTable, row++);
-        for (LatinMethod gm : LatinMethod.values()) {
+        for (final LatinMethod gm : LatinMethod.values()) {
             addRow(detailsTable, row++, gm);
         }
         addLabel(row++, hebrewLabel);
         addHeading(detailsTable, row++);
-        for (HebrewMethod method : HebrewMethod.values()) {
+        for (final HebrewMethod method : HebrewMethod.values()) {
             addRow(detailsTable, row++, method);
         }
     }

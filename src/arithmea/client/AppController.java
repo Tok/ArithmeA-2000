@@ -38,13 +38,13 @@ import com.google.gwt.user.client.ui.HasWidgets;
  */
 public class AppController implements Presenter, ValueChangeHandler<String> {
     private final HandlerManager eventBus;
-    private final ArithmeaServiceAsync rpcService;
+    private final ArithmeaServiceAsync arithmeaService;
     private HasWidgets container;
 
-    public AppController(final ArithmeaServiceAsync rpcService,
+    public AppController(final ArithmeaServiceAsync arithmeaService,
             final HandlerManager eventBus) {
         this.eventBus = eventBus;
-        this.rpcService = rpcService;
+        this.arithmeaService = arithmeaService;
         bind();
     }
 
@@ -103,7 +103,7 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
      */
     private void doEditTerm(final String id) {
         History.newItem("edit/", false);
-        Presenter presenter = new EditTermPresenter(rpcService, eventBus, new EditTermView(""), id);
+        Presenter presenter = new EditTermPresenter(arithmeaService, eventBus, new EditTermView(""), id);
         presenter.go(container);
     }
 
@@ -175,13 +175,13 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
                 if (token.split("/").length > 2) {
                     offsetString = token.split("/")[2];
                 }
-                presenter = new TermsPresenter(rpcService, eventBus, new TermsView(eventBus, letterString, Integer.valueOf(offsetString)));
+                presenter = new TermsPresenter(arithmeaService, eventBus, new TermsView(eventBus, letterString, Integer.valueOf(offsetString)));
             } else if (token.startsWith("add") || token.startsWith("edit")) {
                 String wordString = "";
                 if (token.split("/").length > 1) {
                     wordString = token.split("/")[1];
                 }
-                presenter = new EditTermPresenter(rpcService, eventBus, new EditTermView(wordString));
+                presenter = new EditTermPresenter(arithmeaService, eventBus, new EditTermView(wordString));
             } else if (token.startsWith("show/")) {
                 String methodString = "All";
                 if (token.split("/").length > 1) {
@@ -191,13 +191,13 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
                 if (token.split("/").length > 2) {
                     numberString = token.split("/")[2];
                 }
-                presenter = new NumberPresenter(rpcService, eventBus, new NumberView(methodString, numberString));
+                presenter = new NumberPresenter(arithmeaService, eventBus, new NumberView(methodString, numberString));
             } else if (token.equals("parse/")) {
-                presenter = new ParseTextPresenter(rpcService, eventBus, new ParseTextView());
+                presenter = new ParseTextPresenter(arithmeaService, eventBus, new ParseTextView());
             } else if (token.equals("info/")) {
-                presenter = new InfoPresenter(rpcService, eventBus, new InfoView());
+                presenter = new InfoPresenter(arithmeaService, eventBus, new InfoView());
             } else if (token.equals("deleteAll/")) {
-                rpcService.deleteAllTerms(new AsyncCallback<String>() {
+                arithmeaService.deleteAllTerms(new AsyncCallback<String>() {
                     public void onSuccess(final String result) {
                         Window.alert("deleted " + result + " terms.");
                     }
@@ -206,7 +206,7 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
                     }
                 });
             } else { //default case
-                presenter = new TermsPresenter(rpcService, eventBus, new TermsView(eventBus, "All", 0));
+                presenter = new TermsPresenter(arithmeaService, eventBus, new TermsView(eventBus, "All", 0));
             }
             if (presenter != null) {
                 presenter.go(container);

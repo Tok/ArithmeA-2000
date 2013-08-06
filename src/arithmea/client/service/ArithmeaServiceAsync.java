@@ -8,14 +8,14 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
  * Asynchronous interface for the service to store and retrieve Terms.
  */
 public interface ArithmeaServiceAsync {
-    void addOrUpdateTerm(Term term, AsyncCallback<Void> callback);
+    void addOrUpdateTerm(final Term term, final AsyncCallback<Void> callback);
     void deleteTerm(final String id, final AsyncCallback<Boolean> callback);
-    void parseTerms(String input, AsyncCallback<String> callback);
-    void getTermsFromOffset(String letter, int from, AsyncCallback<ArrayList<Term>> callback);
-    void getTermsFor(String methodName, int number, AsyncCallback<ArrayList<Term>> callback);
-    void getTermsWithLimit(String methodName, int number, int limit, AsyncCallback<ArrayList<Term>> callback);
-    void getAllTermsFromOffset(int offset, AsyncCallback<ArrayList<Term>> callback);
-    void fixTerms(ArrayList<String> ids, AsyncCallback<String> callback);
-    void deleteTerms(ArrayList<String> ids, AsyncCallback<String> callback);
-    void deleteAllTerms(AsyncCallback<String> callback);
+    void parseTerms(final String input, final AsyncCallback<String> callback);
+    void getTermsFromOffset(final String letter, final int from, final AsyncCallback<ArrayList<Term>> callback);
+    void getTermsFor(final String methodName, final int number, final AsyncCallback<ArrayList<Term>> callback);
+    void getTermsWithLimit(final String methodName, final int number, final int limit, final AsyncCallback<ArrayList<Term>> callback);
+    void getAllTermsFromOffset(final int offset, final AsyncCallback<ArrayList<Term>> callback);
+    void fixTerms(final ArrayList<String> ids, final AsyncCallback<String> callback);
+    void deleteTerms(final ArrayList<String> ids, final AsyncCallback<String> callback);
+    void deleteAllTerms(final AsyncCallback<String> callback);
 }

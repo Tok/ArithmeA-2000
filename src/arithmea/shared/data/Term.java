@@ -57,15 +57,15 @@ public class Term implements Serializable {
      * @param latinString
      */
     public Term(final String latinString) {
-        ValidationUtil vu = new ValidationUtil();
-        String tmp = vu.getLetterString(latinString);
+        final ValidationUtil vu = new ValidationUtil();
+        final String tmp = vu.getLetterString(latinString);
         this.latinString = tmp;
         if (tmp.length() == 0) {
             throw new IllegalArgumentException("Fail: String has no letters.");
         } else {
             this.firstLetter = tmp.substring(0, 1);
         }
-        GematriaUtil gu = new GematriaUtil();
+        final GematriaUtil gu = new GematriaUtil();
         this.hebrewString = gu.getHebrew(tmp);
         final HashMap<GematriaMethod, Integer> values = gu.getAllValues(tmp);
         this.chaldean = values.get(LatinMethod.Chaldean);
@@ -107,8 +107,7 @@ public class Term implements Serializable {
         } else if (HebrewMethod.Katan.equals(method)) {
             return katan;
         }
-        assert false;
-        return 0;
+        throw new IllegalArgumentException("Fail: Method unknown.");
     }
 
     public final String getLatinString() {

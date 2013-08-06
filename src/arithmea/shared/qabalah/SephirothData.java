@@ -66,45 +66,16 @@ public class SephirothData {
     }
 
     /**
-     * Returns the relativ position that was calculated for the provided sephira.
+     * Returns the relative position that was calculated for the provided sephira.
      * @param sephira
      * @return SephiraPosition
      */
     public final SephiraPosition getPosition(final Sephira sephira) {
-        if (Sephira.Kether.equals(sephira)) {
-            return SephiraPosition.Kether;
+        for (final SephiraPosition sephPos: SephiraPosition.values()) {
+            if (sephPos.sephira.equals(sephira)) {
+                return sephPos;
+            }
         }
-        if (Sephira.Chokmah.equals(sephira)) {
-            return SephiraPosition.Chokmah;
-        }
-        if (Sephira.Binah.equals(sephira)) {
-            return SephiraPosition.Binah;
-        }
-        if (Sephira.Daath.equals(sephira)) {
-            return SephiraPosition.Daath;
-        }
-        if (Sephira.Chesed.equals(sephira)) {
-            return SephiraPosition.Chesed;
-        }
-        if (Sephira.Geburah.equals(sephira)) {
-            return SephiraPosition.Geburah;
-        }
-        if (Sephira.Tiphareth.equals(sephira)) {
-            return SephiraPosition.Tiphareth;
-        }
-        if (Sephira.Netzach.equals(sephira)) {
-            return SephiraPosition.Netzach;
-        }
-        if (Sephira.Hod.equals(sephira)) {
-            return SephiraPosition.Hod;
-        }
-        if (Sephira.Yesod.equals(sephira)) {
-            return SephiraPosition.Yesod;
-        }
-        if (Sephira.Malkuth.equals(sephira)) {
-            return SephiraPosition.Malkuth;
-        }
-        assert false;
         return SephiraPosition.Daath;
     }
 
