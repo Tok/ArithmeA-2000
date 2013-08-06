@@ -53,10 +53,10 @@ public class EditTermPresenter implements Presenter {
         Label getLatinLabel();
         Label getHebrewLabel();
         LetterStarWidget getLetterStar();
-        HasValue<String> get(GematriaMethod gm);
-        FlowPanel getMatchPanel(GematriaMethod gm);
-        Label getMethodLabel(GematriaMethod gm);
-        Anchor getAnchor(GematriaMethod gm);
+        HasValue<String> get(final GematriaMethod gm);
+        FlowPanel getMatchPanel(final GematriaMethod gm);
+        Label getMethodLabel(final GematriaMethod gm);
+        Anchor getAnchor(final GematriaMethod gm);
         Map<GematriaMethod, TextBox> getValueBoxes();
         Widget asWidget();
     }

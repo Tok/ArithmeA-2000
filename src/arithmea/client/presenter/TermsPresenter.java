@@ -47,15 +47,15 @@ public class TermsPresenter implements Presenter {
         HasClickHandlers getList();
         HasClickHandlers getLatinHeader();
         HasClickHandlers getHebrewHeader();
-        HasClickHandlers getGematriaHeader(GematriaMethod gm);
-        void setData(List<Term> data);
+        HasClickHandlers getGematriaHeader(final GematriaMethod gm);
+        void setData(final List<Term> data);
         List<Integer> getSelectedRows();
         ListBox getLetterBox();
         int getOffset();
-        void setOffset(int offset);
+        void setOffset(final int offset);
         Widget asWidget();
         FlexTable getTermsTable();
-        void setLetter(String letter);
+        void setLetter(final String letter);
     }
 
     private final ArithmeaServiceAsync rpcService;
