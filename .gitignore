@@ -1,4 +1,4 @@
-/.settings
+.settings
 
 /doc
 
@@ -6,8 +6,8 @@
 
 /www-test
 
-/.project
+.project
 
-/.cache
+.cache
 
-/.classpath
+.classpath
